@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Atlantik_app_admin.classes
 {
-    internal class Secteur
+    internal class Port
     {
-
         private int id;
         private string nom;
 
-        public Secteur(int id, string nom)
+        public Port(int id, string nom)
         {
             this.id = id;
             this.nom = nom;

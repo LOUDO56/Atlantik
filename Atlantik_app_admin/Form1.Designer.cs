@@ -145,6 +145,7 @@
             uneLiaisonToolStripMenuItem1.Name = "uneLiaisonToolStripMenuItem1";
             uneLiaisonToolStripMenuItem1.Size = new Size(287, 22);
             uneLiaisonToolStripMenuItem1.Text = "Une liaison";
+            uneLiaisonToolStripMenuItem1.Click += uneLiaisonToolStripMenuItem1_Click;
             // 
             // lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1
             // 

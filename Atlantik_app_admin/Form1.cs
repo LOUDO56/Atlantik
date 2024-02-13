@@ -18,5 +18,10 @@ namespace Atlantik_app_admin
         {
             new PortGui().ShowDialog();
         }
+
+        private void uneLiaisonToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            new LiaisonGui().ShowDialog();
+        }
     }
 }

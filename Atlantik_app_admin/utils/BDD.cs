@@ -79,7 +79,7 @@ namespace Atlantik_app_admin.utils
             }
         }
 
-        public MySqlDataReader Import(string sql, Dictionary<string, string> parameters)
+        public MySqlDataReader Get(string sql, Dictionary<string, string> parameters = null)
         {
             try
             {
