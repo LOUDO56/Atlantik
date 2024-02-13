@@ -22,28 +22,19 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         private void confirm_add_secteur_Click(object sender, EventArgs e)
         {
             BDD bDD = new BDD();
-            try
-            {
-                bDD.Open();
-            } catch(MySqlException ex)
-            {
-                gestion_erreur.Text = "Connection impossible : " + ex.Message;
-                return;
-            }
+            if (!bDD.Open()) return; // Si la connexion à la bdd ne fonctionne pas, dans ce cas on stop le programme
 
-            try
-            {
-                string request = "INSERT INTO secteur(NOM) VALUES(@nom)";
-                var maCde = new MySqlCommand(request, bDD.get());
+            Dictionary<string, string> param = new Dictionary<string, string> {
+                {"@nom", secteur_textbox.Text}
+            };
+            bDD.Send("INSERT INTO secteur(NOM) VALUES(@nom)", param);
+            bDD.Close();
 
-                maCde.Parameters.AddWithValue("@nom", secteur_textbox.Text);
-                maCde.ExecuteScalar();
-                gestion_erreur.Text = "Ligne ajouté avec succès.";
-            } catch (MySqlException ex)
-            {
-                gestion_erreur.Text += "Erreur durant insertion : " + ex.Message;
-            } finally { bDD.Close(); }
+        }
 
+        private void return_button_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

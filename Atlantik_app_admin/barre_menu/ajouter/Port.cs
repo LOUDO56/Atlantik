@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Atlantik_app_admin.utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,22 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         public PortGui()
         {
             InitializeComponent();
+        }
+
+        private void return_button_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void confirm_Click(object sender, EventArgs e)
+        {
+            BDD bDD = new BDD();
+            if (!bDD.Open()) return; // Si la connexion à la bdd ne fonctionne pas, dans ce cas on stop le programme
+
+            bDD.Send("INSERT INTO port(NOM) VALUES(@nom)", new Dictionary<string, string> {
+                {"@nom", values.Text}
+            });
+            bDD.Close();
         }
     }
 }

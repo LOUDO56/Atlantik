@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecteurGui));
             nom_secteur = new Label();
             secteur_textbox = new TextBox();
             confirm_add_secteur = new Button();
-            gestion_erreur = new Label();
+            return_button = new Button();
             SuspendLayout();
             // 
             // nom_secteur
@@ -52,7 +53,7 @@
             // 
             // confirm_add_secteur
             // 
-            confirm_add_secteur.Location = new Point(216, 72);
+            confirm_add_secteur.Location = new Point(216, 73);
             confirm_add_secteur.Name = "confirm_add_secteur";
             confirm_add_secteur.Size = new Size(75, 23);
             confirm_add_secteur.TabIndex = 2;
@@ -60,26 +61,29 @@
             confirm_add_secteur.UseVisualStyleBackColor = true;
             confirm_add_secteur.Click += confirm_add_secteur_Click;
             // 
-            // gestion_erreur
+            // return_button
             // 
-            gestion_erreur.AutoSize = true;
-            gestion_erreur.Location = new Point(158, 126);
-            gestion_erreur.Name = "gestion_erreur";
-            gestion_erreur.Size = new Size(0, 15);
-            gestion_erreur.TabIndex = 3;
+            return_button.Image = (Image)resources.GetObject("return_button.Image");
+            return_button.Location = new Point(12, 12);
+            return_button.Name = "return_button";
+            return_button.Size = new Size(30, 24);
+            return_button.TabIndex = 3;
+            return_button.UseVisualStyleBackColor = true;
+            return_button.Click += return_button_Click;
             // 
             // SecteurGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(325, 165);
-            Controls.Add(gestion_erreur);
+            Controls.Add(return_button);
             Controls.Add(confirm_add_secteur);
             Controls.Add(secteur_textbox);
             Controls.Add(nom_secteur);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "SecteurGui";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Secteur";
             ResumeLayout(false);
             PerformLayout();
@@ -90,6 +94,6 @@
         private Label nom_secteur;
         private TextBox secteur_textbox;
         private Button confirm_add_secteur;
-        private Label gestion_erreur;
+        private Button return_button;
     }
 }

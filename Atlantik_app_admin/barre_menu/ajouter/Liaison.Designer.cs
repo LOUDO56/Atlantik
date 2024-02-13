@@ -36,6 +36,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(539, 314);
             Name = "LiaisonGui";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Liaison";
             ResumeLayout(false);
         }

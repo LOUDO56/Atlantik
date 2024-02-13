@@ -227,6 +227,7 @@
             MainMenuStrip = barre_menu;
             MaximizeBox = false;
             Name = "form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Atlantik";
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             barre_menu.ResumeLayout(false);

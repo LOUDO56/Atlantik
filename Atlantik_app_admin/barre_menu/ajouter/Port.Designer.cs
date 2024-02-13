@@ -28,47 +28,62 @@
         /// </summary>
         private void InitializeComponent()
         {
-            confirm_add_port = new Button();
-            port_textbox = new TextBox();
-            nom_port = new Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PortGui));
+            return_button = new Button();
+            confirm = new Button();
+            values = new TextBox();
+            nom = new Label();
             SuspendLayout();
             // 
-            // confirm_add_port
+            // return_button
             // 
-            confirm_add_port.Location = new Point(205, 70);
-            confirm_add_port.Name = "confirm_add_port";
-            confirm_add_port.Size = new Size(75, 23);
-            confirm_add_port.TabIndex = 5;
-            confirm_add_port.Text = "Ajouter";
-            confirm_add_port.UseVisualStyleBackColor = true;
+            return_button.Image = (Image)resources.GetObject("return_button.Image");
+            return_button.Location = new Point(13, 12);
+            return_button.Name = "return_button";
+            return_button.Size = new Size(30, 24);
+            return_button.TabIndex = 7;
+            return_button.UseVisualStyleBackColor = true;
+            return_button.Click += return_button_Click;
             // 
-            // port_textbox
+            // confirm
             // 
-            port_textbox.Location = new Point(99, 70);
-            port_textbox.Name = "port_textbox";
-            port_textbox.Size = new Size(100, 23);
-            port_textbox.TabIndex = 4;
+            confirm.Location = new Point(217, 73);
+            confirm.Name = "confirm";
+            confirm.Size = new Size(75, 23);
+            confirm.TabIndex = 6;
+            confirm.Text = "Ajouter";
+            confirm.UseVisualStyleBackColor = true;
+            confirm.Click += confirm_Click;
             // 
-            // nom_port
+            // values
             // 
-            nom_port.AutoSize = true;
-            nom_port.Location = new Point(28, 74);
-            nom_port.Name = "nom_port";
-            nom_port.Size = new Size(65, 15);
-            nom_port.TabIndex = 3;
-            nom_port.Text = "Nom port :";
+            values.Location = new Point(111, 73);
+            values.Name = "values";
+            values.Size = new Size(100, 23);
+            values.TabIndex = 5;
+            // 
+            // nom
+            // 
+            nom.AutoSize = true;
+            nom.Location = new Point(40, 77);
+            nom.Name = "nom";
+            nom.Size = new Size(65, 15);
+            nom.TabIndex = 4;
+            nom.Text = "Nom port :";
             // 
             // PortGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(325, 165);
-            Controls.Add(confirm_add_port);
-            Controls.Add(port_textbox);
-            Controls.Add(nom_port);
+            Controls.Add(return_button);
+            Controls.Add(confirm);
+            Controls.Add(values);
+            Controls.Add(nom);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "PortGui";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Port";
             ResumeLayout(false);
             PerformLayout();
@@ -76,8 +91,9 @@
 
         #endregion
 
-        private Button confirm_add_port;
-        private TextBox port_textbox;
-        private Label nom_port;
+        private Button return_button;
+        private Button confirm;
+        private TextBox values;
+        private Label nom;
     }
 }
