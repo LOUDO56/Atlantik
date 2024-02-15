@@ -28,58 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SecteurGui));
-            nom_secteur = new Label();
-            secteur_textbox = new TextBox();
-            confirm_add_secteur = new Button();
-            return_button = new Button();
+            lbl_nom_secteur = new Label();
+            tbx_values = new TextBox();
+            btn_confirm = new Button();
             SuspendLayout();
             // 
-            // nom_secteur
+            // lbl_nom_secteur
             // 
-            nom_secteur.AutoSize = true;
-            nom_secteur.Location = new Point(23, 76);
-            nom_secteur.Name = "nom_secteur";
-            nom_secteur.Size = new Size(81, 15);
-            nom_secteur.TabIndex = 0;
-            nom_secteur.Text = "Nom secteur :";
+            lbl_nom_secteur.AutoSize = true;
+            lbl_nom_secteur.Location = new Point(23, 76);
+            lbl_nom_secteur.Name = "lbl_nom_secteur";
+            lbl_nom_secteur.Size = new Size(81, 15);
+            lbl_nom_secteur.TabIndex = 0;
+            lbl_nom_secteur.Text = "Nom secteur :";
             // 
-            // secteur_textbox
+            // tbx_values
             // 
-            secteur_textbox.Location = new Point(110, 73);
-            secteur_textbox.Name = "secteur_textbox";
-            secteur_textbox.Size = new Size(100, 23);
-            secteur_textbox.TabIndex = 1;
+            tbx_values.Location = new Point(110, 73);
+            tbx_values.Name = "tbx_values";
+            tbx_values.Size = new Size(100, 23);
+            tbx_values.TabIndex = 1;
             // 
-            // confirm_add_secteur
+            // btn_confirm
             // 
-            confirm_add_secteur.Location = new Point(216, 73);
-            confirm_add_secteur.Name = "confirm_add_secteur";
-            confirm_add_secteur.Size = new Size(75, 23);
-            confirm_add_secteur.TabIndex = 2;
-            confirm_add_secteur.Text = "Ajouter";
-            confirm_add_secteur.UseVisualStyleBackColor = true;
-            confirm_add_secteur.Click += confirm_add_secteur_Click;
-            // 
-            // return_button
-            // 
-            return_button.Image = (Image)resources.GetObject("return_button.Image");
-            return_button.Location = new Point(12, 12);
-            return_button.Name = "return_button";
-            return_button.Size = new Size(30, 24);
-            return_button.TabIndex = 3;
-            return_button.UseVisualStyleBackColor = true;
-            return_button.Click += return_button_Click;
+            btn_confirm.Location = new Point(216, 73);
+            btn_confirm.Name = "btn_confirm";
+            btn_confirm.Size = new Size(75, 23);
+            btn_confirm.TabIndex = 2;
+            btn_confirm.Text = "Ajouter";
+            btn_confirm.UseVisualStyleBackColor = true;
+            btn_confirm.Click += btn_confirm_Click;
             // 
             // SecteurGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(325, 165);
-            Controls.Add(return_button);
-            Controls.Add(confirm_add_secteur);
-            Controls.Add(secteur_textbox);
-            Controls.Add(nom_secteur);
+            Controls.Add(btn_confirm);
+            Controls.Add(tbx_values);
+            Controls.Add(lbl_nom_secteur);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "SecteurGui";
@@ -91,9 +78,8 @@
 
         #endregion
 
-        private Label nom_secteur;
-        private TextBox secteur_textbox;
-        private Button confirm_add_secteur;
-        private Button return_button;
+        private Label lbl_nom_secteur;
+        private TextBox tbx_values;
+        private Button btn_confirm;
     }
 }

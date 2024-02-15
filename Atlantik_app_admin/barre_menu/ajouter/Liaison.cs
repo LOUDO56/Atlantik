@@ -32,7 +32,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             if (secteurs == null) { return; }
             while (secteurs.Read())
             {
-                secteur_list.Items.Add(new Secteur(int.Parse(secteurs["NOSECTEUR"].ToString()), secteurs["NOM"].ToString()));
+                cmb_secteur_list.Items.Add(new Secteur(int.Parse(secteurs["NOSECTEUR"].ToString()), secteurs["NOM"].ToString()));
             }
             secteurs.Close();
 
@@ -41,7 +41,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             if (departs == null) { return; }
             while (departs.Read())
             {
-                depart_liste.Items.Add(new Port(int.Parse(departs["NOPORT"].ToString()), departs["NOM"].ToString()));
+                cmb_depart_liste.Items.Add(new Port(int.Parse(departs["NOPORT"].ToString()), departs["NOM"].ToString()));
             }
             departs.Close();
 
@@ -50,20 +50,26 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             if (arrives == null) { return; }
             while (arrives.Read())
             {
-                arrivee_list.Items.Add(new Port(int.Parse(arrives["NOPORT"].ToString()), arrives["NOM"].ToString()));
+                cmb_arrivee_list.Items.Add(new Port(int.Parse(arrives["NOPORT"].ToString()), arrives["NOM"].ToString()));
             }
             arrives.Close();
 
         }
 
-        private void ajouter_Click(object sender, EventArgs e)
+        private void btn_ajouter_Click(object sender, EventArgs e)
         {
-            if(confirmer_ajout.confirmer() == false) { return; }
+            if (confirmer_ajout.confirmer() == false) { return; }
 
-            string secteur = ((Secteur)secteur_list.SelectedItem).Id.ToString();
-            string port_depart = ((Port)depart_liste.SelectedItem).Id.ToString();
-            string port_arrive = ((Port)arrivee_list.SelectedItem).Id.ToString();
-            string distance = distance_value.Text;
+            string secteur = ((Secteur)cmb_secteur_list.SelectedItem).Id.ToString();
+            string port_depart = ((Port)cmb_depart_liste.SelectedItem).Id.ToString();
+            string port_arrive = ((Port)cmb_arrivee_list.SelectedItem).Id.ToString();
+            string distance = tbx_distance_value.Text;
+
+            if (ControleSaisie.value(secteur, "le secteur") == false) { return; }
+            if (ControleSaisie.value(port_depart, "le port de départ") == false) { return; }
+            if (ControleSaisie.value(port_arrive, "le port d'arrivé") == false) { return; }
+            if (ControleSaisie.value(distance, "la distance") == false) { return; }
+
 
             BDD bDD = new BDD();
             if (!bDD.Open()) { return; }
@@ -78,9 +84,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                         {"@DISTANCE", distance },
                   }
             );
+
             bDD.Close();
 
 
         }
+
     }
 }

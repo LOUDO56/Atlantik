@@ -23,15 +23,16 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             Close();
         }
 
-        private void confirm_Click(object sender, EventArgs e)
+        private void btn_confirm_Click(object sender, EventArgs e)
         {
             if(confirmer_ajout.confirmer() == false) { return; }
+            if (ControleSaisie.value(tbx_values.Text, "le nom du port") == false) { return; }
 
             BDD bDD = new BDD();
             if (!bDD.Open()) return; // Si la connexion à la bdd ne fonctionne pas, dans ce cas on stop le programme
 
             bDD.Send("INSERT INTO port(NOM) VALUES(@nom)", new Dictionary<string, string> {
-                {"@nom", values.Text}
+                {"@nom", tbx_values.Text}
             });
 
             bDD.Close();

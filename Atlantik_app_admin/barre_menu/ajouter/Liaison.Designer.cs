@@ -28,115 +28,115 @@
         /// </summary>
         private void InitializeComponent()
         {
-            secteur_label = new Label();
-            secteur_list = new ComboBox();
-            depart_liste = new ComboBox();
-            depart_label = new Label();
-            arrivee_list = new ComboBox();
-            label_arrivee = new Label();
-            distance_label = new Label();
-            distance_value = new TextBox();
-            ajouter = new Button();
+            lbl_secteur = new Label();
+            cmb_secteur_list = new ComboBox();
+            cmb_depart_liste = new ComboBox();
+            lbl_depart = new Label();
+            cmb_arrivee_list = new ComboBox();
+            lbl_arrivee = new Label();
+            lbl_distance = new Label();
+            tbx_distance_value = new TextBox();
+            btn_ajouter = new Button();
             SuspendLayout();
             // 
-            // secteur_label
+            // lbl_secteur
             // 
-            secteur_label.AutoSize = true;
-            secteur_label.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            secteur_label.Location = new Point(22, 24);
-            secteur_label.Name = "secteur_label";
-            secteur_label.Size = new Size(81, 21);
-            secteur_label.TabIndex = 0;
-            secteur_label.Text = "Secteurs :";
+            lbl_secteur.AutoSize = true;
+            lbl_secteur.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_secteur.Location = new Point(22, 24);
+            lbl_secteur.Name = "lbl_secteur";
+            lbl_secteur.Size = new Size(81, 21);
+            lbl_secteur.TabIndex = 0;
+            lbl_secteur.Text = "Secteurs :";
             // 
-            // secteur_list
+            // cmb_secteur_list
             // 
-            secteur_list.DropDownStyle = ComboBoxStyle.DropDownList;
-            secteur_list.FormattingEnabled = true;
-            secteur_list.Location = new Point(22, 48);
-            secteur_list.Name = "secteur_list";
-            secteur_list.Size = new Size(121, 23);
-            secteur_list.TabIndex = 1;
+            cmb_secteur_list.FormattingEnabled = true;
+            cmb_secteur_list.Location = new Point(22, 48);
+            cmb_secteur_list.Name = "cmb_secteur_list";
+            cmb_secteur_list.Size = new Size(121, 23);
+            cmb_secteur_list.TabIndex = 1;
+            cmb_secteur_list.Text = "-- sélectionner --";
             // 
-            // depart_liste
+            // cmb_depart_liste
             // 
-            depart_liste.DropDownStyle = ComboBoxStyle.DropDownList;
-            depart_liste.FormattingEnabled = true;
-            depart_liste.Location = new Point(170, 48);
-            depart_liste.Name = "depart_liste";
-            depart_liste.Size = new Size(121, 23);
-            depart_liste.TabIndex = 3;
+            cmb_depart_liste.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_depart_liste.FormattingEnabled = true;
+            cmb_depart_liste.Location = new Point(170, 48);
+            cmb_depart_liste.Name = "cmb_depart_liste";
+            cmb_depart_liste.Size = new Size(121, 23);
+            cmb_depart_liste.TabIndex = 3;
             // 
-            // depart_label
+            // lbl_depart
             // 
-            depart_label.AutoSize = true;
-            depart_label.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            depart_label.Location = new Point(170, 24);
-            depart_label.Name = "depart_label";
-            depart_label.Size = new Size(68, 21);
-            depart_label.TabIndex = 2;
-            depart_label.Text = "Départ :";
+            lbl_depart.AutoSize = true;
+            lbl_depart.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_depart.Location = new Point(170, 24);
+            lbl_depart.Name = "lbl_depart";
+            lbl_depart.Size = new Size(68, 21);
+            lbl_depart.TabIndex = 2;
+            lbl_depart.Text = "Départ :";
             // 
-            // arrivee_list
+            // cmb_arrivee_list
             // 
-            arrivee_list.DropDownStyle = ComboBoxStyle.DropDownList;
-            arrivee_list.FormattingEnabled = true;
-            arrivee_list.Location = new Point(316, 48);
-            arrivee_list.Name = "arrivee_list";
-            arrivee_list.Size = new Size(121, 23);
-            arrivee_list.TabIndex = 5;
+            cmb_arrivee_list.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_arrivee_list.FormattingEnabled = true;
+            cmb_arrivee_list.Location = new Point(316, 48);
+            cmb_arrivee_list.Name = "cmb_arrivee_list";
+            cmb_arrivee_list.Size = new Size(121, 23);
+            cmb_arrivee_list.TabIndex = 5;
             // 
-            // label_arrivee
+            // lbl_arrivee
             // 
-            label_arrivee.AutoSize = true;
-            label_arrivee.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label_arrivee.Location = new Point(316, 24);
-            label_arrivee.Name = "label_arrivee";
-            label_arrivee.Size = new Size(71, 21);
-            label_arrivee.TabIndex = 4;
-            label_arrivee.Text = "Arrivée :";
+            lbl_arrivee.AutoSize = true;
+            lbl_arrivee.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lbl_arrivee.Location = new Point(316, 24);
+            lbl_arrivee.Name = "lbl_arrivee";
+            lbl_arrivee.Size = new Size(71, 21);
+            lbl_arrivee.TabIndex = 4;
+            lbl_arrivee.Text = "Arrivée :";
             // 
-            // distance_label
+            // lbl_distance
             // 
-            distance_label.AutoSize = true;
-            distance_label.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            distance_label.Location = new Point(183, 106);
-            distance_label.Name = "distance_label";
-            distance_label.Size = new Size(80, 21);
-            distance_label.TabIndex = 6;
-            distance_label.Text = "Distance :";
+            lbl_distance.AutoSize = true;
+            lbl_distance.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
+            lbl_distance.Location = new Point(183, 106);
+            lbl_distance.Name = "lbl_distance";
+            lbl_distance.Size = new Size(80, 21);
+            lbl_distance.TabIndex = 6;
+            lbl_distance.Text = "Distance :";
             // 
-            // distance_value
+            // tbx_distance_value
             // 
-            distance_value.Location = new Point(170, 130);
-            distance_value.Name = "distance_value";
-            distance_value.Size = new Size(100, 23);
-            distance_value.TabIndex = 7;
+            tbx_distance_value.Location = new Point(170, 130);
+            tbx_distance_value.Name = "tbx_distance_value";
+            tbx_distance_value.Size = new Size(100, 23);
+            tbx_distance_value.TabIndex = 7;
             // 
-            // ajouter
+            // btn_ajouter
             // 
-            ajouter.Location = new Point(183, 191);
-            ajouter.Name = "ajouter";
-            ajouter.Size = new Size(75, 31);
-            ajouter.TabIndex = 8;
-            ajouter.Text = "Ajouter";
-            ajouter.UseVisualStyleBackColor = true;
-            ajouter.Click += ajouter_Click;
+            btn_ajouter.Location = new Point(183, 191);
+            btn_ajouter.Name = "btn_ajouter";
+            btn_ajouter.Size = new Size(75, 31);
+            btn_ajouter.TabIndex = 8;
+            btn_ajouter.Text = "Ajouter";
+            btn_ajouter.UseVisualStyleBackColor = true;
+            btn_ajouter.Click += btn_ajouter_Click;
             // 
             // LiaisonGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(454, 245);
-            Controls.Add(ajouter);
-            Controls.Add(distance_value);
-            Controls.Add(distance_label);
-            Controls.Add(arrivee_list);
-            Controls.Add(label_arrivee);
-            Controls.Add(depart_liste);
-            Controls.Add(depart_label);
-            Controls.Add(secteur_list);
-            Controls.Add(secteur_label);
+            Controls.Add(btn_ajouter);
+            Controls.Add(tbx_distance_value);
+            Controls.Add(lbl_distance);
+            Controls.Add(cmb_arrivee_list);
+            Controls.Add(lbl_arrivee);
+            Controls.Add(cmb_depart_liste);
+            Controls.Add(lbl_depart);
+            Controls.Add(cmb_secteur_list);
+            Controls.Add(lbl_secteur);
             Name = "LiaisonGui";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Liaison";
@@ -147,14 +147,14 @@
 
         #endregion
 
-        private Label secteur_label;
-        private ComboBox secteur_list;
-        private ComboBox depart_liste;
-        private Label depart_label;
-        private ComboBox arrivee_list;
-        private Label label_arrivee;
-        private Label distance_label;
-        private TextBox distance_value;
-        private Button ajouter;
+        private Label lbl_secteur;
+        private ComboBox cmb_secteur_list;
+        private ComboBox cmb_depart_liste;
+        private Label lbl_depart;
+        private ComboBox cmb_arrivee_list;
+        private Label lbl_arrivee;
+        private Label lbl_distance;
+        private TextBox tbx_distance_value;
+        private Button btn_ajouter;
     }
 }

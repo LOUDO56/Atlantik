@@ -28,58 +28,45 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PortGui));
-            return_button = new Button();
-            confirm = new Button();
-            values = new TextBox();
-            nom = new Label();
+            btn_confirm = new Button();
+            tbx_values = new TextBox();
+            lbl_nom = new Label();
             SuspendLayout();
             // 
-            // return_button
+            // btn_confirm
             // 
-            return_button.Image = (Image)resources.GetObject("return_button.Image");
-            return_button.Location = new Point(13, 12);
-            return_button.Name = "return_button";
-            return_button.Size = new Size(30, 24);
-            return_button.TabIndex = 7;
-            return_button.UseVisualStyleBackColor = true;
-            return_button.Click += return_button_Click;
+            btn_confirm.Location = new Point(217, 73);
+            btn_confirm.Name = "btn_confirm";
+            btn_confirm.Size = new Size(75, 23);
+            btn_confirm.TabIndex = 6;
+            btn_confirm.Text = "Ajouter";
+            btn_confirm.UseVisualStyleBackColor = true;
+            btn_confirm.Click += btn_confirm_Click;
             // 
-            // confirm
+            // tbx_values
             // 
-            confirm.Location = new Point(217, 73);
-            confirm.Name = "confirm";
-            confirm.Size = new Size(75, 23);
-            confirm.TabIndex = 6;
-            confirm.Text = "Ajouter";
-            confirm.UseVisualStyleBackColor = true;
-            confirm.Click += confirm_Click;
+            tbx_values.Location = new Point(111, 73);
+            tbx_values.Name = "tbx_values";
+            tbx_values.Size = new Size(100, 23);
+            tbx_values.TabIndex = 5;
             // 
-            // values
+            // lbl_nom
             // 
-            values.Location = new Point(111, 73);
-            values.Name = "values";
-            values.Size = new Size(100, 23);
-            values.TabIndex = 5;
-            // 
-            // nom
-            // 
-            nom.AutoSize = true;
-            nom.Location = new Point(40, 77);
-            nom.Name = "nom";
-            nom.Size = new Size(65, 15);
-            nom.TabIndex = 4;
-            nom.Text = "Nom port :";
+            lbl_nom.AutoSize = true;
+            lbl_nom.Location = new Point(40, 77);
+            lbl_nom.Name = "lbl_nom";
+            lbl_nom.Size = new Size(65, 15);
+            lbl_nom.TabIndex = 4;
+            lbl_nom.Text = "Nom port :";
             // 
             // PortGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(325, 165);
-            Controls.Add(return_button);
-            Controls.Add(confirm);
-            Controls.Add(values);
-            Controls.Add(nom);
+            Controls.Add(btn_confirm);
+            Controls.Add(tbx_values);
+            Controls.Add(lbl_nom);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "PortGui";
@@ -92,8 +79,8 @@
         #endregion
 
         private Button return_button;
-        private Button confirm;
-        private TextBox values;
-        private Label nom;
+        private Button btn_confirm;
+        private TextBox tbx_values;
+        private Label lbl_nom;
     }
 }

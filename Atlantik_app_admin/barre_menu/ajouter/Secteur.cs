@@ -19,13 +19,17 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             InitializeComponent();
         }
 
-        private void confirm_add_secteur_Click(object sender, EventArgs e)
+        private void btn_confirm_Click(object sender, EventArgs e)
         {
+
+            if (confirmer_ajout.confirmer() == false) { return; }
+            if (ControleSaisie.value(tbx_values.Text, "le nom du secteur") == false) { return; }
+
             BDD bDD = new BDD();
             if (!bDD.Open()) return; // Si la connexion à la bdd ne fonctionne pas, dans ce cas on stop le programme
 
             Dictionary<string, string> param = new Dictionary<string, string> {
-                {"@nom", secteur_textbox.Text}
+                {"@nom", tbx_values.Text}
             };
             bDD.Send("INSERT INTO secteur(NOM) VALUES(@nom)", param);
             bDD.Close();

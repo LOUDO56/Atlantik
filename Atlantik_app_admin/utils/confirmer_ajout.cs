@@ -11,7 +11,7 @@ namespace Atlantik_app_admin.utils
 
         public static bool confirmer()
         {
-            DialogResult res = MessageBox.Show("Voulez-vous continuer?", "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            DialogResult res = MessageBox.Show("Êtes-vous sûr?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (res == DialogResult.Yes)
             {
                 return true;
