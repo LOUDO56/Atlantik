@@ -51,12 +51,12 @@
             // 
             // cmb_secteur_list
             // 
+            cmb_secteur_list.DropDownStyle = ComboBoxStyle.DropDownList;
             cmb_secteur_list.FormattingEnabled = true;
             cmb_secteur_list.Location = new Point(22, 48);
             cmb_secteur_list.Name = "cmb_secteur_list";
             cmb_secteur_list.Size = new Size(121, 23);
             cmb_secteur_list.TabIndex = 1;
-            cmb_secteur_list.Text = "-- sélectionner --";
             // 
             // cmb_depart_liste
             // 
@@ -137,6 +137,8 @@
             Controls.Add(lbl_depart);
             Controls.Add(cmb_secteur_list);
             Controls.Add(lbl_secteur);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "LiaisonGui";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Liaison";

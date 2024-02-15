@@ -152,6 +152,7 @@
             lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1.Name = "lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1";
             lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1.Size = new Size(287, 22);
             lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1.Text = "Les tarifs pour une liaison et une période";
+            lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1.Click += lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1_Click;
             // 
             // unBateauToolStripMenuItem1
             // 

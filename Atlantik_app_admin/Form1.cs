@@ -23,5 +23,10 @@ namespace Atlantik_app_admin
         {
             new LiaisonGui().ShowDialog();
         }
+
+        private void lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            new TarifGui().ShowDialog();
+        }
     }
 }

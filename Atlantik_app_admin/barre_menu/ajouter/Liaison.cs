@@ -24,6 +24,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
         private void LiaisonGui_Load(object sender, EventArgs e)
         {
+
             BDD bDD = new BDD();
             if (!bDD.Open()) { return; }
 
@@ -54,6 +55,10 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             arrives.Close();
 
+            cmb_secteur_list.SelectedIndex = 0;
+            cmb_depart_liste.SelectedIndex = 0;
+            cmb_arrivee_list.SelectedIndex = 0;
+
         }
 
         private void btn_ajouter_Click(object sender, EventArgs e)
@@ -65,9 +70,6 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             string port_arrive = ((Port)cmb_arrivee_list.SelectedItem).Id.ToString();
             string distance = tbx_distance_value.Text;
 
-            if (ControleSaisie.value(secteur, "le secteur") == false) { return; }
-            if (ControleSaisie.value(port_depart, "le port de départ") == false) { return; }
-            if (ControleSaisie.value(port_arrive, "le port d'arrivé") == false) { return; }
             if (ControleSaisie.value(distance, "la distance") == false) { return; }
 
 
