@@ -22,7 +22,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         private void btn_confirm_Click(object sender, EventArgs e)
         {
 
-            if (confirmer_ajout.confirmer() == false) { return; }
+            if (ConfirmerAjout.confirmer() == false) { return; }
             if (ControleSaisie.value(tbx_values.Text, "le nom du secteur") == false) { return; }
 
             BDD bDD = new BDD();

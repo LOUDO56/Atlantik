@@ -85,7 +85,7 @@ namespace Atlantik_app_admin.utils
             {
                 var maCde = new MySqlCommand(sql, conn);
 
-                if(parameters != null) // Si la requête ne demande aucun paramètre.
+                if(parameters != null) // Si la requête à des paramètres
                 {
                     for (int i = 0; i < parameters.Count; i++)
                     {
@@ -97,7 +97,7 @@ namespace Atlantik_app_admin.utils
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message, "Erreur durant requête SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(sql + " n'a pas fonctionné : " + ex.Message, "Erreur durant requête SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
         }

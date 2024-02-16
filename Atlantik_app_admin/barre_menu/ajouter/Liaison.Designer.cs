@@ -140,7 +140,7 @@
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "LiaisonGui";
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Liaison";
             Load += LiaisonGui_Load;
             ResumeLayout(false);

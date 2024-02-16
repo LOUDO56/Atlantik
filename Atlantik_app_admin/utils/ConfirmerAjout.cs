@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Atlantik_app_admin.utils
 {
-    internal class confirmer_ajout
+    internal class ConfirmerAjout
     {
 
         public static bool confirmer()

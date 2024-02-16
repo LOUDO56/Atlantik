@@ -31,20 +31,24 @@
             lbl_secteur = new Label();
             lbl_liaison = new Label();
             lbl_periode = new Label();
-            mySqlCommand1 = new MySql.Data.MySqlClient.MySqlCommand();
             gbx_tarif = new GroupBox();
             lbl_tarif = new Label();
             lbl_categorie_type = new Label();
             btn_confirm = new Button();
             lbx_secteur = new ListBox();
+            cbx_liaison = new ComboBox();
+            cbx_periode = new ComboBox();
+            pnl_bottom = new Panel();
+            label1 = new Label();
             gbx_tarif.SuspendLayout();
+            pnl_bottom.SuspendLayout();
             SuspendLayout();
             // 
             // lbl_secteur
             // 
             lbl_secteur.AutoSize = true;
             lbl_secteur.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_secteur.Location = new Point(29, 35);
+            lbl_secteur.Location = new Point(23, 35);
             lbl_secteur.Name = "lbl_secteur";
             lbl_secteur.Size = new Size(81, 21);
             lbl_secteur.TabIndex = 0;
@@ -54,7 +58,7 @@
             // 
             lbl_liaison.AutoSize = true;
             lbl_liaison.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_liaison.Location = new Point(23, 206);
+            lbl_liaison.Location = new Point(23, 235);
             lbl_liaison.Name = "lbl_liaison";
             lbl_liaison.Size = new Size(68, 21);
             lbl_liaison.TabIndex = 1;
@@ -64,27 +68,20 @@
             // 
             lbl_periode.AutoSize = true;
             lbl_periode.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_periode.Location = new Point(36, 497);
+            lbl_periode.Location = new Point(26, 28);
             lbl_periode.Name = "lbl_periode";
             lbl_periode.Size = new Size(74, 21);
             lbl_periode.TabIndex = 2;
             lbl_periode.Text = "Période :";
-            // 
-            // mySqlCommand1
-            // 
-            mySqlCommand1.CacheAge = 0;
-            mySqlCommand1.Connection = null;
-            mySqlCommand1.EnableCaching = false;
-            mySqlCommand1.Transaction = null;
             // 
             // gbx_tarif
             // 
             gbx_tarif.Controls.Add(lbl_tarif);
             gbx_tarif.Controls.Add(lbl_categorie_type);
             gbx_tarif.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            gbx_tarif.Location = new Point(159, 35);
+            gbx_tarif.Location = new Point(185, 35);
             gbx_tarif.Name = "gbx_tarif";
-            gbx_tarif.Size = new Size(389, 423);
+            gbx_tarif.Size = new Size(377, 423);
             gbx_tarif.TabIndex = 4;
             gbx_tarif.TabStop = false;
             gbx_tarif.Text = "Tarifs par Catégorie-Type";
@@ -111,7 +108,7 @@
             // 
             // btn_confirm
             // 
-            btn_confirm.Location = new Point(443, 498);
+            btn_confirm.Location = new Point(437, 25);
             btn_confirm.Name = "btn_confirm";
             btn_confirm.Size = new Size(128, 23);
             btn_confirm.TabIndex = 5;
@@ -125,25 +122,69 @@
             lbx_secteur.ItemHeight = 15;
             lbx_secteur.Location = new Point(23, 59);
             lbx_secteur.Name = "lbx_secteur";
-            lbx_secteur.Size = new Size(120, 94);
+            lbx_secteur.Size = new Size(140, 154);
             lbx_secteur.TabIndex = 2;
+            lbx_secteur.SelectedIndexChanged += lbx_secteur_SelectedIndexChanged;
+            // 
+            // cbx_liaison
+            // 
+            cbx_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbx_liaison.FormattingEnabled = true;
+            cbx_liaison.Location = new Point(23, 259);
+            cbx_liaison.Name = "cbx_liaison";
+            cbx_liaison.Size = new Size(141, 23);
+            cbx_liaison.TabIndex = 2;
+            // 
+            // cbx_periode
+            // 
+            cbx_periode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbx_periode.FormattingEnabled = true;
+            cbx_periode.Location = new Point(106, 28);
+            cbx_periode.Name = "cbx_periode";
+            cbx_periode.Size = new Size(180, 23);
+            cbx_periode.TabIndex = 2;
+            // 
+            // pnl_bottom
+            // 
+            pnl_bottom.Controls.Add(lbl_periode);
+            pnl_bottom.Controls.Add(cbx_periode);
+            pnl_bottom.Controls.Add(btn_confirm);
+            pnl_bottom.Location = new Point(-3, 464);
+            pnl_bottom.Name = "pnl_bottom";
+            pnl_bottom.Size = new Size(589, 70);
+            pnl_bottom.TabIndex = 2;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(54, 317);
+            label1.Name = "label1";
+            label1.Size = new Size(38, 15);
+            label1.TabIndex = 2;
+            label1.Text = "label1";
             // 
             // TarifGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(616, 545);
+            ClientSize = new Size(582, 545);
+            Controls.Add(label1);
+            Controls.Add(pnl_bottom);
+            Controls.Add(cbx_liaison);
             Controls.Add(lbx_secteur);
-            Controls.Add(btn_confirm);
             Controls.Add(gbx_tarif);
-            Controls.Add(lbl_periode);
             Controls.Add(lbl_liaison);
             Controls.Add(lbl_secteur);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "TarifGui";
+            StartPosition = FormStartPosition.CenterParent;
             Text = "Tarif pour une liaison et une période";
             Load += Tarif_Load;
             gbx_tarif.ResumeLayout(false);
             gbx_tarif.PerformLayout();
+            pnl_bottom.ResumeLayout(false);
+            pnl_bottom.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -153,12 +194,15 @@
         private Label lbl_secteur;
         private Label lbl_liaison;
         private Label lbl_periode;
-        private MySql.Data.MySqlClient.MySqlCommand mySqlCommand1;
         private GroupBox gbx_tarif;
         private Button btn_confirm;
         private Label lbl_categorie_type;
         private Label lbl_tarif;
         private TextBox textBox1;
         private ListBox lbx_secteur;
+        private ComboBox cbx_liaison;
+        private ComboBox cbx_periode;
+        private Panel pnl_bottom;
+        private Label label1;
     }
 }

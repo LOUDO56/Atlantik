@@ -63,7 +63,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
         private void btn_ajouter_Click(object sender, EventArgs e)
         {
-            if (confirmer_ajout.confirmer() == false) { return; }
+            if (ConfirmerAjout.confirmer() == false) { return; }
 
             string secteur = ((Secteur)cmb_secteur_list.SelectedItem).Id.ToString();
             string port_depart = ((Port)cmb_depart_liste.SelectedItem).Id.ToString();
