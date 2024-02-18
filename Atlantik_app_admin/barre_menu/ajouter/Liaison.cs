@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySqlX.XDevAPI;
 using Google.Protobuf.WellKnownTypes;
+using System.Collections;
 
 namespace Atlantik_app_admin.barre_menu.ajouter
 {
@@ -76,10 +77,10 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             BDD bDD = new BDD();
             if (!bDD.Open()) { return; }
 
-            bDD.Send("INSERT INTO liaison(NOPORT_DEPART, NOSECTEUR, NOPORT_ARRIVEE, DISTANCE) " +
+            bDD.SendOne("INSERT INTO liaison(NOPORT_DEPART, NOSECTEUR, NOPORT_ARRIVEE, DISTANCE) " +
                 "VALUES(@NOPORT_DEPART, @NOSECTEUR, @NOPORT_ARRIVEE, @DISTANCE)",
 
-                 new Dictionary<string, string> {
+                 new Hashtable() {
                         {"@NOPORT_DEPART", port_depart},
                         {"@NOSECTEUR", secteur },
                         {"@NOPORT_ARRIVEE", port_arrive },

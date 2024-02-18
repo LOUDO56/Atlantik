@@ -39,7 +39,6 @@
             cbx_liaison = new ComboBox();
             cbx_periode = new ComboBox();
             pnl_bottom = new Panel();
-            label1 = new Label();
             gbx_tarif.SuspendLayout();
             pnl_bottom.SuspendLayout();
             SuspendLayout();
@@ -154,21 +153,11 @@
             pnl_bottom.Size = new Size(589, 70);
             pnl_bottom.TabIndex = 2;
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(54, 317);
-            label1.Name = "label1";
-            label1.Size = new Size(38, 15);
-            label1.TabIndex = 2;
-            label1.Text = "label1";
-            // 
             // TarifGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(582, 545);
-            Controls.Add(label1);
             Controls.Add(pnl_bottom);
             Controls.Add(cbx_liaison);
             Controls.Add(lbx_secteur);
@@ -203,6 +192,5 @@
         private ComboBox cbx_liaison;
         private ComboBox cbx_periode;
         private Panel pnl_bottom;
-        private Label label1;
     }
 }

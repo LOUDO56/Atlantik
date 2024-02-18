@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,27 +52,18 @@ namespace Atlantik_app_admin.utils
             }
         }
 
-        public void Send(string sql, Dictionary<string, string> parameters)
+        public void SendOne(string sql, Hashtable parameters)
         {
             try
             {
                 var maCde = new MySqlCommand(sql, conn);
 
-                for (int i = 0; i < parameters.Count; i++)
+                foreach(DictionaryEntry value in parameters)
                 {
-                    maCde.Parameters.AddWithValue(parameters.ElementAt(i).Key, parameters.ElementAt(i).Value);
+                    maCde.Parameters.AddWithValue(value.Key.ToString(), value.Value);
                 }
 
-                int nbLigneAffecte = maCde.ExecuteNonQuery();
-                string ligne;
-                if (nbLigneAffecte > 1)
-                {
-                    ligne = "lignes";
-                } else
-                {
-                    ligne = "ligne";
-                }
-                MessageBox.Show($"Requête effectué avec succès. {nbLigneAffecte} {ligne} affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Requête effectué avec succès. 1 ligne affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (MySqlException ex)
             {
@@ -79,7 +71,29 @@ namespace Atlantik_app_admin.utils
             }
         }
 
-        public MySqlDataReader Get(string sql, Dictionary<string, string> parameters = null)
+        public void SendMultiple(string sql, List<Hashtable> parameters)
+        {
+            try
+            {
+                var maCde = new MySqlCommand(sql, conn);
+
+                foreach (var param in parameters)
+                {
+                    foreach(DictionaryEntry value in param)
+                    {
+                        maCde.Parameters.AddWithValue(value.Key.ToString(), value.Value);
+                    }
+                }
+
+                MessageBox.Show($"Requête effectué avec succès. {maCde.ExecuteNonQuery()} lignes affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Erreur durant requête SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public MySqlDataReader Get(string sql, Hashtable parameters = null)
         {
             try
             {
@@ -87,9 +101,9 @@ namespace Atlantik_app_admin.utils
 
                 if(parameters != null) // Si la requête à des paramètres
                 {
-                    for (int i = 0; i < parameters.Count; i++)
+                    foreach (DictionaryEntry value in parameters)
                     {
-                        maCde.Parameters.AddWithValue(parameters.ElementAt(i).Key, parameters.ElementAt(i).Value);
+                        maCde.Parameters.AddWithValue(value.Key.ToString(), value.Value);
                     }
                 }
 

@@ -10,10 +10,10 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     {
 
         private string lettre_categorie;
-        private string type;
+        private int type;
         private string libelle;
 
-        public Type(string lettre_categorie, string type, string libelle) 
+        public Type(string lettre_categorie, int type, string libelle) 
         {
             this.lettre_categorie = lettre_categorie;
             this.type = type;
@@ -25,7 +25,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             get { return lettre_categorie; }
         }
 
-        public string TypeNombre
+        public int TypeNombre
         {
             get { return type; }
         }

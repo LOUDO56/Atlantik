@@ -1,7 +1,9 @@
 ﻿using Atlantik_app_admin.classes;
 using Atlantik_app_admin.utils;
 using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -41,7 +43,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
             while (categories.Read())
             {
-                Type newType = new Type(categories["LETTRECATEGORIE"].ToString(), categories["NOTYPE"].ToString(), categories["LIBELLE"].ToString());
+                Type newType = new Type(categories["LETTRECATEGORIE"].ToString(), int.Parse(categories["NOTYPE"].ToString()), categories["LIBELLE"].ToString());
                 typeArray.Add(newType);
 
                 Label lbl_categorie = new Label();
@@ -78,6 +80,8 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 lbx_secteur.Items.Add(new Secteur(int.Parse(secteur["NOSECTEUR"].ToString()), secteur["NOM"].ToString()));
             }
 
+            lbx_secteur.SelectedIndex = 0;
+
             secteur.Close();
 
             
@@ -111,25 +115,45 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             BDD bdd = new BDD();
             if (!bdd.Open()) { return; }
 
+            // Créez une liste pour stocker les paramètres des insertions
+            List<Hashtable> paramList = new List<Hashtable>();
+
             for (int i = 0; i < tbx_tarifArray.Count; i++)
             {
                 if (tbx_tarifArray[i].Text != "")
                 {
+                    Hashtable param = new Hashtable() {
+            {"@NOPERIODE", ((Periode)cbx_periode.SelectedItem).Id },
+            {"@LETTRECATEGORIE", typeArray[i].LettreCategorie},
+            {"@NOTYPE", typeArray[i].TypeNombre },
+            {"@NOLIAISON", ((Liaison)cbx_liaison.SelectedItem).Id },
+            {"@TARIF", tbx_tarifArray[i].Text }
+        };
 
-                    Dictionary<string, string> param = new Dictionary<string, string> {
-                        {"@NOPERIODE", ((Periode)cbx_periode.SelectedItem).Id.ToString()},
-                        {"@LETTRECATEGORIE", typeArray[i].LettreCategorie},
-                        {"@NOTYPE", typeArray[i].TypeNombre },
-                        {"@NOLIAISON", ((Liaison)cbx_liaison.SelectedItem).Id.ToString() },
-                        {"@TARIF", tbx_tarifArray[i].Text }
-                    };
-
-                    bdd.Send("INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) " +
-                        "VALUES (@NOPERIODE, @LETTRECATEGORIE, @NOTYPE, @NOLIAISON, @TARIF)", param);
+                    // Ajoutez les paramètres à la liste
+                    paramList.Add(param);
                 }
             }
 
+            if (paramList.Count > 0)
+            {
+                // Créez une seule instruction d'insertion avec des paramètres multiples
+                string query = "INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) VALUES ";
+
+                for (int i = 0; i < paramList.Count; i++)
+                {
+                    query += "(@NOPERIODE" + i + ", @LETTRECATEGORIE" + i + ", @NOTYPE" + i + ", @NOLIAISON" + i + ", @TARIF" + i + "),";
+                }
+
+                // Supprimez la virgule finale
+                query = query.TrimEnd(',');
+
+                // Exécutez la commande avec une seule requête
+                bdd.SendMultiple(query, paramList);
+            }
+
             bdd.Close();
+
 
 
         }
@@ -140,7 +164,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             BDD bdd = new BDD();
             if (!bdd.Open()) { return; };
 
-            Dictionary<string, string> param = new Dictionary<string, string>() {
+            Hashtable param = new Hashtable() {
                 { "@NOSECTEUR", ((Secteur)lbx_secteur.SelectedItem).Id.ToString() }
             };
 
@@ -151,10 +175,13 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 "FROM liaison l " +
                 "INNER JOIN port p_dep ON l.NOPORT_DEPART = p_dep.NOPORT " +
                 "INNER JOIN port p_arr ON l.NOPORT_ARRIVEE = p_arr.NOPORT " +
-                "INNER JOIN secteur s ON l.NOSECTEUR = s.NOSECTEUR" +
-                "WHERE s.NOSECTEUR = @NOSECTEUR;", param);
+                "INNER JOIN secteur s ON l.NOSECTEUR = s.NOSECTEUR " +
+                "WHERE s.NOSECTEUR = @NOSECTEUR;"
+                , param);
 
             if (liaison == null) { return; }
+
+            cbx_liaison.Items.Clear();
 
             while (liaison.Read())
             {
@@ -168,11 +195,21 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
 
             liaison.Close();
-            cbx_liaison.SelectedIndex = 0;
+
+            // Gérer visuel retour requête
+            if(cbx_liaison.Items.Count > 0)
+            {
+                cbx_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
+                cbx_liaison.SelectedIndex = 0;
+                cbx_liaison.Enabled = true;
+            } else
+            {
+                cbx_liaison.Enabled = false;
+                cbx_liaison.DropDownStyle = ComboBoxStyle.DropDown;
+                cbx_liaison.Text = "Aucun résultat.";
+            }
 
             bdd.Close();
-
-            label1.Text = param.ToString();
         }
     }
 }
