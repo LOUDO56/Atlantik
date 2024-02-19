@@ -19,6 +19,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     {
         private List<Type> typeArray = new List<Type>();
         private List<TextBox> tbx_tarifArray = new List<TextBox>();
+        private List<Label> lbl_categorieArray = new List<Label>();
 
         public TarifGui()
         {
@@ -57,6 +58,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 TextBox tbx_tarif = new TextBox();
                 tbx_tarif.Location = new Point(tarif_x, tarif_y);
                 tbx_tarif.Font = new Font("Segoe UI", 9);
+                tbx_tarif.Tag = lbl_categorie.Text.Replace(" :", "");
                 tbx_tarifArray.Add(tbx_tarif);
                 tarif_y += 40;
                 gbx_tarif.Controls.Add(tbx_tarif);
@@ -111,45 +113,52 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         {
 
             if (ConfirmerAjout.confirmer() == false) { return; }
+            if(cbx_liaison.Enabled == false) 
+            {
+                MessageBox.Show("La liaison est invalide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return; 
+            }
 
             BDD bdd = new BDD();
             if (!bdd.Open()) { return; }
 
-            // Créez une liste pour stocker les paramètres des insertions
-            List<Hashtable> paramList = new List<Hashtable>();
+            bool ajout_effectue = false;
+
+
+            // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
+            foreach(TextBox tarif_value in tbx_tarifArray)
+            {
+                if (tarif_value.Text != "" && tarif_value.Text.Any(x => char.IsLetter(x)))
+                {
+                    MessageBox.Show("Le tarif dans la case \"" + tarif_value.Tag + "\" n'est pas valide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+           
 
             for (int i = 0; i < tbx_tarifArray.Count; i++)
             {
                 if (tbx_tarifArray[i].Text != "")
                 {
-                    Hashtable param = new Hashtable() {
-            {"@NOPERIODE", ((Periode)cbx_periode.SelectedItem).Id },
-            {"@LETTRECATEGORIE", typeArray[i].LettreCategorie},
-            {"@NOTYPE", typeArray[i].TypeNombre },
-            {"@NOLIAISON", ((Liaison)cbx_liaison.SelectedItem).Id },
-            {"@TARIF", tbx_tarifArray[i].Text }
-        };
 
-                    // Ajoutez les paramètres à la liste
-                    paramList.Add(param);
+                    ajout_effectue = true;
+
+                    Hashtable param = new Hashtable {
+                        {"@NOPERIODE", ((Periode)cbx_periode.SelectedItem).Id.ToString()},
+                        {"@LETTRECATEGORIE", typeArray[i].LettreCategorie},
+                        {"@NOTYPE", typeArray[i].TypeNombre },
+                        {"@NOLIAISON", ((Liaison)cbx_liaison.SelectedItem).Id.ToString() },
+                        {"@TARIF", tbx_tarifArray[i].Text }
+                    };
+
+                    bdd.Set("INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) " +
+                        "VALUES (@NOPERIODE, @LETTRECATEGORIE, @NOTYPE, @NOLIAISON, @TARIF)", param);
                 }
             }
 
-            if (paramList.Count > 0)
+            if(!ajout_effectue)
             {
-                // Créez une seule instruction d'insertion avec des paramètres multiples
-                string query = "INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) VALUES ";
-
-                for (int i = 0; i < paramList.Count; i++)
-                {
-                    query += "(@NOPERIODE" + i + ", @LETTRECATEGORIE" + i + ", @NOTYPE" + i + ", @NOLIAISON" + i + ", @TARIF" + i + "),";
-                }
-
-                // Supprimez la virgule finale
-                query = query.TrimEnd(',');
-
-                // Exécutez la commande avec une seule requête
-                bdd.SendMultiple(query, paramList);
+                MessageBox.Show("Vous n'avez renseigné aucun tarif", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             bdd.Close();

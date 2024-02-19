@@ -159,6 +159,7 @@
             unBateauToolStripMenuItem1.Name = "unBateauToolStripMenuItem1";
             unBateauToolStripMenuItem1.Size = new Size(287, 22);
             unBateauToolStripMenuItem1.Text = "Un bateau";
+            unBateauToolStripMenuItem1.Click += unBateauToolStripMenuItem1_Click;
             // 
             // uneTraverséeToolStripMenuItem1
             // 

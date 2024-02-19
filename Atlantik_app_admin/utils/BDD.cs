@@ -52,7 +52,7 @@ namespace Atlantik_app_admin.utils
             }
         }
 
-        public void SendOne(string sql, Hashtable parameters)
+        public void Set(string sql, Hashtable parameters)
         {
             try
             {
@@ -63,29 +63,8 @@ namespace Atlantik_app_admin.utils
                     maCde.Parameters.AddWithValue(value.Key.ToString(), value.Value);
                 }
 
+                maCde.ExecuteNonQuery();
                 MessageBox.Show($"Requête effectué avec succès. 1 ligne affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Erreur durant requête SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public void SendMultiple(string sql, List<Hashtable> parameters)
-        {
-            try
-            {
-                var maCde = new MySqlCommand(sql, conn);
-
-                foreach (var param in parameters)
-                {
-                    foreach(DictionaryEntry value in param)
-                    {
-                        maCde.Parameters.AddWithValue(value.Key.ToString(), value.Value);
-                    }
-                }
-
-                MessageBox.Show($"Requête effectué avec succès. {maCde.ExecuteNonQuery()} lignes affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (MySqlException ex)
             {

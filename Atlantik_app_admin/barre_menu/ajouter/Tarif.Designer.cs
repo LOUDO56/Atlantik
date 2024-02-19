@@ -39,6 +39,7 @@
             cbx_liaison = new ComboBox();
             cbx_periode = new ComboBox();
             pnl_bottom = new Panel();
+            backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             gbx_tarif.SuspendLayout();
             pnl_bottom.SuspendLayout();
             SuspendLayout();
@@ -192,5 +193,6 @@
         private ComboBox cbx_liaison;
         private ComboBox cbx_periode;
         private Panel pnl_bottom;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }

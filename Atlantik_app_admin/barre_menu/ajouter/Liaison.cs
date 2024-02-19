@@ -34,7 +34,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             if (secteurs == null) { return; }
             while (secteurs.Read())
             {
-                cmb_secteur_list.Items.Add(new Secteur(int.Parse(secteurs["NOSECTEUR"].ToString()), secteurs["NOM"].ToString()));
+                lbx_secteur.Items.Add(new Secteur(int.Parse(secteurs["NOSECTEUR"].ToString()), secteurs["NOM"].ToString()));
             }
             secteurs.Close();
 
@@ -56,7 +56,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             arrives.Close();
 
-            cmb_secteur_list.SelectedIndex = 0;
+            lbx_secteur.SelectedIndex = 0;
             cmb_depart_liste.SelectedIndex = 0;
             cmb_arrivee_list.SelectedIndex = 0;
 
@@ -66,7 +66,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         {
             if (ConfirmerAjout.confirmer() == false) { return; }
 
-            string secteur = ((Secteur)cmb_secteur_list.SelectedItem).Id.ToString();
+            string secteur = ((Secteur)lbx_secteur.SelectedItem).Id.ToString();
             string port_depart = ((Port)cmb_depart_liste.SelectedItem).Id.ToString();
             string port_arrive = ((Port)cmb_arrivee_list.SelectedItem).Id.ToString();
             string distance = tbx_distance_value.Text;
@@ -77,7 +77,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             BDD bDD = new BDD();
             if (!bDD.Open()) { return; }
 
-            bDD.SendOne("INSERT INTO liaison(NOPORT_DEPART, NOSECTEUR, NOPORT_ARRIVEE, DISTANCE) " +
+            bDD.Set("INSERT INTO liaison(NOPORT_DEPART, NOSECTEUR, NOPORT_ARRIVEE, DISTANCE) " +
                 "VALUES(@NOPORT_DEPART, @NOSECTEUR, @NOPORT_ARRIVEE, @DISTANCE)",
 
                  new Hashtable() {

@@ -28,5 +28,10 @@ namespace Atlantik_app_admin
         {
             new TarifGui().ShowDialog();
         }
+
+        private void unBateauToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            new BateauGui().ShowDialog();
+        }
     }
 }

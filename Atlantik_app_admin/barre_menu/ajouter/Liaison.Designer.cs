@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             lbl_secteur = new Label();
-            cmb_secteur_list = new ComboBox();
             cmb_depart_liste = new ComboBox();
             lbl_depart = new Label();
             cmb_arrivee_list = new ComboBox();
@@ -37,6 +36,7 @@
             lbl_distance = new Label();
             tbx_distance_value = new TextBox();
             btn_ajouter = new Button();
+            lbx_secteur = new ListBox();
             SuspendLayout();
             // 
             // lbl_secteur
@@ -48,15 +48,6 @@
             lbl_secteur.Size = new Size(81, 21);
             lbl_secteur.TabIndex = 0;
             lbl_secteur.Text = "Secteurs :";
-            // 
-            // cmb_secteur_list
-            // 
-            cmb_secteur_list.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmb_secteur_list.FormattingEnabled = true;
-            cmb_secteur_list.Location = new Point(22, 48);
-            cmb_secteur_list.Name = "cmb_secteur_list";
-            cmb_secteur_list.Size = new Size(121, 23);
-            cmb_secteur_list.TabIndex = 1;
             // 
             // cmb_depart_liste
             // 
@@ -100,7 +91,7 @@
             // 
             lbl_distance.AutoSize = true;
             lbl_distance.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold);
-            lbl_distance.Location = new Point(183, 106);
+            lbl_distance.Location = new Point(251, 149);
             lbl_distance.Name = "lbl_distance";
             lbl_distance.Size = new Size(80, 21);
             lbl_distance.TabIndex = 6;
@@ -108,26 +99,36 @@
             // 
             // tbx_distance_value
             // 
-            tbx_distance_value.Location = new Point(170, 130);
+            tbx_distance_value.Location = new Point(337, 149);
             tbx_distance_value.Name = "tbx_distance_value";
             tbx_distance_value.Size = new Size(100, 23);
             tbx_distance_value.TabIndex = 7;
             // 
             // btn_ajouter
             // 
-            btn_ajouter.Location = new Point(183, 191);
+            btn_ajouter.Location = new Point(341, 201);
             btn_ajouter.Name = "btn_ajouter";
-            btn_ajouter.Size = new Size(75, 31);
+            btn_ajouter.Size = new Size(75, 23);
             btn_ajouter.TabIndex = 8;
             btn_ajouter.Text = "Ajouter";
             btn_ajouter.UseVisualStyleBackColor = true;
             btn_ajouter.Click += btn_ajouter_Click;
+            // 
+            // lbx_secteur
+            // 
+            lbx_secteur.FormattingEnabled = true;
+            lbx_secteur.ItemHeight = 15;
+            lbx_secteur.Location = new Point(22, 48);
+            lbx_secteur.Name = "lbx_secteur";
+            lbx_secteur.Size = new Size(120, 184);
+            lbx_secteur.TabIndex = 9;
             // 
             // LiaisonGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(454, 245);
+            Controls.Add(lbx_secteur);
             Controls.Add(btn_ajouter);
             Controls.Add(tbx_distance_value);
             Controls.Add(lbl_distance);
@@ -135,7 +136,6 @@
             Controls.Add(lbl_arrivee);
             Controls.Add(cmb_depart_liste);
             Controls.Add(lbl_depart);
-            Controls.Add(cmb_secteur_list);
             Controls.Add(lbl_secteur);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -150,7 +150,6 @@
         #endregion
 
         private Label lbl_secteur;
-        private ComboBox cmb_secteur_list;
         private ComboBox cmb_depart_liste;
         private Label lbl_depart;
         private ComboBox cmb_arrivee_list;
@@ -158,5 +157,6 @@
         private Label lbl_distance;
         private TextBox tbx_distance_value;
         private Button btn_ajouter;
+        private ListBox lbx_secteur;
     }
 }
