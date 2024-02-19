@@ -27,40 +27,54 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             MySqlDataReader categorie = bdd.Get("SELECT * FROM categorie");
             if (categorie == null) { return; }
 
-            int x_template_lbl = 24;
-            int y_template_lbl = 59;
+            int x_lbl = 24;
+            int y_lbl = 39;
 
-            int x_template_tbx = 137;
-            int y_template_tbx = 56;
+            int x_tbx = 137;
+            int y_tbx = 36;
 
             while (categorie.Read())
             {
                 Label nom_categorie = new Label();
                 nom_categorie.Text = categorie["LETTRECATEGORIE"].ToString() + " (" + categorie["LIBELLE"] + ") :";
-                nom_categorie.Location = new Point(x_template_lbl, y_template_lbl);
+                nom_categorie.Location = new Point(x_lbl, y_lbl);
                 gbx_capacitesMaximales.Controls.Add(nom_categorie);
-                y_template_lbl += 60;
+                y_lbl += 60;
 
                 TextBox valeur_categorie = new TextBox();
-                valeur_categorie.Location = new Point(x_template_tbx, y_template_tbx);
+                valeur_categorie.Location = new Point(x_tbx, y_tbx);
                 valeur_categorie.Tag = nom_categorie.Text.Replace(" :", "");
                 gbx_capacitesMaximales.Controls.Add(valeur_categorie);
 
 
-                y_template_tbx += 60;
+                y_tbx += 60;
 
 
             }
 
-            if (y_template_lbl > gbx_capacitesMaximales.Height)
-            {
+            categorie.Close();
 
-            }
+            // Dynamique d'écran en cas de nouvelle catégorie
+
+            gbx_capacitesMaximales.Height = y_lbl - 20;
+            this.Height = y_lbl + 50;
+            pnl_bateau.Location = new Point(pnl_bateau.Location.X, this.Height - 85);
+
+            bdd.Close();
+
 
         }
 
         private void btn_ajouter_Click(object sender, EventArgs e)
         {
+
+            if(ConfirmerAjout.confirmer() == false) return;
+
+            BDD bdd = new BDD();
+            if (!bdd.Open()) { return; }
+
+
+
 
         }
 

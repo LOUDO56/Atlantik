@@ -32,6 +32,8 @@
             tbx_bateau = new TextBox();
             gbx_capacitesMaximales = new GroupBox();
             btn_ajouter = new Button();
+            pnl_bateau = new Panel();
+            pnl_bateau.SuspendLayout();
             SuspendLayout();
             // 
             // lbl_bateau
@@ -62,7 +64,7 @@
             // 
             // btn_ajouter
             // 
-            btn_ajouter.Location = new Point(120, 237);
+            btn_ajouter.Location = new Point(120, 3);
             btn_ajouter.Name = "btn_ajouter";
             btn_ajouter.Size = new Size(107, 23);
             btn_ajouter.TabIndex = 0;
@@ -70,12 +72,20 @@
             btn_ajouter.UseVisualStyleBackColor = true;
             btn_ajouter.Click += btn_ajouter_Click;
             // 
+            // pnl_bateau
+            // 
+            pnl_bateau.Controls.Add(btn_ajouter);
+            pnl_bateau.Location = new Point(0, 241);
+            pnl_bateau.Name = "pnl_bateau";
+            pnl_bateau.Size = new Size(240, 28);
+            pnl_bateau.TabIndex = 3;
+            // 
             // BateauGui
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(521, 271);
-            Controls.Add(btn_ajouter);
+            Controls.Add(pnl_bateau);
             Controls.Add(gbx_capacitesMaximales);
             Controls.Add(tbx_bateau);
             Controls.Add(lbl_bateau);
@@ -85,6 +95,7 @@
             StartPosition = FormStartPosition.CenterParent;
             Text = "BateauGui";
             Load += BateauGui_Load;
+            pnl_bateau.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -97,5 +108,6 @@
         private Button btn_ajouter;
         private TextBox tbx_template;
         private Label lbl_template;
+        private Panel pnl_bateau;
     }
 }
