@@ -73,6 +73,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         {
 
             if(ConfirmerAjout.confirmer() == false) return;
+            if (ControleSaisie.value(tbx_bateau.Text, "le nom du bateau") == false) return;
 
             BDD bdd = new BDD();
             if (!bdd.Open()) { return; }
@@ -82,9 +83,26 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             {
                 if (values.Text != "" && values.Text.Any(x => char.IsLetter(x)))
                 {
-                    MessageBox.Show("La capacité maximum dans la case \"" + values.Tag + "\" n'est pas valide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("La valeur capacité maximum dans la case \"" + values.Tag + "\" n'est pas valide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+            }
+
+            // Voir si au moins une case de capacité maximum a été rempli.
+            int caseVide = 0;
+
+            foreach (TextBox values in tbx_capaciteMaxArray)
+            {
+                if(values.Text == "")
+                {
+                    caseVide++;
+                }
+            }
+
+            if(caseVide == tbx_capaciteMaxArray.Count)
+            {
+                MessageBox.Show("Vous n'avez renseigné aucune capacité maximum", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             MySqlDataReader noBateau = bdd.Get("SELECT MAX(nobateau) FROM bateau");
@@ -102,10 +120,14 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 { "@NOM", tbx_bateau.Text } 
             });
 
-            foreach(TextBox values in tbx_capaciteMaxArray)
+            bool ajout_effectue = false;
+
+            foreach (TextBox values in tbx_capaciteMaxArray)
             {
                 if(values.Text != "") {
-                
+
+                    ajout_effectue = true;
+
                     bdd.Run("INSERT INTO contenir(LETTRECATEGORIE, NOBATEAU, CAPACITEMAX) " +
                         "VALUES(@LETTRECATEGORIE, @NOBATEAU, @CAPACITEMAX)", 
                         new Hashtable {
