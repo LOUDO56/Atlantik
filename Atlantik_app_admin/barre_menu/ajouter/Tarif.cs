@@ -105,8 +105,6 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             cbx_periode.SelectedIndex = 0;
             periode.Close();
 
-            bdd.Close();
-
         }
 
         private void btn_confirm_Click(object sender, EventArgs e)
@@ -144,14 +142,14 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                     ajout_effectue = true;
 
                     Hashtable param = new Hashtable {
-                        {"@NOPERIODE", ((Periode)cbx_periode.SelectedItem).Id.ToString()},
-                        {"@LETTRECATEGORIE", typeArray[i].LettreCategorie},
+                        {"@NOPERIODE", ((Periode)cbx_periode.SelectedItem).Id },
+                        {"@LETTRECATEGORIE", typeArray[i].LettreCategorie },
                         {"@NOTYPE", typeArray[i].TypeNombre },
-                        {"@NOLIAISON", ((Liaison)cbx_liaison.SelectedItem).Id.ToString() },
+                        {"@NOLIAISON", ((Liaison)cbx_liaison.SelectedItem).Id },
                         {"@TARIF", tbx_tarifArray[i].Text }
                     };
 
-                    bdd.Set("INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) " +
+                    bdd.Run("INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) " +
                         "VALUES (@NOPERIODE, @LETTRECATEGORIE, @NOTYPE, @NOLIAISON, @TARIF)", param);
                 }
             }

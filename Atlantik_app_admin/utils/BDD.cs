@@ -28,7 +28,7 @@ namespace Atlantik_app_admin.utils
             dbName = "atlantik";
         }
 
-        public Boolean Open()
+        public bool Open()
         {
             conn = new MySqlConnection($"Server={host};Port={port};User Id={username};Password={password};Database={dbName};");
             try
@@ -52,7 +52,7 @@ namespace Atlantik_app_admin.utils
             }
         }
 
-        public void Set(string sql, Hashtable parameters)
+        public void Run(string sql, Hashtable parameters)
         {
             try
             {
@@ -62,9 +62,14 @@ namespace Atlantik_app_admin.utils
                 {
                     maCde.Parameters.AddWithValue(value.Key.ToString(), value.Value);
                 }
+                int nbLigneAffecte = maCde.ExecuteNonQuery();
+                string pluriel = "";
+                if(nbLigneAffecte > 1)
+                {
+                    pluriel = "s";
+                }
 
-                maCde.ExecuteNonQuery();
-                MessageBox.Show($"Requête effectué avec succès. 1 ligne affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Requête effectué avec succès. {nbLigneAffecte} ligne{pluriel} affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (MySqlException ex)
             {

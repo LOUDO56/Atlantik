@@ -1,6 +1,7 @@
 ﻿using Atlantik_app_admin.utils;
 using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,9 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 {
     public partial class BateauGui : Form
     {
+
+        private List<TextBox> tbx_capaciteMaxArray = new List<TextBox>();
+
         public BateauGui()
         {
             InitializeComponent();
@@ -43,9 +47,9 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
                 TextBox valeur_categorie = new TextBox();
                 valeur_categorie.Location = new Point(x_tbx, y_tbx);
-                valeur_categorie.Tag = nom_categorie.Text.Replace(" :", "");
+                valeur_categorie.Tag = categorie["LETTRECATEGORIE"].ToString();
+                tbx_capaciteMaxArray.Add(valeur_categorie);
                 gbx_capacitesMaximales.Controls.Add(valeur_categorie);
-
 
                 y_tbx += 60;
 
@@ -73,6 +77,46 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             BDD bdd = new BDD();
             if (!bdd.Open()) { return; }
 
+            // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
+            foreach (TextBox values in tbx_capaciteMaxArray)
+            {
+                if (values.Text != "" && values.Text.Any(x => char.IsLetter(x)))
+                {
+                    MessageBox.Show("La capacité maximum dans la case \"" + values.Tag + "\" n'est pas valide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
+
+            MySqlDataReader noBateau = bdd.Get("SELECT MAX(nobateau) FROM bateau");
+            if(noBateau ==  null) return;
+
+            int newIdBateau = 0;
+            while(noBateau.Read()) 
+            {
+                newIdBateau = int.Parse(noBateau["MAX(nobateau)"].ToString()) + 1;
+            }
+
+            noBateau.Close();
+
+            bdd.Run("INSERT INTO bateau(NOM) VALUES (@NOM)", new Hashtable {
+                { "@NOM", tbx_bateau.Text } 
+            });
+
+            foreach(TextBox values in tbx_capaciteMaxArray)
+            {
+                if(values.Text != "") {
+                
+                    bdd.Run("INSERT INTO contenir(LETTRECATEGORIE, NOBATEAU, CAPACITEMAX) " +
+                        "VALUES(@LETTRECATEGORIE, @NOBATEAU, @CAPACITEMAX)", 
+                        new Hashtable {
+                            { "@LETTRECATEGORIE", values.Tag },
+                            { "@NOBATEAU", newIdBateau },
+                            { "@CAPACITEMAX", int.Parse(values.Text) }
+                        });
+                }
+            }
+
+            bdd.Close();
 
 
 

@@ -77,16 +77,16 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             BDD bDD = new BDD();
             if (!bDD.Open()) { return; }
 
-            bDD.Set("INSERT INTO liaison(NOPORT_DEPART, NOSECTEUR, NOPORT_ARRIVEE, DISTANCE) " +
-                "VALUES(@NOPORT_DEPART, @NOSECTEUR, @NOPORT_ARRIVEE, @DISTANCE)",
+            //bDD.Run("INSERT INTO liaison(NOPORT_DEPART, NOSECTEUR, NOPORT_ARRIVEE, DISTANCE) " +
+            //    "VALUES(@NOPORT_DEPART, @NOSECTEUR, @NOPORT_ARRIVEE, @DISTANCE)",
 
-                 new Hashtable() {
-                        {"@NOPORT_DEPART", port_depart},
-                        {"@NOSECTEUR", secteur },
-                        {"@NOPORT_ARRIVEE", port_arrive },
-                        {"@DISTANCE", distance },
-                  }
-            );
+            //     new Hashtable() {
+            //            {"@NOPORT_DEPART", port_depart},
+            //            {"@NOSECTEUR", secteur },
+            //            {"@NOPORT_ARRIVEE", port_arrive },
+            //            {"@DISTANCE", distance },
+            //      }
+            //);
 
             bDD.Close();
 

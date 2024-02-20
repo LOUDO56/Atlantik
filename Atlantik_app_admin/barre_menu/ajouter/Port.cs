@@ -32,11 +32,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             BDD bDD = new BDD();
             if (!bDD.Open()) return; // Si la connexion à la bdd ne fonctionne pas, dans ce cas on stop le programme
 
-            bDD.Set("INSERT INTO port(NOM) VALUES(@nom)",
-                new Hashtable() {
-                    { "@nom", tbx_values.Text },
-                }
-            );
+            //bDD.Run("INSERT INTO port(NOM) VALUES(@nom)",
+            //    new Hashtable() {
+            //        { "@nom", tbx_values.Text },
+            //    }
+            //);
 
             bDD.Close();
         }
