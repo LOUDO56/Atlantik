@@ -96,7 +96,7 @@
             MaximizeBox = false;
             Name = "ModifBateau";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "ModifBateau";
+            Text = "Modifier un bateau";
             Load += ModifBateau_Load;
             pnl_bateau.ResumeLayout(false);
             ResumeLayout(false);
