@@ -1,4 +1,5 @@
 using Atlantik_app_admin.barre_menu.ajouter;
+using Atlantik_app_admin.barre_menu.modifier;
 
 namespace Atlantik_app_admin
 {
@@ -37,6 +38,11 @@ namespace Atlantik_app_admin
         private void uneTraverséeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             new TraverseGui().ShowDialog();
+        }
+
+        private void unBateauToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            new ModifBateau().ShowDialog();
         }
     }
 }

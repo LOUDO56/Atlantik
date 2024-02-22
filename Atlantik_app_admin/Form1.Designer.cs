@@ -180,6 +180,7 @@
             unBateauToolStripMenuItem2.Name = "unBateauToolStripMenuItem2";
             unBateauToolStripMenuItem2.Size = new Size(191, 22);
             unBateauToolStripMenuItem2.Text = "Un bateau";
+            unBateauToolStripMenuItem2.Click += unBateauToolStripMenuItem2_Click;
             // 
             // lesParamètresDuSiteToolStripMenuItem
             // 

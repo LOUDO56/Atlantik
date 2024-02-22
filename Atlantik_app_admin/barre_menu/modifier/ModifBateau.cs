@@ -1,4 +1,6 @@
-﻿using Atlantik_app_admin.utils;
+﻿using Atlantik_app_admin.classes;
+using Atlantik_app_admin.utils;
+using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
@@ -8,22 +10,22 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Atlantik_app_admin.barre_menu.ajouter
+namespace Atlantik_app_admin.barre_menu.modifier
 {
-    public partial class BateauGui : Form
+    public partial class ModifBateau : Form
     {
 
         private List<TextBox> tbx_capaciteMaxArray = new List<TextBox>();
 
-        public BateauGui()
+        public ModifBateau()
         {
             InitializeComponent();
         }
-        private void BateauGui_Load(object sender, EventArgs e)
+
+        private void ModifBateau_Load(object sender, EventArgs e)
         {
             BDD bdd = new BDD();
             if (!bdd.Open()) { return; }
@@ -64,16 +66,56 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             this.Height = y_lbl + 50;
             pnl_bateau.Location = new Point(pnl_bateau.Location.X, this.Height - 85);
 
+
+            // Bateau
+
+            MySqlDataReader bateau = bdd.Get("SELECT * FROM bateau");
+            if (bateau == null) { return; }
+
+            while (bateau.Read())
+            {
+                cmb_bateau.Items.Add(new Bateau(int.Parse(bateau["NOBATEAU"].ToString()), bateau["NOM"].ToString()));
+            }
+
+            cmb_bateau.SelectedIndex = 0;
+
             bdd.Close();
+        }
+
+        private void cmb_bateau_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            BDD bdd = new BDD();
+            if (!bdd.Open()) { return; }
 
 
+            foreach (TextBox value in tbx_capaciteMaxArray)
+            {
+                MySqlDataReader capaciteMax = bdd.Get("SELECT CAPACITEMAX from contenir " +
+                    "WHERE NOBATEAU = @NOBATEAU AND LETTRECATEGORIE = @LETTRECATEGORIE",
+                    new Hashtable
+                    {
+                        {"@NOBATEAU", ((Bateau)cmb_bateau.SelectedItem).Id },
+                        {"@LETTRECATEGORIE", value.Tag},
+                    });
+
+                if (capaciteMax.Read())
+                {
+                    value.Text = capaciteMax["CAPACITEMAX"].ToString();
+                } else
+                {
+                    value.Text = "";
+                }
+
+                capaciteMax.Close();
+            }
+
+            bdd.Close();
         }
 
         private void btn_ajouter_Click(object sender, EventArgs e)
         {
-
-            if(ConfirmerAjout.confirmer() == false) return;
-            if (ControleSaisie.value(tbx_bateau.Text, "le nom du bateau") == false) return;
+            if (ConfirmerAjout.confirmer() == false) return;
 
             BDD bdd = new BDD();
             if (!bdd.Open()) { return; }
@@ -93,54 +135,34 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
             foreach (TextBox values in tbx_capaciteMaxArray)
             {
-                if(values.Text == "")
+                if (values.Text == "")
                 {
                     caseVide++;
                 }
             }
 
-            if(caseVide == tbx_capaciteMaxArray.Count)
+            if (caseVide == tbx_capaciteMaxArray.Count)
             {
                 MessageBox.Show("Vous n'avez renseigné aucune capacité maximum", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            bdd.Run("INSERT INTO bateau(NOM) VALUES (@NOM)", new Hashtable {
-                { "@NOM", tbx_bateau.Text } 
-            });
-
-            MySqlDataReader noBateau = bdd.Get("SELECT MAX(nobateau) FROM bateau");
-            if (noBateau == null) return;
-
-            int newIdBateau = 0;
-            while (noBateau.Read())
+            foreach (TextBox value in tbx_capaciteMaxArray)
             {
-                newIdBateau = int.Parse(noBateau["MAX(nobateau)"].ToString());
-            }
+                if (value.Text != "")
+                {
 
-            noBateau.Close();
-
-            foreach (TextBox values in tbx_capaciteMaxArray)
-            {
-                if(values.Text != "") {
-
-
-                    bdd.Run("INSERT INTO contenir(LETTRECATEGORIE, NOBATEAU, CAPACITEMAX) " +
-                        "VALUES(@LETTRECATEGORIE, @NOBATEAU, @CAPACITEMAX)", 
+                    bdd.Run("UPDATE contenir SET CAPACITEMAX = @CAPACITEMAX " +
+                        "WHERE NOBATEAU = @NOBATEAU AND LETTRECATEGORIE = @LETTRECATEGORIE",
                         new Hashtable {
-                            { "@LETTRECATEGORIE", values.Tag },
-                            { "@NOBATEAU", newIdBateau },
-                            { "@CAPACITEMAX", int.Parse(values.Text) }
+                            { "@CAPACITEMAX", double.Parse(value.Text) },
+                            { "@NOBATEAU", ((Bateau)cmb_bateau.SelectedItem).Id },
+                            {"@LETTRECATEGORIE", value.Tag}
                         });
                 }
             }
 
             bdd.Close();
-
-
-
         }
-
-
     }
 }

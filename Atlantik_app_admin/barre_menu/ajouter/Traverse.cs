@@ -52,7 +52,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
             cmb_bateau.SelectedIndex = 0;
 
-            secteur.Close();
+            bateau.Close();
 
 
         }

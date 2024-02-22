@@ -140,7 +140,7 @@
             // 
             // btn_ajouter
             // 
-            btn_ajouter.Location = new Point(357, 285);
+            btn_ajouter.Location = new Point(417, 285);
             btn_ajouter.Name = "btn_ajouter";
             btn_ajouter.Size = new Size(94, 23);
             btn_ajouter.TabIndex = 10;
