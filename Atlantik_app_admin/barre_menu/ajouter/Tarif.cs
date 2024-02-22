@@ -99,10 +99,10 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 string dateDebut = periode["DATEDEBUT"].ToString().Replace("00:00:00", "");
                 string dateFin = periode["DATEFIN"].ToString().Replace("00:00:00", "");
 
-                cbx_periode.Items.Add(new Periode(noPeriode, dateDebut, dateFin));
+                cmb_periode.Items.Add(new Periode(noPeriode, dateDebut, dateFin));
             }
 
-            cbx_periode.SelectedIndex = 0;
+            cmb_periode.SelectedIndex = 0;
             periode.Close();
 
         }
@@ -111,7 +111,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         {
 
             if (ConfirmerAjout.confirmer() == false) { return; }
-            if(cbx_liaison.Enabled == false) 
+            if(cmb_liaison.Enabled == false) 
             {
                 MessageBox.Show("La liaison est invalide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return; 
@@ -142,10 +142,10 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                     ajout_effectue = true;
 
                     Hashtable param = new Hashtable {
-                        {"@NOPERIODE", ((Periode)cbx_periode.SelectedItem).Id },
+                        {"@NOPERIODE", ((Periode)cmb_periode.SelectedItem).Id },
                         {"@LETTRECATEGORIE", typeArray[i].LettreCategorie },
                         {"@NOTYPE", typeArray[i].TypeNombre },
-                        {"@NOLIAISON", ((Liaison)cbx_liaison.SelectedItem).Id },
+                        {"@NOLIAISON", ((Liaison)cmb_liaison.SelectedItem).Id },
                         {"@TARIF", tbx_tarifArray[i].Text }
                     };
 
@@ -188,7 +188,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
             if (liaison == null) { return; }
 
-            cbx_liaison.Items.Clear();
+            cmb_liaison.Items.Clear();
 
             while (liaison.Read())
             {
@@ -198,22 +198,22 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 int noLiaison = int.Parse(liaison["NOLIAISON"].ToString());
                 float distance = float.Parse(liaison["DISTANCE"].ToString());
 
-                cbx_liaison.Items.Add(new Liaison(noLiaison, port_depart, secteur1, port_arrivee, distance));
+                cmb_liaison.Items.Add(new Liaison(noLiaison, port_depart, secteur1, port_arrivee, distance));
             }
 
             liaison.Close();
 
             // Gérer visuel retour requête
-            if(cbx_liaison.Items.Count > 0)
+            if(cmb_liaison.Items.Count > 0)
             {
-                cbx_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
-                cbx_liaison.SelectedIndex = 0;
-                cbx_liaison.Enabled = true;
+                cmb_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
+                cmb_liaison.SelectedIndex = 0;
+                cmb_liaison.Enabled = true;
             } else
             {
-                cbx_liaison.Enabled = false;
-                cbx_liaison.DropDownStyle = ComboBoxStyle.DropDown;
-                cbx_liaison.Text = "Aucun résultat.";
+                cmb_liaison.Enabled = false;
+                cmb_liaison.DropDownStyle = ComboBoxStyle.DropDown;
+                cmb_liaison.Text = "Aucun résultat.";
             }
 
             bdd.Close();

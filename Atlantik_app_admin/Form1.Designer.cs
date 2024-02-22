@@ -166,6 +166,7 @@
             uneTraverséeToolStripMenuItem1.Name = "uneTraverséeToolStripMenuItem1";
             uneTraverséeToolStripMenuItem1.Size = new Size(287, 22);
             uneTraverséeToolStripMenuItem1.Text = "Une traversée";
+            uneTraverséeToolStripMenuItem1.Click += uneTraverséeToolStripMenuItem1_Click;
             // 
             // modifierToolStripMenuItem
             // 

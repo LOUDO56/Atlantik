@@ -120,13 +120,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 { "@NOM", tbx_bateau.Text } 
             });
 
-            bool ajout_effectue = false;
 
             foreach (TextBox values in tbx_capaciteMaxArray)
             {
                 if(values.Text != "") {
 
-                    ajout_effectue = true;
 
                     bdd.Run("INSERT INTO contenir(LETTRECATEGORIE, NOBATEAU, CAPACITEMAX) " +
                         "VALUES(@LETTRECATEGORIE, @NOBATEAU, @CAPACITEMAX)", 

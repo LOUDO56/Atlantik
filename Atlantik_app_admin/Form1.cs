@@ -33,5 +33,10 @@ namespace Atlantik_app_admin
         {
             new BateauGui().ShowDialog();
         }
+
+        private void uneTraverséeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            new TraverseGui().ShowDialog();
+        }
     }
 }

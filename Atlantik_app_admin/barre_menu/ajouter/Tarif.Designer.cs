@@ -36,8 +36,8 @@
             lbl_categorie_type = new Label();
             btn_confirm = new Button();
             lbx_secteur = new ListBox();
-            cbx_liaison = new ComboBox();
-            cbx_periode = new ComboBox();
+            cmb_liaison = new ComboBox();
+            cmb_periode = new ComboBox();
             pnl_bottom = new Panel();
             backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             gbx_tarif.SuspendLayout();
@@ -126,28 +126,28 @@
             lbx_secteur.TabIndex = 2;
             lbx_secteur.SelectedIndexChanged += lbx_secteur_SelectedIndexChanged;
             // 
-            // cbx_liaison
+            // cmb_liaison
             // 
-            cbx_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbx_liaison.FormattingEnabled = true;
-            cbx_liaison.Location = new Point(23, 259);
-            cbx_liaison.Name = "cbx_liaison";
-            cbx_liaison.Size = new Size(141, 23);
-            cbx_liaison.TabIndex = 2;
+            cmb_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_liaison.FormattingEnabled = true;
+            cmb_liaison.Location = new Point(23, 259);
+            cmb_liaison.Name = "cmb_liaison";
+            cmb_liaison.Size = new Size(141, 23);
+            cmb_liaison.TabIndex = 2;
             // 
-            // cbx_periode
+            // cmb_periode
             // 
-            cbx_periode.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbx_periode.FormattingEnabled = true;
-            cbx_periode.Location = new Point(106, 28);
-            cbx_periode.Name = "cbx_periode";
-            cbx_periode.Size = new Size(180, 23);
-            cbx_periode.TabIndex = 2;
+            cmb_periode.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmb_periode.FormattingEnabled = true;
+            cmb_periode.Location = new Point(106, 28);
+            cmb_periode.Name = "cmb_periode";
+            cmb_periode.Size = new Size(180, 23);
+            cmb_periode.TabIndex = 2;
             // 
             // pnl_bottom
             // 
             pnl_bottom.Controls.Add(lbl_periode);
-            pnl_bottom.Controls.Add(cbx_periode);
+            pnl_bottom.Controls.Add(cmb_periode);
             pnl_bottom.Controls.Add(btn_confirm);
             pnl_bottom.Location = new Point(-3, 464);
             pnl_bottom.Name = "pnl_bottom";
@@ -160,7 +160,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(582, 545);
             Controls.Add(pnl_bottom);
-            Controls.Add(cbx_liaison);
+            Controls.Add(cmb_liaison);
             Controls.Add(lbx_secteur);
             Controls.Add(gbx_tarif);
             Controls.Add(lbl_liaison);
@@ -190,8 +190,8 @@
         private Label lbl_tarif;
         private TextBox textBox1;
         private ListBox lbx_secteur;
-        private ComboBox cbx_liaison;
-        private ComboBox cbx_periode;
+        private ComboBox cmb_liaison;
+        private ComboBox cmb_periode;
         private Panel pnl_bottom;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
