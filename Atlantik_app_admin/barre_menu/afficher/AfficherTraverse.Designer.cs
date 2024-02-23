@@ -62,7 +62,7 @@
             // 
             lbl_date.AutoSize = true;
             lbl_date.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbl_date.Location = new Point(176, 56);
+            lbl_date.Location = new Point(248, 56);
             lbl_date.Name = "lbl_date";
             lbl_date.Size = new Size(235, 21);
             lbl_date.TabIndex = 2;
@@ -70,7 +70,7 @@
             // 
             // btn_afficherTraverse
             // 
-            btn_afficherTraverse.Location = new Point(284, 99);
+            btn_afficherTraverse.Location = new Point(343, 99);
             btn_afficherTraverse.Name = "btn_afficherTraverse";
             btn_afficherTraverse.Size = new Size(179, 23);
             btn_afficherTraverse.TabIndex = 3;
@@ -81,7 +81,7 @@
             // dtp_date
             // 
             dtp_date.Format = DateTimePickerFormat.Short;
-            dtp_date.Location = new Point(417, 56);
+            dtp_date.Location = new Point(489, 56);
             dtp_date.Name = "dtp_date";
             dtp_date.Size = new Size(96, 23);
             dtp_date.TabIndex = 4;
@@ -92,9 +92,10 @@
             lv_traverse.GridLines = true;
             lv_traverse.Location = new Point(176, 145);
             lv_traverse.Name = "lv_traverse";
-            lv_traverse.Size = new Size(470, 206);
+            lv_traverse.Size = new Size(493, 206);
             lv_traverse.TabIndex = 5;
             lv_traverse.UseCompatibleStateImageBehavior = false;
+            lv_traverse.View = View.Details;
             // 
             // lbx_secteur
             // 
@@ -119,7 +120,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(667, 374);
+            ClientSize = new Size(683, 374);
             Controls.Add(cmb_liaison);
             Controls.Add(lbx_secteur);
             Controls.Add(lv_traverse);

@@ -207,6 +207,7 @@
             lesDétailsDuneRéservationPourUnClientToolStripMenuItem.Name = "lesDétailsDuneRéservationPourUnClientToolStripMenuItem";
             lesDétailsDuneRéservationPourUnClientToolStripMenuItem.Size = new Size(524, 22);
             lesDétailsDuneRéservationPourUnClientToolStripMenuItem.Text = "Les détails d'une réservation pour un client";
+            lesDétailsDuneRéservationPourUnClientToolStripMenuItem.Click += lesDétailsDuneRéservationPourUnClientToolStripMenuItem_Click;
             // 
             // aProposToolStripMenuItem
             // 

@@ -41,9 +41,16 @@ namespace Atlantik_app_admin.barre_menu.afficher
             lv_traverse.Columns.Add("N°");
             lv_traverse.Columns.Add("Heure");
             lv_traverse.Columns.Add("Bateau");
-            lv_traverse.Columns.Add("A\nPassager");
-            lv_traverse.Columns.Add("B\nVéh.inf.2m");
-            lv_traverse.Columns.Add("C\nVéh.sup.2m");
+
+            MySqlDataReader categorie = bdd.Get("SELECT * FROM categorie");
+            if (categorie == null) { return; }
+            while (categorie.Read())
+            {
+                lv_traverse.Columns.Add(categorie["LETTRECATEGORIE"].ToString() + " " + categorie["LIBELLE"].ToString(), 100);
+            }
+            categorie.Close();
+
+
         }
 
         private void lbx_secteur_SelectedIndexChanged(object sender, EventArgs e)
@@ -52,7 +59,7 @@ namespace Atlantik_app_admin.barre_menu.afficher
             if (!bdd.Open()) { return; };
 
             Hashtable param = new Hashtable() {
-                { "@NOSECTEUR", ((Secteur)lbx_secteur.SelectedItem).Id.ToString() }
+                { "@NOSECTEUR", ((Secteur)lbx_secteur.SelectedItem).Id }
             };
 
             MySqlDataReader liaison = bdd.Get("SELECT *, " +
@@ -102,7 +109,36 @@ namespace Atlantik_app_admin.barre_menu.afficher
 
         private void btn_afficherTraverse_Click(object sender, EventArgs e)
         {
-            
+            BDD bdd = new BDD();
+            if (!bdd.Open()) { return; };
+
+            lv_traverse.Items.Clear();
+
+            MySqlDataReader traversee = bdd.Get("SELECT *, DATE_FORMAT(DATEHEUREDEPART, '%H:%i') as HEURE FROM traversee " +
+                "INNER JOIN bateau ON traversee.NOBATEAU = bateau.NOBATEAU " +
+                "WHERE traversee.NOLIAISON = @NOLIAISON " +
+                "AND DATE(DATEHEUREDEPART) = @DATEHEUREDEPART",
+                new Hashtable
+                {
+                    {"@NOLIAISON", ((Liaison)cmb_liaison.SelectedItem).Id },
+                    {"@DATEHEUREDEPART", dtp_date.Value.ToString("yyyy-MM-dd") }
+                });
+
+            if (traversee == null) { return; }
+
+            var tabItem = new string[5];
+
+            while (traversee.Read())
+            {
+                tabItem[0] = traversee["NOTRAVERSEE"].ToString();
+                tabItem[1] = traversee["HEURE"].ToString();
+                tabItem[2] = traversee["NOM"].ToString();
+                lv_traverse.Items.Add(new ListViewItem(tabItem));
+            }
+
+            bdd.Close();
         }
+
+
     }
 }

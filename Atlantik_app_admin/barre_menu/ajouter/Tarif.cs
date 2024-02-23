@@ -19,7 +19,6 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     {
         private List<Type> typeArray = new List<Type>();
         private List<TextBox> tbx_tarifArray = new List<TextBox>();
-        private List<Label> lbl_categorieArray = new List<Label>();
 
         public TarifGui()
         {

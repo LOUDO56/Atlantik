@@ -50,5 +50,10 @@ namespace Atlantik_app_admin
         {
             new AfficherTraverse().ShowDialog();
         }
+
+        private void lesDétailsDuneRéservationPourUnClientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AfficherDetailReservation().ShowDialog();
+        }
     }
 }
