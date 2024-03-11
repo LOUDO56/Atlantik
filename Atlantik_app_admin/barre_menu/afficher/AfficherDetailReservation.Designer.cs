@@ -32,6 +32,8 @@
             cmb_nom = new ComboBox();
             lv_detail = new ListView();
             gbx_reservation = new GroupBox();
+            lbl_adulte = new Label();
+            gbx_reservation.SuspendLayout();
             SuspendLayout();
             // 
             // lbl_nom
@@ -55,20 +57,34 @@
             // 
             // lv_detail
             // 
+            lv_detail.FullRowSelect = true;
+            lv_detail.GridLines = true;
             lv_detail.Location = new Point(321, 38);
             lv_detail.Name = "lv_detail";
             lv_detail.Size = new Size(389, 87);
             lv_detail.TabIndex = 2;
             lv_detail.UseCompatibleStateImageBehavior = false;
+            lv_detail.View = View.Details;
+            lv_detail.SelectedIndexChanged += lv_detail_SelectedIndexChanged;
             // 
             // gbx_reservation
             // 
-            gbx_reservation.Location = new Point(221, 155);
+            gbx_reservation.Controls.Add(lbl_adulte);
+            gbx_reservation.Location = new Point(363, 176);
             gbx_reservation.Name = "gbx_reservation";
             gbx_reservation.Size = new Size(295, 212);
             gbx_reservation.TabIndex = 3;
             gbx_reservation.TabStop = false;
             gbx_reservation.Text = "Réservation";
+            // 
+            // lbl_adulte
+            // 
+            lbl_adulte.AutoSize = true;
+            lbl_adulte.Location = new Point(34, 42);
+            lbl_adulte.Name = "lbl_adulte";
+            lbl_adulte.Size = new Size(42, 15);
+            lbl_adulte.TabIndex = 0;
+            lbl_adulte.Text = "Adulte";
             // 
             // AfficherDetailReservation
             // 
@@ -84,6 +100,9 @@
             Name = "AfficherDetailReservation";
             StartPosition = FormStartPosition.CenterParent;
             Text = "AfficherDetailReservation";
+            Load += AfficherDetailReservation_Load;
+            gbx_reservation.ResumeLayout(false);
+            gbx_reservation.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -94,5 +113,6 @@
         private ComboBox cmb_nom;
         private ListView lv_detail;
         private GroupBox gbx_reservation;
+        private Label lbl_adulte;
     }
 }

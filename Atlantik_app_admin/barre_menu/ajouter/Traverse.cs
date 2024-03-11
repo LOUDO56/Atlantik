@@ -128,7 +128,8 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             string date_heure_depart = dtp_depart.Value.ToString("yyyy-MM-dd hh:mm:ss").Replace("/", "-");
             string date_heure_arrivee = dtp_arrivee.Value.ToString("yyyy-MM-dd hh:mm:ss").Replace("/", "-");
 
-            bdd.Run("INSERT INTO traversee(NOLIAISON, NOBATEAU, DATEHEUREDEPART, DATEHEUREARRIVEE) VALUES(@NOLIAISON, @NOBATEAU, @DATEHEUREDEPART, @DATEHEUREARRIVEE)",
+            bdd.Run("INSERT INTO traversee(NOLIAISON, NOBATEAU, DATEHEUREDEPART, DATEHEUREARRIVEE) " +
+                "VALUES(@NOLIAISON, @NOBATEAU, @DATEHEUREDEPART, @DATEHEUREARRIVEE)",
                 new Hashtable
                 {
                     {"@NOLIAISON", ((Liaison)cmb_liaison.SelectedItem).Id },
