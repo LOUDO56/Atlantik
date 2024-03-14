@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             btn_confirm = new Button();
-            tbx_values = new TextBox();
+            tbx_port = new TextBox();
             lbl_nom = new Label();
             SuspendLayout();
             // 
@@ -43,12 +43,12 @@
             btn_confirm.UseVisualStyleBackColor = true;
             btn_confirm.Click += btn_confirm_Click;
             // 
-            // tbx_values
+            // tbx_port
             // 
-            tbx_values.Location = new Point(111, 73);
-            tbx_values.Name = "tbx_values";
-            tbx_values.Size = new Size(100, 23);
-            tbx_values.TabIndex = 5;
+            tbx_port.Location = new Point(111, 73);
+            tbx_port.Name = "tbx_port";
+            tbx_port.Size = new Size(100, 23);
+            tbx_port.TabIndex = 5;
             // 
             // lbl_nom
             // 
@@ -65,7 +65,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(325, 165);
             Controls.Add(btn_confirm);
-            Controls.Add(tbx_values);
+            Controls.Add(tbx_port);
             Controls.Add(lbl_nom);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -80,7 +80,7 @@
 
         private Button return_button;
         private Button btn_confirm;
-        private TextBox tbx_values;
+        private TextBox tbx_port;
         private Label lbl_nom;
     }
 }

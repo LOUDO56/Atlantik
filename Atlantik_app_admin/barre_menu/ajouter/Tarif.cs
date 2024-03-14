@@ -15,8 +15,12 @@ using System.Windows.Forms;
 
 namespace Atlantik_app_admin.barre_menu.ajouter
 {
+
     public partial class TarifGui : Form
     {
+
+        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+
         private List<Type> typeArray = new List<Type>();
         private List<TextBox> tbx_tarifArray = new List<TextBox>();
 
@@ -27,9 +31,10 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
         private void Tarif_Load(object sender, EventArgs e)
         {
-            BDD bdd = new BDD();
 
-            if (!bdd.Open()) { return; }
+            cmb_liaison.Enabled = false;
+            cmb_liaison.DropDownStyle = ComboBoxStyle.DropDown;
+            cmb_liaison.Text = "Sélectionnez.";
 
             // GroupBox
 
@@ -38,71 +43,113 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             int tarif_x = lbl_tarif.Location.X;
             int tarif_y = lbl_categorie_type.Location.Y + 30;
 
-            MySqlDataReader categories = bdd.Get("SELECT * FROM type");
-            if (categories == null) { return; }
-
-            while (categories.Read())
+            try
             {
-                Type newType = new Type(categories["LETTRECATEGORIE"].ToString(), int.Parse(categories["NOTYPE"].ToString()), categories["LIBELLE"].ToString());
-                typeArray.Add(newType);
+                conn.Open();
+                string req = "SELECT * FROM type";
+                var cmd = new MySqlCommand(req, conn);
+                var categories = cmd.ExecuteReader();
 
-                Label lbl_categorie = new Label();
-                lbl_categorie.AutoSize = true;
-                lbl_categorie.Location = new Point(categorie_x, categorie_y);
-                lbl_categorie.Text = newType.LettreCategorie + newType.TypeNombre + " - " + newType.Libelle + " :";
-                lbl_categorie.Font = new Font("Segoe UI", 9);
-                categorie_y += 40;
-                gbx_tarif.Controls.Add(lbl_categorie);
+                while (categories.Read())
+                {
+                    Type newType = new Type(categories["LETTRECATEGORIE"].ToString(), int.Parse(categories["NOTYPE"].ToString()), categories["LIBELLE"].ToString());
+                    typeArray.Add(newType);
 
-                TextBox tbx_tarif = new TextBox();
-                tbx_tarif.Location = new Point(tarif_x, tarif_y);
-                tbx_tarif.Font = new Font("Segoe UI", 9);
-                tbx_tarif.Tag = lbl_categorie.Text.Replace(" :", "");
-                tbx_tarifArray.Add(tbx_tarif);
-                tarif_y += 40;
-                gbx_tarif.Controls.Add(tbx_tarif);
+                    Label lbl_categorie = new Label();
+                    lbl_categorie.AutoSize = true;
+                    lbl_categorie.Location = new Point(categorie_x, categorie_y);
+                    lbl_categorie.Text = newType.LettreCategorie + newType.TypeNombre + " - " + newType.Libelle + " :";
+                    lbl_categorie.Font = new Font("Segoe UI", 9);
+                    categorie_y += 40;
+                    gbx_tarif.Controls.Add(lbl_categorie);
+
+                    TextBox tbx_tarif = new TextBox();
+                    tbx_tarif.Location = new Point(tarif_x, tarif_y);
+                    tbx_tarif.Font = new Font("Segoe UI", 9);
+                    tbx_tarif.Tag = lbl_categorie.Text.Replace(" :", "");
+                    tbx_tarifArray.Add(tbx_tarif);
+                    tarif_y += 40;
+                    gbx_tarif.Controls.Add(tbx_tarif);
+
+                }
+
+                // Dynamique d'écran en cas de nouveau tarif
+                gbx_tarif.Height = categorie_y;
+                this.Height = categorie_y + 160;
+                pnl_bottom.Location = new Point(pnl_bottom.Location.X, categorie_y + 45);
 
             }
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
+            }
 
-            // Dynamique d'écran en cas de nouveau tarif
-            gbx_tarif.Height = categorie_y;
-            this.Height = categorie_y + 160;
-            pnl_bottom.Location = new Point(pnl_bottom.Location.X, categorie_y + 45);
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
-            categories.Close();
 
             // Secteur
-
-            MySqlDataReader secteur = bdd.Get("SELECT * FROM secteur");
-            if (secteur == null) { return; }
-
-            while (secteur.Read())
+            try
             {
-                lbx_secteur.Items.Add(new Secteur(int.Parse(secteur["NOSECTEUR"].ToString()), secteur["NOM"].ToString()));
+                conn.Open();
+                string req = "SELECT * FROM secteur";
+                var cmd = new MySqlCommand(req, conn);
+                var secteur = cmd.ExecuteReader();
+                while (secteur.Read())
+                {
+                    lbx_secteur.Items.Add(new Secteur(int.Parse(secteur["NOSECTEUR"].ToString()), secteur["NOM"].ToString()));
+                }
+            }
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
             }
 
-            lbx_secteur.SelectedIndex = 0;
-
-            secteur.Close();
-
-            
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
             // Période
 
-            MySqlDataReader periode = bdd.Get("SELECT * FROM periode");
-            if (periode == null) { return; }
-
-            while (periode.Read())
+            try
             {
-                int noPeriode = int.Parse(periode["NOPERIODE"].ToString());
-                string dateDebut = periode["DATEDEBUT"].ToString().Replace("00:00:00", "");
-                string dateFin = periode["DATEFIN"].ToString().Replace("00:00:00", "");
+                conn.Open();
+                string req = "SELECT * FROM periode";
+                var cmd = new MySqlCommand(req, conn);
+                var periode = cmd.ExecuteReader();
+                while (periode.Read())
+                {
+                    int noPeriode = int.Parse(periode["NOPERIODE"].ToString());
+                    string dateDebut = periode["DATEDEBUT"].ToString().Replace("00:00:00", "");
+                    string dateFin = periode["DATEFIN"].ToString().Replace("00:00:00", "");
 
-                cmb_periode.Items.Add(new Periode(noPeriode, dateDebut, dateFin));
+                    cmb_periode.Items.Add(new Periode(noPeriode, dateDebut, dateFin));
+
+                    cmb_periode.SelectedIndex = 0;
+                }
+
+            }
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
             }
 
-            cmb_periode.SelectedIndex = 0;
-            periode.Close();
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
         }
 
@@ -116,12 +163,6 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 return; 
             }
 
-            BDD bdd = new BDD();
-            if (!bdd.Open()) { return; }
-
-            bool ajout_effectue = false;
-
-
             // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
             foreach(TextBox tarif_value in tbx_tarifArray)
             {
@@ -131,91 +172,127 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                     return;
                 }
             }
-           
 
-            for (int i = 0; i < tbx_tarifArray.Count; i++)
+            bool cases_vide = true; // true par défaut
+
+            try
             {
-                if (tbx_tarifArray[i].Text != "")
+                conn.Open();
+                string req = "INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) VALUES ";
+                for (int i = 0; i < tbx_tarifArray.Count; i++)
                 {
+                    if(tbx_tarifArray[i].Text != "")
+                    {
+                        cases_vide = false;
+                        req += $"(@NOPERIODE{i}, @LETTRECATEGORIE{i}, @NOTYPE{i}, @NOLIAISON{i}, @TARIF{i}),";
 
-                    ajout_effectue = true;
+                    }
+                }
 
-                    Hashtable param = new Hashtable {
-                        {"@NOPERIODE", ((Periode)cmb_periode.SelectedItem).Id },
-                        {"@LETTRECATEGORIE", typeArray[i].LettreCategorie },
-                        {"@NOTYPE", typeArray[i].TypeNombre },
-                        {"@NOLIAISON", ((Liaison)cmb_liaison.SelectedItem).Id },
-                        {"@TARIF", tbx_tarifArray[i].Text }
-                    };
+                req = req.Remove(req.Length - 1, 1) + ";";
 
-                    bdd.Run("INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) " +
-                        "VALUES (@NOPERIODE, @LETTRECATEGORIE, @NOTYPE, @NOLIAISON, @TARIF)", param);
+                var cmd = new MySqlCommand(req, conn);
+
+                for (int i = 0; i < tbx_tarifArray.Count; i++)
+                {
+                    if (tbx_tarifArray[i].Text != "")
+                    {
+                        cmd.Parameters.AddWithValue($"@NOPERIODE{i}", ((Periode)cmb_periode.SelectedItem).Id);
+                        cmd.Parameters.AddWithValue($"@LETTRECATEGORIE{i}", typeArray[i].LettreCategorie);
+                        cmd.Parameters.AddWithValue($"@NOTYPE{i}", typeArray[i].TypeNombre);
+                        cmd.Parameters.AddWithValue($"@NOLIAISON{i}", ((Liaison)cmb_liaison.SelectedItem).Id);
+                        cmd.Parameters.AddWithValue($"@TARIF{i}", tbx_tarifArray[i].Text);
+
+                    }
+                }
+
+                if (cases_vide)
+                {
+                    MessageBox.Show("Vous n'avez renseigné aucun tarif", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+            }
+
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
+            }
+
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
                 }
             }
 
-            if(!ajout_effectue)
-            {
-                MessageBox.Show("Vous n'avez renseigné aucun tarif", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            bdd.Close();
 
 
 
         }
 
         private void lbx_secteur_SelectedIndexChanged(object sender, EventArgs e)
-        {   
-
-            BDD bdd = new BDD();
-            if (!bdd.Open()) { return; };
-
-            Hashtable param = new Hashtable() {
-                { "@NOSECTEUR", ((Secteur)lbx_secteur.SelectedItem).Id.ToString() }
-            };
-
-            MySqlDataReader liaison = bdd.Get("SELECT *, " +
-                "p_dep.NOM AS NomPortDepart, " +
-                "p_arr.NOM AS NomPortArrivee, " +
-                "s.NOM AS NomSecteur " +
-                "FROM liaison l " +
-                "INNER JOIN port p_dep ON l.NOPORT_DEPART = p_dep.NOPORT " +
-                "INNER JOIN port p_arr ON l.NOPORT_ARRIVEE = p_arr.NOPORT " +
-                "INNER JOIN secteur s ON l.NOSECTEUR = s.NOSECTEUR " +
-                "WHERE s.NOSECTEUR = @NOSECTEUR;"
-                , param);
-
-            if (liaison == null) { return; }
-
-            cmb_liaison.Items.Clear();
-
-            while (liaison.Read())
+        {
+            try
             {
-                Port port_depart = new Port(int.Parse(liaison["NOPORT_DEPART"].ToString()), liaison["NomPortDepart"].ToString());
-                Port port_arrivee = new Port(int.Parse(liaison["NOPORT_ARRIVEE"].ToString()), liaison["NomPortArrivee"].ToString());
-                Secteur secteur1 = new Secteur(int.Parse(liaison["NOSECTEUR"].ToString()), liaison["NomSecteur"].ToString());
-                int noLiaison = int.Parse(liaison["NOLIAISON"].ToString());
-                float distance = float.Parse(liaison["DISTANCE"].ToString());
+                conn.Open();
+                string req = "SELECT *, " +
+                    "p_dep.NOM AS NomPortDepart, " +
+                    "p_arr.NOM AS NomPortArrivee, " +
+                    "s.NOM AS NomSecteur " +
+                    "FROM liaison l " +
+                    "INNER JOIN port p_dep ON l.NOPORT_DEPART = p_dep.NOPORT " +
+                    "INNER JOIN port p_arr ON l.NOPORT_ARRIVEE = p_arr.NOPORT " +
+                    "INNER JOIN secteur s ON l.NOSECTEUR = s.NOSECTEUR " +
+                    "WHERE s.NOSECTEUR = @NOSECTEUR;";
 
-                cmb_liaison.Items.Add(new Liaison(noLiaison, port_depart, secteur1, port_arrivee, distance));
+                var cmd = new MySqlCommand(req, conn);
+                cmd.Parameters.AddWithValue("@NOSECTEUR", ((Secteur)lbx_secteur.SelectedItem).Id);
+                var liaison = cmd.ExecuteReader();
+
+                cmb_liaison.Items.Clear();
+
+                while (liaison.Read())
+                {
+                    Port port_depart = new Port(int.Parse(liaison["NOPORT_DEPART"].ToString()), liaison["NomPortDepart"].ToString());
+                    Port port_arrivee = new Port(int.Parse(liaison["NOPORT_ARRIVEE"].ToString()), liaison["NomPortArrivee"].ToString());
+                    Secteur secteur1 = new Secteur(int.Parse(liaison["NOSECTEUR"].ToString()), liaison["NomSecteur"].ToString());
+                    int noLiaison = int.Parse(liaison["NOLIAISON"].ToString());
+                    float distance = float.Parse(liaison["DISTANCE"].ToString());
+
+                    cmb_liaison.Items.Add(new Liaison(noLiaison, port_depart, secteur1, port_arrivee, distance));
+                }
+
+                // Gérer visuel retour requête
+                if (cmb_liaison.Items.Count > 0)
+                {
+                    cmb_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
+                    cmb_liaison.SelectedIndex = 0;
+                    cmb_liaison.Enabled = true;
+                }
+                else
+                {
+                    cmb_liaison.Enabled = false;
+                    cmb_liaison.DropDownStyle = ComboBoxStyle.DropDown;
+                    cmb_liaison.Text = "Aucun résultat.";
+                }
+
+            }
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
             }
 
-            liaison.Close();
-
-            // Gérer visuel retour requête
-            if(cmb_liaison.Items.Count > 0)
+            finally
             {
-                cmb_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmb_liaison.SelectedIndex = 0;
-                cmb_liaison.Enabled = true;
-            } else
-            {
-                cmb_liaison.Enabled = false;
-                cmb_liaison.DropDownStyle = ComboBoxStyle.DropDown;
-                cmb_liaison.Text = "Aucun résultat.";
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
 
-            bdd.Close();
         }
     }
 }

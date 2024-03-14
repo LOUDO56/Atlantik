@@ -18,6 +18,9 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 {
     public partial class LiaisonGui : Form
     {
+
+        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+
         public LiaisonGui()
         {
             InitializeComponent();
@@ -73,22 +76,31 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
             if (ControleSaisie.value(distance, "la distance") == false) { return; }
 
+            try
+            {
+                conn.Open();
+                string req = "INSERT INTO liaison(NOPORT_DEPART, NOSECTEUR, NOPORT_ARRIVEE, DISTANCE) " +
+                    "VALUES(@NOPORT_DEPART, @NOSECTEUR, @NOPORT_ARRIVEE, @DISTANCE);";
+                var cmd = new MySqlCommand(req, conn);
+                cmd.Parameters.AddWithValue("@NOPORT_DEPART", port_depart);
+                cmd.Parameters.AddWithValue("@NOSECTEUR", secteur);
+                cmd.Parameters.AddWithValue("@NOPORT_ARRIVEE", port_arrive);
+                cmd.Parameters.AddWithValue("@DISTANCE", distance);
+                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
 
-            BDD bDD = new BDD();
-            if (!bDD.Open()) { return; }
+            }
+            catch(MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
+            }
 
-            bDD.Run("INSERT INTO liaison(NOPORT_DEPART, NOSECTEUR, NOPORT_ARRIVEE, DISTANCE) " +
-                "VALUES(@NOPORT_DEPART, @NOSECTEUR, @NOPORT_ARRIVEE, @DISTANCE)",
-
-                 new Hashtable() {
-                        {"@NOPORT_DEPART", port_depart},
-                        {"@NOSECTEUR", secteur },
-                       {"@NOPORT_ARRIVEE", port_arrive },
-                        {"@DISTANCE", distance },
-                  }
-            );
-
-            bDD.Close();
+            finally
+            {
+                if(conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
 
         }

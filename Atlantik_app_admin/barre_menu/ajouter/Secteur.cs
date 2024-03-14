@@ -15,6 +15,9 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 {
     public partial class SecteurGui : Form
     {
+
+        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+
         public SecteurGui()
         {
             InitializeComponent();
@@ -24,16 +27,34 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         {
 
             if (ConfirmerAjout.confirmer() == false) { return; }
-            if (ControleSaisie.value(tbx_values.Text, "le nom du secteur") == false) { return; }
+            if (ControleSaisie.value(tbx_secteur.Text, "le nom du secteur") == false) { return; }
 
-          
-            //bDD.Close();
+            try
+            {
+                conn.Open();
+                string req = "INSERT INTO secteur(NOM) VALUES(@NOM)";
+                var cmd = new MySqlCommand(req, conn);
+                cmd.Parameters.AddWithValue("@NOM", tbx_secteur.Text);
+                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+            } 
+
+            catch(MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.ToString());
+            }
+
+            finally
+            {
+                if(conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+            
+
+
 
         }
 
-        private void return_button_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
     }
 }

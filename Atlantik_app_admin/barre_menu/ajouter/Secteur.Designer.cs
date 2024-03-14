@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             lbl_nom_secteur = new Label();
-            tbx_values = new TextBox();
+            tbx_secteur = new TextBox();
             btn_confirm = new Button();
             SuspendLayout();
             // 
@@ -42,12 +42,12 @@
             lbl_nom_secteur.TabIndex = 0;
             lbl_nom_secteur.Text = "Nom secteur :";
             // 
-            // tbx_values
+            // tbx_secteur
             // 
-            tbx_values.Location = new Point(110, 73);
-            tbx_values.Name = "tbx_values";
-            tbx_values.Size = new Size(100, 23);
-            tbx_values.TabIndex = 1;
+            tbx_secteur.Location = new Point(110, 73);
+            tbx_secteur.Name = "tbx_secteur";
+            tbx_secteur.Size = new Size(100, 23);
+            tbx_secteur.TabIndex = 1;
             // 
             // btn_confirm
             // 
@@ -65,7 +65,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(325, 165);
             Controls.Add(btn_confirm);
-            Controls.Add(tbx_values);
+            Controls.Add(tbx_secteur);
             Controls.Add(lbl_nom_secteur);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -79,7 +79,7 @@
         #endregion
 
         private Label lbl_nom_secteur;
-        private TextBox tbx_values;
+        private TextBox tbx_secteur;
         private Button btn_confirm;
     }
 }

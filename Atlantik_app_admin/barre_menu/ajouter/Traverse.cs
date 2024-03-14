@@ -16,6 +16,9 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 {
     public partial class TraverseGui : Form
     {
+
+        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+
         public TraverseGui()
         {
             InitializeComponent();
@@ -23,92 +26,120 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
         private void TraverseGui_Load(object sender, EventArgs e)
         {
-            BDD bdd = new BDD();
-            if (!bdd.Open()) { return; };
+
 
             // Secteur
-
-            MySqlDataReader secteur = bdd.Get("SELECT * FROM secteur");
-            if (secteur == null) { return; }
-
-            while (secteur.Read())
+            try
             {
-                lbx_secteur.Items.Add(new Secteur(int.Parse(secteur["NOSECTEUR"].ToString()), secteur["NOM"].ToString()));
+                conn.Open();
+                string req = "SELECT * FROM secteur";
+                var cmd = new MySqlCommand(req, conn);
+                var secteur = cmd.ExecuteReader();
+                while (secteur.Read())
+                {
+                    lbx_secteur.Items.Add(new Secteur(int.Parse(secteur["NOSECTEUR"].ToString()), secteur["NOM"].ToString()));
+                }
+            }
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
             }
 
-            lbx_secteur.SelectedIndex = 0;
-
-            secteur.Close();
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
             // Bateau
-
-            MySqlDataReader bateau = bdd.Get("SELECT * FROM bateau");
-            if (bateau == null) { return; }
-
-            while (bateau.Read())
+            try
             {
-                cmb_bateau.Items.Add(new Bateau(int.Parse(bateau["NOBATEAU"].ToString()), bateau["NOM"].ToString()));
+                conn.Open();
+                string req = "SELECT * FROM bateau";
+                var cmd = new MySqlCommand(req, conn);
+                var bateau = cmd.ExecuteReader();
+                while (bateau.Read())
+                {
+                    cmb_bateau.Items.Add(new Bateau(int.Parse(bateau["NOBATEAU"].ToString()), bateau["NOM"].ToString()));
+                }
+
+            }
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
             }
 
-            cmb_bateau.SelectedIndex = 0;
-
-            bateau.Close();
-
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
         }
 
         private void lbx_secteur_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BDD bdd = new BDD();
-            if (!bdd.Open()) { return; };
-
-            Hashtable param = new Hashtable() {
-                { "@NOSECTEUR", ((Secteur)lbx_secteur.SelectedItem).Id }
-            };
-
-            MySqlDataReader liaison = bdd.Get("SELECT *, " +
-                "p_dep.NOM AS NomPortDepart, " +
-                "p_arr.NOM AS NomPortArrivee, " +
-                "s.NOM AS NomSecteur " +
-                "FROM liaison l " +
-                "INNER JOIN port p_dep ON l.NOPORT_DEPART = p_dep.NOPORT " +
-                "INNER JOIN port p_arr ON l.NOPORT_ARRIVEE = p_arr.NOPORT " +
-                "INNER JOIN secteur s ON l.NOSECTEUR = s.NOSECTEUR " +
-                "WHERE s.NOSECTEUR = @NOSECTEUR;"
-                , param);
-
-            if (liaison == null) { return; }
-
-            cmb_liaison.Items.Clear();
-
-            while (liaison.Read())
+            try
             {
-                Port port_depart = new Port(int.Parse(liaison["NOPORT_DEPART"].ToString()), liaison["NomPortDepart"].ToString());
-                Port port_arrivee = new Port(int.Parse(liaison["NOPORT_ARRIVEE"].ToString()), liaison["NomPortArrivee"].ToString());
-                Secteur secteur1 = new Secteur(int.Parse(liaison["NOSECTEUR"].ToString()), liaison["NomSecteur"].ToString());
-                int noLiaison = int.Parse(liaison["NOLIAISON"].ToString());
-                float distance = float.Parse(liaison["DISTANCE"].ToString());
+                conn.Open();
+                string req = "SELECT *, " +
+                    "p_dep.NOM AS NomPortDepart, " +
+                    "p_arr.NOM AS NomPortArrivee, " +
+                    "s.NOM AS NomSecteur " +
+                    "FROM liaison l " +
+                    "INNER JOIN port p_dep ON l.NOPORT_DEPART = p_dep.NOPORT " +
+                    "INNER JOIN port p_arr ON l.NOPORT_ARRIVEE = p_arr.NOPORT " +
+                    "INNER JOIN secteur s ON l.NOSECTEUR = s.NOSECTEUR " +
+                    "WHERE s.NOSECTEUR = @NOSECTEUR;";
 
-                cmb_liaison.Items.Add(new Liaison(noLiaison, port_depart, secteur1, port_arrivee, distance));
+                var cmd = new MySqlCommand(req, conn);
+                cmd.Parameters.AddWithValue("@NOSECTEUR", ((Secteur)lbx_secteur.SelectedItem).Id);
+                var liaison = cmd.ExecuteReader();
+
+                cmb_liaison.Items.Clear();
+
+                while (liaison.Read())
+                {
+                    Port port_depart = new Port(int.Parse(liaison["NOPORT_DEPART"].ToString()), liaison["NomPortDepart"].ToString());
+                    Port port_arrivee = new Port(int.Parse(liaison["NOPORT_ARRIVEE"].ToString()), liaison["NomPortArrivee"].ToString());
+                    Secteur secteur1 = new Secteur(int.Parse(liaison["NOSECTEUR"].ToString()), liaison["NomSecteur"].ToString());
+                    int noLiaison = int.Parse(liaison["NOLIAISON"].ToString());
+                    float distance = float.Parse(liaison["DISTANCE"].ToString());
+
+                    cmb_liaison.Items.Add(new Liaison(noLiaison, port_depart, secteur1, port_arrivee, distance));
+                }
+
+                // Gérer visuel retour requête
+                if (cmb_liaison.Items.Count > 0)
+                {
+                    cmb_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
+                    cmb_liaison.SelectedIndex = 0;
+                    cmb_liaison.Enabled = true;
+                }
+                else
+                {
+                    cmb_liaison.Enabled = false;
+                    cmb_liaison.DropDownStyle = ComboBoxStyle.DropDown;
+                    cmb_liaison.Text = "Aucun résultat.";
+                }
+
+            }
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
             }
 
-            liaison.Close();
-
-            // Gérer visuel retour requête
-            if (cmb_liaison.Items.Count > 0)
+            finally
             {
-                cmb_liaison.DropDownStyle = ComboBoxStyle.DropDownList;
-                cmb_liaison.SelectedIndex = 0;
-                cmb_liaison.Enabled = true;
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
             }
-            else
-            {
-                cmb_liaison.Enabled = false;
-                cmb_liaison.DropDownStyle = ComboBoxStyle.DropDown;
-                cmb_liaison.Text = "Aucun résultat.";
-            }
-
-            bdd.Close();
         }
 
         private void btn_ajouter_Click(object sender, EventArgs e)
@@ -122,23 +153,33 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 return;
             }
 
-            BDD bdd = new BDD();
-            if (!bdd.Open()) return;
-
             string date_heure_depart = dtp_depart.Value.ToString("yyyy-MM-dd hh:mm:ss").Replace("/", "-");
             string date_heure_arrivee = dtp_arrivee.Value.ToString("yyyy-MM-dd hh:mm:ss").Replace("/", "-");
 
-            bdd.Run("INSERT INTO traversee(NOLIAISON, NOBATEAU, DATEHEUREDEPART, DATEHEUREARRIVEE) " +
-                "VALUES(@NOLIAISON, @NOBATEAU, @DATEHEUREDEPART, @DATEHEUREARRIVEE)",
-                new Hashtable
-                {
-                    {"@NOLIAISON", ((Liaison)cmb_liaison.SelectedItem).Id },
-                    {"@NOBATEAU", ((Bateau)cmb_bateau.SelectedItem).Id },
-                    {"@DATEHEUREDEPART", date_heure_depart },
-                    {"@DATEHEUREARRIVEE", date_heure_arrivee }
-                });
+            try
+            {
+                conn.Open();
+                string req = "INSERT INTO traversee(NOLIAISON, NOBATEAU, DATEHEUREDEPART, DATEHEUREARRIVEE) " +
+                    "VALUES(@NOLIAISON, @NOBATEAU, @DATEHEUREDEPART, @DATEHEUREARRIVEE)";
+                var cmd = new MySqlCommand(req, conn);
+                cmd.Parameters.AddWithValue("NOLIAISON", ((Liaison)cmb_liaison.SelectedItem).Id);
+                cmd.Parameters.AddWithValue("NOBATEAU", ((Bateau)cmb_bateau.SelectedItem).Id);
+                cmd.Parameters.AddWithValue("DATEHEUREDEPART", date_heure_depart);
+                cmd.Parameters.AddWithValue("DATEHEUREARRIVEE", date_heure_arrivee);
+                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+            }
+            catch (MySqlException err)
+            {
+                BDD2.REQUEST_FAILURE(err.Message);
+            }
 
-            bdd.Close();
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
         }
     }

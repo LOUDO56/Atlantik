@@ -23,5 +23,20 @@ namespace Atlantik_app_admin.utils
             MessageBox.Show(ERROR_STRING, "Erreur durant connexion Atlantik BDD", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+        public static void REQUEST_SUCCESS(int nbLigneAffecte)
+        {
+            string pluriel = "";
+            if (nbLigneAffecte > 1)
+            {
+                pluriel = "s";
+            }
+
+            MessageBox.Show($"Requête effectué avec succès. {nbLigneAffecte} ligne{pluriel} affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public static void REQUEST_FAILURE(string ERROR_STRING)
+        {
+            MessageBox.Show(ERROR_STRING, "Erreur durant requête SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 }
