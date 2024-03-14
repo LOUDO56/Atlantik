@@ -68,12 +68,6 @@ namespace Atlantik_app_admin.barre_menu.afficher
 
             detail_reservation.Close();
 
-            //if (lv_detail.Items.Count > 0)
-            //{
-                //lv_detail.Items[0].Selected = true;
-              //  lv_detail.Select();
-            //}
-
             bdd.Close();
 
         }
@@ -86,13 +80,11 @@ namespace Atlantik_app_admin.barre_menu.afficher
             if (!bdd.Open()) return;
 
             gbx_reservation.Controls.Clear();
-            string noReservation = "";
-           
-            noReservation = lv_detail.SelectedItems[0].Text;
+            string noReservation = lv_detail.SelectedItems[0].Text;
 
 
             MySqlDataReader tarif_reservation = bdd.Get("SELECT type.LIBELLE, enregistrer.QUANTITERESERVEE FROM enregistrer " +
-                "JOIN type ON enregistrer.LETTRECATEGORIE = type.LETTRECATEGORIE AND enregistrer.NOTYPE = type.NOTYPE " +
+                "INNER JOIN type ON enregistrer.LETTRECATEGORIE = type.LETTRECATEGORIE AND enregistrer.NOTYPE = type.NOTYPE " +
                 "WHERE NORESERVATION = @NORESERVATION", new Hashtable
                 {
                     { "@NORESERVATION", noReservation }
@@ -176,7 +168,7 @@ namespace Atlantik_app_admin.barre_menu.afficher
                 this.Height = gbx_reservation.Height + 250;
             } else
             {
-                this.Height = 492;
+                this.Height = 489;
             }
 
             bdd.Close();
