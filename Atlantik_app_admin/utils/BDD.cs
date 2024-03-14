@@ -12,11 +12,11 @@ namespace Atlantik_app_admin.utils
     internal class BDD
     {
 
-        private string host;
-        private string port;
-        private string username;
-        private string password;
-        private string dbName;
+        private string host = "127.0.0.1";
+        private string port = "3306";
+        private string username = "root";
+        private string password = "";
+        private string dbName = "atlantik";
         private MySqlConnection conn;
 
         public BDD()

@@ -187,6 +187,7 @@
             lesParamètresDuSiteToolStripMenuItem.Name = "lesParamètresDuSiteToolStripMenuItem";
             lesParamètresDuSiteToolStripMenuItem.Size = new Size(191, 22);
             lesParamètresDuSiteToolStripMenuItem.Text = "Les paramètres du site";
+            lesParamètresDuSiteToolStripMenuItem.Click += lesParamètresDuSiteToolStripMenuItem_Click;
             // 
             // affichierToolStripMenuItem
             // 

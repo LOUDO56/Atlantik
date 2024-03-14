@@ -26,16 +26,8 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             if (ConfirmerAjout.confirmer() == false) { return; }
             if (ControleSaisie.value(tbx_values.Text, "le nom du secteur") == false) { return; }
 
-            BDD bDD = new BDD();
-            if (!bDD.Open()) return; // Si la connexion à la bdd ne fonctionne pas, dans ce cas on stop le programme
-
-            
-            //bDD.Run("INSERT INTO secteur(NOM) VALUES(@nom)", 
-            //    new Hashtable() {
-            //        { "@nom", tbx_values.Text },
-            //    }
-            //);
-            bDD.Close();
+          
+            //bDD.Close();
 
         }
 

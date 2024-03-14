@@ -55,5 +55,10 @@ namespace Atlantik_app_admin
         {
             new AfficherDetailReservation().ShowDialog();
         }
+
+        private void lesParamètresDuSiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new FormModifParametreSite().ShowDialog();
+        }
     }
 }
