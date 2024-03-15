@@ -16,7 +16,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     public partial class SecteurGui : Form
     {
 
-        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+        MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
         public SecteurGui()
         {
@@ -27,7 +27,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         {
 
             if (ConfirmerAjout.confirmer() == false) { return; }
-            if (ControleSaisie.value(tbx_secteur.Text, "le nom du secteur") == false) { return; }
+            if (tbx_secteur.Text == "")
+            {
+                InformationManquante.SHOW("le secteur");
+                return;
+            }
 
             try
             {
@@ -35,12 +39,12 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 string req = "INSERT INTO secteur(NOM) VALUES(@NOM)";
                 var cmd = new MySqlCommand(req, conn);
                 cmd.Parameters.AddWithValue("@NOM", tbx_secteur.Text);
-                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+                BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
             } 
 
             catch(MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.ToString());
+                BDD.REQUEST_FAILURE(err.ToString());
             }
 
             finally

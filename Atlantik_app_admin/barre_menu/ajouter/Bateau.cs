@@ -18,7 +18,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     public partial class BateauGui : Form
     {
 
-        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+        MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
         private List<TextBox> tbx_capaciteMaxArray = new List<TextBox>();
 
@@ -69,7 +69,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -115,7 +115,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
             if(caseVide == tbx_capaciteMaxArray.Count)
             {
-                MessageBox.Show("Vous n'avez renseigné aucune capacité maximum", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Vous n'avez renseigné aucune capacité maximum", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -129,11 +129,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 var cmd = new MySqlCommand(req, conn);
                 cmd.Parameters.AddWithValue("@NOM", tbx_bateau.Text);
                 newIdBateau = cmd.ExecuteScalar().ToString();
-                BDD2.REQUEST_SUCCESS(1);
+                BDD.REQUEST_SUCCESS(1);
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -171,12 +171,12 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                     }
                 }
 
-                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+                BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
             }
 
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally

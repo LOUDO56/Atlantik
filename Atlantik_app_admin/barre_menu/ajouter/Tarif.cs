@@ -19,7 +19,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     public partial class TarifGui : Form
     {
 
-        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+        MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
         private List<Type> typeArray = new List<Type>();
         private List<TextBox> tbx_tarifArray = new List<TextBox>();
@@ -81,7 +81,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -107,7 +107,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -140,7 +140,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -208,16 +208,16 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
                 if (cases_vide)
                 {
-                    MessageBox.Show("Vous n'avez renseigné aucun tarif", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    InformationManquante.SHOW("un tarif");
                     return;
                 }
 
-                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+                BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
             }
 
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -282,7 +282,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally

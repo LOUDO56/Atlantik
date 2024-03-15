@@ -1,106 +1,42 @@
-﻿using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI.Common;
+﻿using Atlantik_app_admin.classes;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Xml.Linq;
 
 namespace Atlantik_app_admin.utils
 {
     internal class BDD
     {
-
-        private string host = "127.0.0.1";
-        private string port = "3306";
-        private string username = "root";
-        private string password = "";
-        private string dbName = "atlantik";
-        private MySqlConnection conn;
-
-        public BDD()
+        private static string HOST = "127.0.0.1";
+        private static string PORT = "3306";
+        private static string USERNAME = "root";
+        private static string PASSWORD = "";
+        private static string DBNAME = "atlantik";
+        public static string CONNECTION_STRING = $"Server={HOST};Port={PORT};User Id={USERNAME};Password={PASSWORD};Database={DBNAME};";
+        
+        public static void CONNECTION_FAILURE(string ERROR_STRING)
         {
-            host = "127.0.0.1";
-            port = "3306";
-            username = "root";
-            password = "";
-            dbName = "atlantik";
+            MessageBox.Show(ERROR_STRING, "Erreur durant connexion Atlantik BDD", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public bool Open()
+        public static void REQUEST_SUCCESS(int nbLigneAffecte)
         {
-            conn = new MySqlConnection($"Server={host};Port={port};User Id={username};Password={password};Database={dbName};");
-            try
+            string pluriel = "";
+            if (nbLigneAffecte > 1)
             {
-                conn.Open();
-                return true;
-            }
-            catch (MySqlException e)
-            {
-                MessageBox.Show(e.Message, "Erreur durant connexion Atlantik BDD", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                pluriel = "s";
             }
 
+            MessageBox.Show($"Requête effectué avec succès. {nbLigneAffecte} ligne{pluriel} affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        public void Close()
+        public static void REQUEST_FAILURE(string ERROR_STRING)
         {
-            if(conn is object & conn.State == System.Data.ConnectionState.Open)
-            {
-                conn.Close();
-            }
+            MessageBox.Show(ERROR_STRING, "Erreur durant requête SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
-        public void Run(string sql, Hashtable parameters)
-        {
-            try
-            {
-                var maCde = new MySqlCommand(sql, conn);
-
-                foreach(DictionaryEntry value in parameters)
-                {
-                    maCde.Parameters.AddWithValue(value.Key.ToString(), value.Value);
-                }
-                int nbLigneAffecte = maCde.ExecuteNonQuery();
-                string pluriel = "";
-                if(nbLigneAffecte > 1)
-                {
-                    pluriel = "s";
-                }
-
-                MessageBox.Show($"Requête effectué avec succès. {nbLigneAffecte} ligne{pluriel} affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(ex.Message, "Erreur durant requête SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public MySqlDataReader Get(string sql, Hashtable parameters = null)
-        {
-            try
-            {
-                var maCde = new MySqlCommand(sql, conn);
-
-                if(parameters != null) // Si la requête à des paramètres
-                {
-                    foreach (DictionaryEntry value in parameters)
-                    {
-                        maCde.Parameters.AddWithValue(value.Key.ToString(), value.Value);
-                    }
-                }
-
-                return maCde.ExecuteReader();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show(sql + " n'a pas fonctionné : " + ex.Message, "Erreur durant requête SQL", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-        }
-
-
-
     }
 }

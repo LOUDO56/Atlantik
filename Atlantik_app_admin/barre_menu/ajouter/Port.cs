@@ -16,7 +16,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     public partial class PortGui : Form
     {
 
-        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+        MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
         public PortGui()
         {
@@ -26,7 +26,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         private void btn_confirm_Click(object sender, EventArgs e)
         {
             if(ConfirmerAjout.confirmer() == false) { return; }
-            if (ControleSaisie.value(tbx_port.Text, "le nom du port") == false) { return; }
+            if (tbx_port.Text == "") 
+            {
+                InformationManquante.SHOW("le port");
+                return; 
+            }
 
             try
             {
@@ -34,12 +38,12 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 string req = "INSERT INTO port(NOM) VALUES(@NOM)";
                 var cmd = new MySqlCommand(req, conn);
                 cmd.Parameters.AddWithValue("@NOM", tbx_port.Text);
-                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+                BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
             }
 
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.ToString());
+                BDD.REQUEST_FAILURE(err.ToString());
             }
 
             finally

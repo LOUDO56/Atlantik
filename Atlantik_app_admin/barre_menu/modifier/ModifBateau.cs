@@ -2,6 +2,7 @@
 using Atlantik_app_admin.utils;
 using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Atlantik_app_admin.barre_menu.modifier
     public partial class ModifBateau : Form
     {
 
+        MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
         private List<TextBox> tbx_capaciteMaxArray = new List<TextBox>();
 
         public ModifBateau()
@@ -27,98 +29,126 @@ namespace Atlantik_app_admin.barre_menu.modifier
 
         private void ModifBateau_Load(object sender, EventArgs e)
         {
-            BDD bdd = new BDD();
-            if (!bdd.Open()) { return; }
-
-            MySqlDataReader categorie = bdd.Get("SELECT * FROM categorie");
-            if (categorie == null) { return; }
-
+          
             int x_lbl = 24;
             int y_lbl = 39;
 
             int x_tbx = 137;
             int y_tbx = 36;
 
-            while (categorie.Read())
+            try
             {
-                Label nom_categorie = new Label();
-                nom_categorie.Text = categorie["LETTRECATEGORIE"].ToString() + " (" + categorie["LIBELLE"] + ") :";
-                nom_categorie.Location = new Point(x_lbl, y_lbl);
-                gbx_capacitesMaximales.Controls.Add(nom_categorie);
-                y_lbl += 60;
+                conn.Open();
+                string req = "SELECT * FROM categorie";
+                var cmd = new MySqlCommand(req, conn);
+                var categorie = cmd.ExecuteReader();
+                while (categorie.Read())
+                {
+                    Label nom_categorie = new Label();
+                    nom_categorie.Text = categorie["LETTRECATEGORIE"].ToString() + " (" + categorie["LIBELLE"] + ") :";
+                    nom_categorie.Location = new Point(x_lbl, y_lbl);
+                    gbx_capacitesMaximales.Controls.Add(nom_categorie);
+                    y_lbl += 60;
 
-                TextBox valeur_categorie = new TextBox();
-                valeur_categorie.Location = new Point(x_tbx, y_tbx);
-                valeur_categorie.Tag = categorie["LETTRECATEGORIE"].ToString();
-                tbx_capaciteMaxArray.Add(valeur_categorie);
-                gbx_capacitesMaximales.Controls.Add(valeur_categorie);
+                    TextBox valeur_categorie = new TextBox();
+                    valeur_categorie.Location = new Point(x_tbx, y_tbx);
+                    valeur_categorie.Tag = categorie["LETTRECATEGORIE"].ToString();
+                    tbx_capaciteMaxArray.Add(valeur_categorie);
+                    gbx_capacitesMaximales.Controls.Add(valeur_categorie);
 
-                y_tbx += 60;
+                    y_tbx += 60;
 
+                }
 
+                // Dynamique d'écran en cas de nouvelle catégorie
+
+                gbx_capacitesMaximales.Height = y_lbl - 20;
+                this.Height = y_lbl + 50;
+                pnl_bateau.Location = new Point(pnl_bateau.Location.X, this.Height - 85);
+            }
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
-            categorie.Close();
-
-            // Dynamique d'écran en cas de nouvelle catégorie
-
-            gbx_capacitesMaximales.Height = y_lbl - 20;
-            this.Height = y_lbl + 50;
-            pnl_bateau.Location = new Point(pnl_bateau.Location.X, this.Height - 85);
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
 
             // Bateau
-
-            MySqlDataReader bateau = bdd.Get("SELECT * FROM bateau");
-            if (bateau == null) { return; }
-
-            while (bateau.Read())
+            try
             {
-                cmb_bateau.Items.Add(new Bateau(int.Parse(bateau["NOBATEAU"].ToString()), bateau["NOM"].ToString()));
+                conn.Open();
+                string req = "SELECT * FROM bateau";
+                var cmd = new MySqlCommand(req, conn);
+                var bateau = cmd.ExecuteReader();
+                while (bateau.Read())
+                {
+                    cmb_bateau.Items.Add(new Bateau(int.Parse(bateau["NOBATEAU"].ToString()), bateau["NOM"].ToString()));
+                }
+            }
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
-            cmb_bateau.SelectedIndex = 0;
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
-            bdd.Close();
         }
 
         private void cmb_bateau_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            BDD bdd = new BDD();
-            if (!bdd.Open()) { return; }
-
-
             foreach (TextBox value in tbx_capaciteMaxArray)
             {
-                MySqlDataReader capaciteMax = bdd.Get("SELECT CAPACITEMAX from contenir " +
-                    "WHERE NOBATEAU = @NOBATEAU AND LETTRECATEGORIE = @LETTRECATEGORIE",
-                    new Hashtable
+                try
+                {
+                    conn.Open();
+                    string req = "SELECT CAPACITEMAX from contenir " +
+                        "WHERE NOBATEAU = @NOBATEAU AND LETTRECATEGORIE = @LETTRECATEGORIE";
+                    var cmd = new MySqlCommand(req, conn);
+                    cmd.Parameters.AddWithValue("@NOBATEAU", ((Bateau)cmb_bateau.SelectedItem).Id);
+                    cmd.Parameters.AddWithValue("@LETTRECATEGORIE", value.Tag);
+                    var capaciteMax = cmd.ExecuteScalar();
+                    if(capaciteMax != null)
                     {
-                        {"@NOBATEAU", ((Bateau)cmb_bateau.SelectedItem).Id },
-                        {"@LETTRECATEGORIE", value.Tag},
-                    });
-
-                if (capaciteMax.Read())
+                        value.Text = capaciteMax.ToString();
+                    } else
+                    {
+                        value.Text = "";
+                    }
+                }
+                catch (MySqlException err)
                 {
-                    value.Text = capaciteMax["CAPACITEMAX"].ToString();
-                } else
-                {
-                    value.Text = "";
+                    BDD.REQUEST_FAILURE(err.Message);
                 }
 
-                capaciteMax.Close();
+                finally
+                {
+                    if (conn is object & conn.State == ConnectionState.Open)
+                    {
+                        conn.Close();
+                    }
+                }
+
             }
 
-            bdd.Close();
         }
 
         private void btn_ajouter_Click(object sender, EventArgs e)
         {
             if (ConfirmerAjout.confirmer() == false) return;
-
-            BDD bdd = new BDD();
-            if (!bdd.Open()) { return; }
 
             // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
             foreach (TextBox values in tbx_capaciteMaxArray)
@@ -147,22 +177,49 @@ namespace Atlantik_app_admin.barre_menu.modifier
                 return;
             }
 
-            foreach (TextBox value in tbx_capaciteMaxArray)
+            string req = "";
+                    
+            for (int i = 0; i < tbx_capaciteMaxArray.Count; i++)
             {
-                if (value.Text != "")
+                if (tbx_capaciteMaxArray[i].Text != "")
                 {
-
-                    bdd.Run("UPDATE contenir SET CAPACITEMAX = @CAPACITEMAX " +
-                        "WHERE NOBATEAU = @NOBATEAU AND LETTRECATEGORIE = @LETTRECATEGORIE",
-                        new Hashtable {
-                            { "@CAPACITEMAX", double.Parse(value.Text) },
-                            { "@NOBATEAU", ((Bateau)cmb_bateau.SelectedItem).Id },
-                            {"@LETTRECATEGORIE", value.Tag}
-                        });
+                    req += $"UPDATE contenir SET CAPACITEMAX = @CAPACITEMAX{i} " +
+                        $"WHERE NOBATEAU = @NOBATEAU{i} AND LETTRECATEGORIE = @LETTRECATEGORIE{i};";
                 }
             }
 
-            bdd.Close();
+            try
+            {
+                conn.Open();
+                var cmd = new MySqlCommand(req, conn);
+
+                for (int i = 0; i < tbx_capaciteMaxArray.Count; i++)
+                {
+                    if (tbx_capaciteMaxArray[i].Text != "")
+                    {
+                        cmd.Parameters.AddWithValue($"@CAPACITEMAX{i}", double.Parse(tbx_capaciteMaxArray[i].Text));
+                        cmd.Parameters.AddWithValue($"@NOBATEAU{i}", ((Bateau)cmb_bateau.SelectedItem).Id);
+                        cmd.Parameters.AddWithValue($"@LETTRECATEGORIE{i}", tbx_capaciteMaxArray[i].Tag);
+                    }
+                }
+
+                BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+            }
+
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
+            }
+
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+
         }
     }
 }

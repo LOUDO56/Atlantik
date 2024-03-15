@@ -15,6 +15,9 @@ namespace Atlantik_app_admin.barre_menu.modifier
 {
     public partial class FormModifParametreSite : Form
     {
+
+        MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
+
         public FormModifParametreSite()
         {
             InitializeComponent();
@@ -22,27 +25,35 @@ namespace Atlantik_app_admin.barre_menu.modifier
 
         private void FormModifParametreSite_Load(object sender, EventArgs e)
         {
-            BDD bdd = new BDD();
-            if (!bdd.Open()) return;
-
-            MySqlDataReader param = bdd.Get("SELECT * FROM parametres");
-            if (param == null) return;
-
-            while (param.Read())
+            try
             {
-                tbx_site.Text = param["SITE_PB"].ToString();
-                tbx_rang.Text = param["RANG_PB"].ToString();
-                tbx_identifiant.Text = param["IDENTIFIANT_PB"].ToString();
-                tbx_cleHMAC.Text = param["CLEHMAC_PB"].ToString();
-                cbx_production.Checked = param["ENPRODUCTION"].ToString() == "True";
-                tbx_melSite.Text = param["MELSITE"].ToString();
+                conn.Open();
+                string req = "SELECT * FROM parametres";
+                var cmd = new MySqlCommand(req, conn);
+                var param = cmd.ExecuteReader();
+                while (param.Read())
+                {
+                    tbx_site.Text = param["SITE_PB"].ToString();
+                    tbx_rang.Text = param["RANG_PB"].ToString();
+                    tbx_identifiant.Text = param["IDENTIFIANT_PB"].ToString();
+                    tbx_cleHMAC.Text = param["CLEHMAC_PB"].ToString();
+                    cbx_production.Checked = param["ENPRODUCTION"].ToString() == "True";
+                    tbx_melSite.Text = param["MELSITE"].ToString();
 
+                }
+            }
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
-            param.Close();
-
-            bdd.Close();
-
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
         }
 
         private void btn_modifier_Click(object sender, EventArgs e)
@@ -50,18 +61,10 @@ namespace Atlantik_app_admin.barre_menu.modifier
 
             if(ConfirmerAjout.confirmer() == false) return;
 
-            BDD bdd = new BDD();
-            if (!bdd.Open()) return;
-
-            Hashtable param_modif = new Hashtable();
-            param_modif.Add("@SITE", tbx_site.Text);
-            param_modif.Add("@RANG", tbx_rang.Text);
-            param_modif.Add("@IDENTIFIANT", tbx_identifiant.Text);
-            param_modif.Add("@CLEHMAC", tbx_cleHMAC.Text);
-            param_modif.Add("@ENPRODUCTION", cbx_production.Checked);
-            param_modif.Add("@MEL", tbx_melSite.Text);
-
-            bdd.Run("UPDATE parametres " +
+            try
+            {
+                conn.Open();
+                string req = "UPDATE parametres " +
                 "SET SITE_PB = @SITE " +
                 "WHERE NOIDENTIFIANT = 0; " +
 
@@ -83,10 +86,22 @@ namespace Atlantik_app_admin.barre_menu.modifier
 
                 "UPDATE parametres " +
                 "SET MELSITE = @MEL " +
-                "WHERE NOIDENTIFIANT = 0; "
-                , param_modif);
+                "WHERE NOIDENTIFIANT = 0; ";
+                var cmd = new MySqlCommand(req, conn);
+                BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+            }
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
+            }
 
-            bdd.Close();
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
         }
     }

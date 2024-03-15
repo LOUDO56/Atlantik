@@ -19,7 +19,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     public partial class LiaisonGui : Form
     {
 
-        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+        MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
         public LiaisonGui()
         {
@@ -29,52 +29,116 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         private void LiaisonGui_Load(object sender, EventArgs e)
         {
 
-            BDD bDD = new BDD();
-            if (!bDD.Open()) { return; }
+
 
             // Secteurs
-            MySqlDataReader secteurs = bDD.Get("SELECT * FROM secteur");
-            if (secteurs == null) { return; }
-            while (secteurs.Read())
+
+            try
             {
-                lbx_secteur.Items.Add(new Secteur(int.Parse(secteurs["NOSECTEUR"].ToString()), secteurs["NOM"].ToString()));
+                conn.Open();
+                string req = "SELECT * FROM secteur";
+                var cmd = new MySqlCommand(req, conn);
+                var secteurs = cmd.ExecuteReader();
+                while (secteurs.Read())
+                {
+                    lbx_secteur.Items.Add(new Secteur(int.Parse(secteurs["NOSECTEUR"].ToString()), secteurs["NOM"].ToString()));
+                }
             }
-            secteurs.Close();
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
+            }
+
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
 
             // Départ
-            MySqlDataReader departs = bDD.Get("SELECT * FROM PORT");
-            if (departs == null) { return; }
-            while (departs.Read())
+            try
             {
-                cmb_depart_liste.Items.Add(new Port(int.Parse(departs["NOPORT"].ToString()), departs["NOM"].ToString()));
+                conn.Open();
+                string req = "SELECT * FROM PORT";
+                var cmd = new MySqlCommand(req, conn);
+                var departs = cmd.ExecuteReader();
+                while (departs.Read())
+                {
+                    cmb_depart_liste.Items.Add(new Port(int.Parse(departs["NOPORT"].ToString()), departs["NOM"].ToString()));
+                }
             }
-            departs.Close();
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
+            }
+
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
             // Arrivé
-            MySqlDataReader arrives = bDD.Get("SELECT * FROM PORT");
-            if (arrives == null) { return; }
-            while (arrives.Read())
+            try
             {
-                cmb_arrivee_list.Items.Add(new Port(int.Parse(arrives["NOPORT"].ToString()), arrives["NOM"].ToString()));
+                conn.Open();
+                string req = "SELECT * FROM PORT";
+                var cmd = new MySqlCommand(req, conn);
+                var arrives = cmd.ExecuteReader();
+                while (arrives.Read())
+                {
+                    cmb_arrivee_list.Items.Add(new Port(int.Parse(arrives["NOPORT"].ToString()), arrives["NOM"].ToString()));
+                }
             }
-            arrives.Close();
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
+            }
 
-            lbx_secteur.SelectedIndex = 0;
-            cmb_depart_liste.SelectedIndex = 0;
-            cmb_arrivee_list.SelectedIndex = 0;
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
 
         }
 
         private void btn_ajouter_Click(object sender, EventArgs e)
         {
             if (ConfirmerAjout.confirmer() == false) { return; }
+            if (lbx_secteur.SelectedItem == null) 
+            {
+                InformationManquante.SHOW("le secteur");
+                return;
+            }
+            if (cmb_depart_liste.SelectedItem == null)
+            {
+                InformationManquante.SHOW("le port de départ");
+                return;
+            }
+            if (cmb_arrivee_list.SelectedItem == null)
+            {
+                InformationManquante.SHOW("le port d'arrivé");
+                return;
+            }
 
             string secteur = ((Secteur)lbx_secteur.SelectedItem).Id.ToString();
             string port_depart = ((Port)cmb_depart_liste.SelectedItem).Id.ToString();
             string port_arrive = ((Port)cmb_arrivee_list.SelectedItem).Id.ToString();
             string distance = tbx_distance_value.Text;
 
-            if (ControleSaisie.value(distance, "la distance") == false) { return; }
+            if(tbx_distance_value.Text == "")
+            {
+                InformationManquante.SHOW("la distance");
+                return;
+            }
 
             try
             {
@@ -86,12 +150,12 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 cmd.Parameters.AddWithValue("@NOSECTEUR", secteur);
                 cmd.Parameters.AddWithValue("@NOPORT_ARRIVEE", port_arrive);
                 cmd.Parameters.AddWithValue("@DISTANCE", distance);
-                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+                BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
 
             }
             catch(MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally

@@ -17,7 +17,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
     public partial class TraverseGui : Form
     {
 
-        MySqlConnection conn = new MySqlConnection(BDD2.CONNECTION_STRING);
+        MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
         public TraverseGui()
         {
@@ -27,6 +27,9 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         private void TraverseGui_Load(object sender, EventArgs e)
         {
 
+            cmb_liaison.Enabled = false;
+            cmb_liaison.DropDownStyle = ComboBoxStyle.DropDown;
+            cmb_liaison.Text = "Sélectionnez.";
 
             // Secteur
             try
@@ -42,7 +45,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -68,7 +71,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -130,7 +133,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
@@ -153,6 +156,12 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 return;
             }
 
+            if(cmb_bateau.SelectedItem == null)
+            {
+                InformationManquante.SHOW("le bateau");
+                return;
+            }
+
             string date_heure_depart = dtp_depart.Value.ToString("yyyy-MM-dd hh:mm:ss").Replace("/", "-");
             string date_heure_arrivee = dtp_arrivee.Value.ToString("yyyy-MM-dd hh:mm:ss").Replace("/", "-");
 
@@ -166,11 +175,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 cmd.Parameters.AddWithValue("NOBATEAU", ((Bateau)cmb_bateau.SelectedItem).Id);
                 cmd.Parameters.AddWithValue("DATEHEUREDEPART", date_heure_depart);
                 cmd.Parameters.AddWithValue("DATEHEUREARRIVEE", date_heure_arrivee);
-                BDD2.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
+                BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
             }
             catch (MySqlException err)
             {
-                BDD2.REQUEST_FAILURE(err.Message);
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally
