@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin.barre_menu.ajouter
 {
-    partial class SecteurGui
+    partial class FormAjoutPort
     {
         /// <summary>
         /// Required designer variable.
@@ -28,58 +28,59 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lbl_nom_secteur = new Label();
-            tbx_secteur = new TextBox();
             btn_confirm = new Button();
+            tbx_port = new TextBox();
+            lbl_nom = new Label();
             SuspendLayout();
-            // 
-            // lbl_nom_secteur
-            // 
-            lbl_nom_secteur.AutoSize = true;
-            lbl_nom_secteur.Location = new Point(23, 76);
-            lbl_nom_secteur.Name = "lbl_nom_secteur";
-            lbl_nom_secteur.Size = new Size(81, 15);
-            lbl_nom_secteur.TabIndex = 0;
-            lbl_nom_secteur.Text = "Nom secteur :";
-            // 
-            // tbx_secteur
-            // 
-            tbx_secteur.Location = new Point(110, 73);
-            tbx_secteur.Name = "tbx_secteur";
-            tbx_secteur.Size = new Size(100, 23);
-            tbx_secteur.TabIndex = 1;
             // 
             // btn_confirm
             // 
-            btn_confirm.Location = new Point(216, 73);
+            btn_confirm.Location = new Point(217, 73);
             btn_confirm.Name = "btn_confirm";
             btn_confirm.Size = new Size(75, 23);
-            btn_confirm.TabIndex = 2;
+            btn_confirm.TabIndex = 6;
             btn_confirm.Text = "Ajouter";
             btn_confirm.UseVisualStyleBackColor = true;
             btn_confirm.Click += btn_confirm_Click;
             // 
-            // SecteurGui
+            // tbx_port
+            // 
+            tbx_port.Location = new Point(111, 73);
+            tbx_port.Name = "tbx_port";
+            tbx_port.Size = new Size(100, 23);
+            tbx_port.TabIndex = 5;
+            // 
+            // lbl_nom
+            // 
+            lbl_nom.AutoSize = true;
+            lbl_nom.Location = new Point(40, 77);
+            lbl_nom.Name = "lbl_nom";
+            lbl_nom.Size = new Size(65, 15);
+            lbl_nom.TabIndex = 4;
+            lbl_nom.Text = "Nom port :";
+            // 
+            // FormAjoutPort
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(325, 165);
             Controls.Add(btn_confirm);
-            Controls.Add(tbx_secteur);
-            Controls.Add(lbl_nom_secteur);
+            Controls.Add(tbx_port);
+            Controls.Add(lbl_nom);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "SecteurGui";
+            Name = "FormAjoutPort";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Secteur";
+            Text = "Port";
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label lbl_nom_secteur;
-        private TextBox tbx_secteur;
+        private Button return_button;
         private Button btn_confirm;
+        private TextBox tbx_port;
+        private Label lbl_nom;
     }
 }

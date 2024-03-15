@@ -13,47 +13,47 @@ namespace Atlantik_app_admin
 
         private void unSecteurToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            new SecteurGui().ShowDialog();
+            new FormAjoutSecteur().ShowDialog();
         }
 
         private void unPortToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            new PortGui().ShowDialog();
+            new FormAjoutPort().ShowDialog();
         }
 
         private void uneLiaisonToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            new LiaisonGui().ShowDialog();
+            new FormAjoutLiaison().ShowDialog();
         }
 
         private void lesTarifsPourUneLiaisonEtUnePériodeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            new TarifGui().ShowDialog();
+            new FormAjoutTarif().ShowDialog();
         }
 
         private void unBateauToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            new BateauGui().ShowDialog();
+            new FormAjoutBateau().ShowDialog();
         }
 
         private void uneTraverséeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            new TraverseGui().ShowDialog();
+            new FormAjoutTraversee().ShowDialog();
         }
 
         private void unBateauToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            new ModifBateau().ShowDialog();
+            new FormModifBateau().ShowDialog();
         }
 
         private void lesTraverséesPourUneLiaisonEtUneDateDonnéeAvecPlacesRestantesParCatégorieToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new AfficherTraverse().ShowDialog();
+            new FormAfficherTraverse().ShowDialog();
         }
 
         private void lesDétailsDuneRéservationPourUnClientToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new AfficherDetailReservation().ShowDialog();
+            new FormAfficherDetailReservation().ShowDialog();
         }
 
         private void lesParamètresDuSiteToolStripMenuItem_Click(object sender, EventArgs e)

@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin.barre_menu.afficher
 {
-    partial class AfficherDetailReservation
+    partial class FormAfficherDetailReservation
     {
         /// <summary>
         /// Required designer variable.

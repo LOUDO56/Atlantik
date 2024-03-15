@@ -16,12 +16,12 @@ using System.Collections;
 
 namespace Atlantik_app_admin.barre_menu.ajouter
 {
-    public partial class LiaisonGui : Form
+    public partial class FormAjoutLiaison : Form
     {
 
         MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
-        public LiaisonGui()
+        public FormAjoutLiaison()
         {
             InitializeComponent();
         }

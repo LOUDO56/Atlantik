@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin.barre_menu.ajouter
 {
-    partial class TarifGui
+    partial class FormAjoutTarif
     {
         /// <summary>
         /// Required designer variable.
@@ -154,7 +154,7 @@
             pnl_bottom.Size = new Size(589, 70);
             pnl_bottom.TabIndex = 2;
             // 
-            // TarifGui
+            // FormAjoutTarif
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -167,9 +167,9 @@
             Controls.Add(lbl_secteur);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "TarifGui";
+            Name = "FormAjoutTarif";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Tarif pour une liaison et une période";
+            Text = "Ajouter un tarif pour une liaison et une période";
             Load += Tarif_Load;
             gbx_tarif.ResumeLayout(false);
             gbx_tarif.PerformLayout();

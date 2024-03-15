@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin.barre_menu.ajouter
 {
-    partial class TraverseGui
+    partial class FormAjoutTraversee
     {
         /// <summary>
         /// Required designer variable.
@@ -148,7 +148,7 @@
             btn_ajouter.UseVisualStyleBackColor = true;
             btn_ajouter.Click += btn_ajouter_Click;
             // 
-            // TraverseGui
+            // FormAjoutTraversee
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -166,7 +166,7 @@
             Controls.Add(lbl_secteur);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "TraverseGui";
+            Name = "FormAjoutTraversee";
             StartPosition = FormStartPosition.CenterParent;
             Text = "Ajouter une traversée";
             Load += TraverseGui_Load;

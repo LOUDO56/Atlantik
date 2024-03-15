@@ -14,12 +14,12 @@ using System.Windows.Forms;
 
 namespace Atlantik_app_admin.barre_menu.afficher
 {
-    public partial class AfficherTraverse : Form
+    public partial class FormAfficherTraverse : Form
     {
 
         MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
-        public AfficherTraverse()
+        public FormAfficherTraverse()
         {
             InitializeComponent();
         }

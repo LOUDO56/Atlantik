@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin.barre_menu.ajouter
 {
-    partial class BateauGui
+    partial class FormAjoutBateau
     {
         /// <summary>
         /// Required designer variable.
@@ -80,7 +80,7 @@
             pnl_bateau.Size = new Size(240, 28);
             pnl_bateau.TabIndex = 3;
             // 
-            // BateauGui
+            // FormAjoutBateau
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -91,9 +91,9 @@
             Controls.Add(lbl_bateau);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "BateauGui";
+            Name = "FormAjoutBateau";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "BateauGui";
+            Text = "Ajouter un bateau";
             Load += BateauGui_Load;
             pnl_bateau.ResumeLayout(false);
             ResumeLayout(false);

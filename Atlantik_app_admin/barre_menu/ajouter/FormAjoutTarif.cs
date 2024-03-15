@@ -16,7 +16,7 @@ using System.Windows.Forms;
 namespace Atlantik_app_admin.barre_menu.ajouter
 {
 
-    public partial class TarifGui : Form
+    public partial class FormAjoutTarif : Form
     {
 
         MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
@@ -24,7 +24,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         private List<Type> typeArray = new List<Type>();
         private List<TextBox> tbx_tarifArray = new List<TextBox>();
 
-        public TarifGui()
+        public FormAjoutTarif()
         {
             InitializeComponent();
         }

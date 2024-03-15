@@ -139,7 +139,7 @@
             // lbl_melSite
             // 
             lbl_melSite.AutoSize = true;
-            lbl_melSite.Location = new Point(196, 414);
+            lbl_melSite.Location = new Point(196, 395);
             lbl_melSite.Name = "lbl_melSite";
             lbl_melSite.Size = new Size(54, 15);
             lbl_melSite.TabIndex = 2;
@@ -147,14 +147,14 @@
             // 
             // tbx_melSite
             // 
-            tbx_melSite.Location = new Point(256, 411);
+            tbx_melSite.Location = new Point(256, 392);
             tbx_melSite.Name = "tbx_melSite";
             tbx_melSite.Size = new Size(147, 23);
             tbx_melSite.TabIndex = 8;
             // 
             // btn_modifier
             // 
-            btn_modifier.Location = new Point(298, 460);
+            btn_modifier.Location = new Point(298, 441);
             btn_modifier.Name = "btn_modifier";
             btn_modifier.Size = new Size(102, 23);
             btn_modifier.TabIndex = 8;
@@ -166,7 +166,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(412, 500);
+            ClientSize = new Size(412, 474);
             Controls.Add(btn_modifier);
             Controls.Add(tbx_melSite);
             Controls.Add(lbl_melSite);

@@ -15,12 +15,12 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Atlantik_app_admin.barre_menu.afficher
 {
-    public partial class AfficherDetailReservation : Form
+    public partial class FormAfficherDetailReservation : Form
     {
 
         MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
-        public AfficherDetailReservation()
+        public FormAfficherDetailReservation()
         {
             InitializeComponent();
         }

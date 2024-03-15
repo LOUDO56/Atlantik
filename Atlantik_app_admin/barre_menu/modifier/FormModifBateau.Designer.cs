@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin.barre_menu.modifier
 {
-    partial class ModifBateau
+    partial class FormModifBateau
     {
         /// <summary>
         /// Required designer variable.

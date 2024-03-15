@@ -14,12 +14,12 @@ using System.Windows.Forms;
 
 namespace Atlantik_app_admin.barre_menu.ajouter
 {
-    public partial class TraverseGui : Form
+    public partial class FormAjoutTraversee : Form
     {
 
         MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
-        public TraverseGui()
+        public FormAjoutTraversee()
         {
             InitializeComponent();
         }

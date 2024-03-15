@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin.barre_menu.afficher
 {
-    partial class AfficherTraverse
+    partial class FormAfficherTraverse
     {
         /// <summary>
         /// Required designer variable.

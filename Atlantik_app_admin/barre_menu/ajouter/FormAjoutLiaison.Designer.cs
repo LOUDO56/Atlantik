@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin.barre_menu.ajouter
 {
-    partial class LiaisonGui
+    partial class FormAjoutLiaison
     {
         /// <summary>
         /// Required designer variable.
@@ -123,7 +123,7 @@
             lbx_secteur.Size = new Size(120, 184);
             lbx_secteur.TabIndex = 9;
             // 
-            // LiaisonGui
+            // FormAjoutLiaison
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -139,9 +139,9 @@
             Controls.Add(lbl_secteur);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "LiaisonGui";
+            Name = "FormAjoutLiaison";
             StartPosition = FormStartPosition.CenterParent;
-            Text = "Liaison";
+            Text = "Ajouter une liaison";
             Load += LiaisonGui_Load;
             ResumeLayout(false);
             PerformLayout();
