@@ -170,14 +170,22 @@ namespace Atlantik_app_admin.barre_menu.afficher
                 cmd.Parameters.AddWithValue("@NOLIAISON", ((Liaison)cmb_liaison.SelectedItem).Id);
                 cmd.Parameters.AddWithValue("@DATEHEUREDEPART", dtp_date.Value.ToString("yyyy-MM-dd"));
                 var traversee = cmd.ExecuteReader();
+                string[] lettreCategorie = getLesLettresCategories();
 
-                var tabItem = new string[5];
+                var tabItem = new string[lettreCategorie.Length + 3];
 
                 while (traversee.Read())
                 {
                     tabItem[0] = traversee["NOTRAVERSEE"].ToString();
                     tabItem[1] = traversee["HEURE"].ToString();
                     tabItem[2] = traversee["NOM"].ToString();
+                    for(int i = 0; i < lettreCategorie.Length; i++)
+                    {
+                        int capacite_max = getCapaciteMaximale(traversee["NOTRAVERSEE"].ToString(), lettreCategorie[i]);
+                        int quantite_enrengistrer = getQuantiteEnregistree(traversee["NOTRAVERSEE"].ToString(), lettreCategorie[i]);
+                        int place_dispo = capacite_max - quantite_enrengistrer;
+                        tabItem[3 + i] = place_dispo.ToString();
+                    }
                     lv_traverse.Items.Add(new ListViewItem(tabItem));
                 }
             }
@@ -194,6 +202,120 @@ namespace Atlantik_app_admin.barre_menu.afficher
                 }
             }
 
+        }
+
+        // Partie fonction pour récuperer places disponibles pour une traversée
+        private int getQuantiteEnregistree(string noTraversee, string lettreCategorie)
+        {
+
+            MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
+
+            decimal nb_place_reserve = 0;
+
+            try
+            {
+                conn.Open();
+                string req = "SELECT SUM(QUANTITERESERVEE) as \"Nombre_place\" FROM enregistrer e " +
+                    "INNER JOIN reservation r ON e.NORESERVATION = r.NORESERVATION " +
+                    "INNER JOIN traversee t ON r.NOTRAVERSEE = t.NOTRAVERSEE " +
+                    "WHERE t.NOTRAVERSEE = @NOTRAVERSEE AND LETTRECATEGORIE = @LETTRECATEGORIE;";
+                var cmd = new MySqlCommand(req, conn);
+                cmd.Parameters.AddWithValue("@NOTRAVERSEE", noTraversee);
+                cmd.Parameters.AddWithValue("@LETTRECATEGORIE", lettreCategorie);
+                var cmd_result = cmd.ExecuteScalar();
+                if(cmd_result != DBNull.Value)
+                {
+                    nb_place_reserve = (decimal)cmd.ExecuteScalar();
+                }
+            }
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
+            }
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return (int)nb_place_reserve;
+
+        }
+
+        private int getCapaciteMaximale(string noTraversee, string lettreCategorie)
+        {
+
+            MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
+
+            int capaciteMax = 0;
+
+            try
+            {
+                conn.Open();
+                string req = "SELECT CAPACITEMAX FROM contenir c " +
+                    "INNER JOIN bateau b ON c.NOBATEAU = b.NOBATEAU " +
+                    "INNER JOIN traversee t ON b.NOBATEAU = t.NOBATEAU " +
+                    "WHERE t.NOTRAVERSEE = @NOTRAVERSEE AND LETTRECATEGORIE = @LETTRECATEGORIE;";
+                var cmd = new MySqlCommand(req, conn);
+                cmd.Parameters.AddWithValue("@NOTRAVERSEE", noTraversee);
+                cmd.Parameters.AddWithValue("@LETTRECATEGORIE", lettreCategorie);
+                capaciteMax = (int)cmd.ExecuteScalar();
+            }
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
+            }
+
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            return capaciteMax;
+
+
+        }
+
+        private string[] getLesLettresCategories()
+        {
+
+            MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
+
+            string lettre = "";
+            try
+            {
+                conn.Open();
+                string req = "SELECT * FROM categorie";
+                var cmd = new MySqlCommand(req, conn);
+                var categorie = cmd.ExecuteReader();
+                while (categorie.Read())
+                {
+                    lettre += categorie["LETTRECATEGORIE"] + ",";
+                }
+
+
+            }
+            catch (MySqlException err)
+            {
+                BDD.REQUEST_FAILURE(err.Message);
+            }
+
+            finally
+            {
+                if (conn is object & conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+
+            lettre = lettre.Remove(lettre.Length - 1);
+
+            return lettre.Split(',');
         }
 
 
