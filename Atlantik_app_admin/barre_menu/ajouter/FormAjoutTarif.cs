@@ -21,9 +21,6 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
         MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
-        private List<Type> typeArray = new List<Type>();
-        private List<TextBox> tbx_tarifArray = new List<TextBox>();
-
         public FormAjoutTarif()
         {
             InitializeComponent();
@@ -52,13 +49,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
                 while (categories.Read())
                 {
-                    Type newType = new Type(categories["LETTRECATEGORIE"].ToString(), int.Parse(categories["NOTYPE"].ToString()), categories["LIBELLE"].ToString());
-                    typeArray.Add(newType);
 
                     Label lbl_categorie = new Label();
                     lbl_categorie.AutoSize = true;
                     lbl_categorie.Location = new Point(categorie_x, categorie_y);
-                    lbl_categorie.Text = newType.LettreCategorie + newType.TypeNombre + " - " + newType.Libelle + " :";
+                    lbl_categorie.Text = categories["LETTRECATEGORIE"].ToString() + categories["NOTYPE"].ToString() + " - " + categories["LIBELLE"].ToString() + " :";
                     lbl_categorie.Font = new Font("Segoe UI", 9);
                     categorie_y += 40;
                     gbx_tarif.Controls.Add(lbl_categorie);
@@ -66,8 +61,8 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                     TextBox tbx_tarif = new TextBox();
                     tbx_tarif.Location = new Point(tarif_x, tarif_y);
                     tbx_tarif.Font = new Font("Segoe UI", 9);
-                    tbx_tarif.Tag = lbl_categorie.Text.Replace(" :", "");
-                    tbx_tarifArray.Add(tbx_tarif);
+                    tbx_tarif.Tag = categories["LETTRECATEGORIE"].ToString() + ";" + categories["NOTYPE"].ToString();
+
                     tarif_y += 40;
                     gbx_tarif.Controls.Add(tbx_tarif);
 
@@ -164,7 +159,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             }
 
             // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
-            foreach(TextBox tarif_value in tbx_tarifArray)
+            foreach(TextBox tarif_value in gbx_tarif.Controls.OfType<TextBox>())
             {
                 if (tarif_value.Text != "" && tarif_value.Text.Any(x => char.IsLetter(x)))
                 {
@@ -179,9 +174,9 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             {
                 conn.Open();
                 string req = "INSERT INTO tarifer(NOPERIODE, LETTRECATEGORIE, NOTYPE, NOLIAISON, TARIF) VALUES ";
-                for (int i = 0; i < tbx_tarifArray.Count; i++)
+                for (int i = 0; i < gbx_tarif.Controls.Count; i++)
                 {
-                    if(tbx_tarifArray[i].Text != "")
+                    if(gbx_tarif.Controls[i].GetType() == typeof(TextBox) & gbx_tarif.Controls[i].Text != "")
                     {
                         cases_vide = false;
                         req += $"(@NOPERIODE{i}, @LETTRECATEGORIE{i}, @NOTYPE{i}, @NOLIAISON{i}, @TARIF{i}),";
@@ -193,15 +188,17 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
                 var cmd = new MySqlCommand(req, conn);
 
-                for (int i = 0; i < tbx_tarifArray.Count; i++)
+                for (int i = 0; i < gbx_tarif.Controls.Count; i++)
                 {
-                    if (tbx_tarifArray[i].Text != "")
+                    if (gbx_tarif.Controls[i].GetType() == typeof(TextBox) & gbx_tarif.Controls[i].Text != "")
                     {
+                        string[] type = gbx_tarif.Controls[i].Tag.ToString().Split(';'); // Récupérer la lettre et le type
+
                         cmd.Parameters.AddWithValue($"@NOPERIODE{i}", ((Periode)cmb_periode.SelectedItem).Id);
-                        cmd.Parameters.AddWithValue($"@LETTRECATEGORIE{i}", typeArray[i].LettreCategorie);
-                        cmd.Parameters.AddWithValue($"@NOTYPE{i}", typeArray[i].TypeNombre);
+                        cmd.Parameters.AddWithValue($"@LETTRECATEGORIE{i}", type[0]);
+                        cmd.Parameters.AddWithValue($"@NOTYPE{i}", type[1]);
                         cmd.Parameters.AddWithValue($"@NOLIAISON{i}", ((Liaison)cmb_liaison.SelectedItem).Id);
-                        cmd.Parameters.AddWithValue($"@TARIF{i}", tbx_tarifArray[i].Text);
+                        cmd.Parameters.AddWithValue($"@TARIF{i}", gbx_tarif.Controls[i].Text);
 
                     }
                 }

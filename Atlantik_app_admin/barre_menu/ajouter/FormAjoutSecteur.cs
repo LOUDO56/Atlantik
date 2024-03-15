@@ -44,7 +44,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
             catch(MySqlException err)
             {
-                BDD.REQUEST_FAILURE(err.ToString());
+                BDD.REQUEST_FAILURE(err.Message);
             }
 
             finally

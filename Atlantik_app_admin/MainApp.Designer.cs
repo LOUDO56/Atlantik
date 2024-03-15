@@ -1,6 +1,6 @@
 ﻿namespace Atlantik_app_admin
 {
-    partial class form1
+    partial class MainApp
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainApp));
             logo = new PictureBox();
             atlantik_textpre = new Label();
             unSecteurToolStripMenuItem = new ToolStripMenuItem();
@@ -223,7 +223,7 @@
             toolStripMenuItem1.Size = new Size(105, 22);
             toolStripMenuItem1.Text = "Projet";
             // 
-            // form1
+            // MainApp
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -232,9 +232,10 @@
             Controls.Add(logo);
             Controls.Add(barre_menu);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = barre_menu;
             MaximizeBox = false;
-            Name = "form1";
+            Name = "MainApp";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Atlantik";
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();

@@ -4,9 +4,9 @@ using Atlantik_app_admin.barre_menu.modifier;
 
 namespace Atlantik_app_admin
 {
-    public partial class form1 : Form
+    public partial class MainApp : Form
     {
-        public form1()
+        public MainApp()
         {
             InitializeComponent();
         }

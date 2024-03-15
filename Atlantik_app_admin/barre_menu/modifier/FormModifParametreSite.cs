@@ -81,13 +81,20 @@ namespace Atlantik_app_admin.barre_menu.modifier
                 "WHERE NOIDENTIFIANT = 0; " +
 
                 "UPDATE parametres " +
-                "SET ENPRODUCTION = @CLEHMAC " +
+                "SET ENPRODUCTION = @ENPRODUCTION " +
                 "WHERE NOIDENTIFIANT = 0; " +
 
                 "UPDATE parametres " +
                 "SET MELSITE = @MEL " +
                 "WHERE NOIDENTIFIANT = 0; ";
+
                 var cmd = new MySqlCommand(req, conn);
+                cmd.Parameters.AddWithValue("@SITE", tbx_site.Text);
+                cmd.Parameters.AddWithValue("@RANG", tbx_rang.Text);
+                cmd.Parameters.AddWithValue("@IDENTIFIANT", tbx_identifiant.Text);
+                cmd.Parameters.AddWithValue("@CLEHMAC", tbx_cleHMAC.Text);
+                cmd.Parameters.AddWithValue("@ENPRODUCTION", cbx_production.Checked);
+                cmd.Parameters.AddWithValue("@MEL", tbx_melSite.Text);
                 BDD.REQUEST_SUCCESS(cmd.ExecuteNonQuery());
             }
             catch (MySqlException err)

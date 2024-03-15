@@ -20,8 +20,6 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
         MySqlConnection conn = new MySqlConnection(BDD.CONNECTION_STRING);
 
-        private List<TextBox> tbx_capaciteMaxArray = new List<TextBox>();
-
         public FormAjoutBateau()
         {
             InitializeComponent();
@@ -53,7 +51,6 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                     TextBox valeur_categorie = new TextBox();
                     valeur_categorie.Location = new Point(x_tbx, y_tbx);
                     valeur_categorie.Tag = categorie["LETTRECATEGORIE"].ToString();
-                    tbx_capaciteMaxArray.Add(valeur_categorie);
                     gbx_capacitesMaximales.Controls.Add(valeur_categorie);
 
                     y_tbx += 60;
@@ -97,7 +94,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             
 
             // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
-            foreach (TextBox values in tbx_capaciteMaxArray)
+            foreach (TextBox values in gbx_capacitesMaximales.Controls.OfType<TextBox>())
             {
                 if (values.Text != "" && values.Text.Any(x => char.IsLetter(x)))
                 {
@@ -109,19 +106,20 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             // Voir si au moins une case de capacité maximum a été rempli.
             int caseVide = 0;
 
-            foreach (TextBox values in tbx_capaciteMaxArray)
+            foreach (TextBox values in gbx_capacitesMaximales.Controls.OfType<TextBox>())
             {
-                if(values.Text == "")
+                if (values.Text == "")
                 {
                     caseVide++;
                 }
             }
 
-            if(caseVide == tbx_capaciteMaxArray.Count)
+            if (caseVide == gbx_capacitesMaximales.Controls.Count / 2)
             {
                 MessageBox.Show("Vous n'avez renseigné aucune capacité maximum", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
 
             string newIdBateau = "0";
 
@@ -153,9 +151,9 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             {
                 conn.Open();
                 string req = "INSERT INTO contenir(LETTRECATEGORIE, NOBATEAU, CAPACITEMAX) VALUES ";
-                for (int i = 0; i < tbx_capaciteMaxArray.Count; i++)
+                for (int i = 0; i < gbx_capacitesMaximales.Controls.Count; i++)
                 {
-                    if (tbx_capaciteMaxArray[i].Text != "")
+                    if (gbx_capacitesMaximales.Controls[i].GetType() == typeof(TextBox) & gbx_capacitesMaximales.Controls[i].Text != "")
                     {
                         req += $"(@LETTRECATEGORIE{i}, @NOBATEAU{i}, @CAPACITEMAX{i}),";
                     }
@@ -165,13 +163,13 @@ namespace Atlantik_app_admin.barre_menu.ajouter
 
                 var cmd = new MySqlCommand(req, conn);
 
-                for(int i = 0; i < tbx_capaciteMaxArray.Count; i++)
+                for(int i = 0; i < gbx_capacitesMaximales.Controls.Count; i++)
                 {
-                    if (tbx_capaciteMaxArray[i].Text != "")
+                    if (gbx_capacitesMaximales.Controls[i].GetType() == typeof(TextBox) & gbx_capacitesMaximales.Controls[i].Text != "")
                     {
-                        cmd.Parameters.AddWithValue($"@LETTRECATEGORIE{i}", tbx_capaciteMaxArray[i].Tag);
+                        cmd.Parameters.AddWithValue($"@LETTRECATEGORIE{i}", gbx_capacitesMaximales.Controls[i].Tag);
                         cmd.Parameters.AddWithValue($"@NOBATEAU{i}", newIdBateau);
-                        cmd.Parameters.AddWithValue($"@CAPACITEMAX{i}", int.Parse(tbx_capaciteMaxArray[i].Text));
+                        cmd.Parameters.AddWithValue($"@CAPACITEMAX{i}", int.Parse(gbx_capacitesMaximales.Controls[i].Text));
                     }
                 }
 

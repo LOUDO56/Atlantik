@@ -17,11 +17,6 @@ namespace Atlantik_app_admin.utils
         private static string PASSWORD = "";
         private static string DBNAME = "atlantik";
         public static string CONNECTION_STRING = $"Server={HOST};Port={PORT};User Id={USERNAME};Password={PASSWORD};Database={DBNAME};";
-        
-        public static void CONNECTION_FAILURE(string ERROR_STRING)
-        {
-            MessageBox.Show(ERROR_STRING, "Erreur durant connexion Atlantik BDD", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
 
         public static void REQUEST_SUCCESS(int nbLigneAffecte)
         {
