@@ -148,6 +148,12 @@ namespace Atlantik_app_admin.barre_menu.modifier
         {
             if (ConfirmerAjout.confirmer() == false) return;
 
+            if (cmb_bateau.SelectedItem == null)
+            {
+                InformationManquante.SHOW("le bateau");
+                return;
+            }
+
             // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
             foreach (TextBox values in gbx_capacitesMaximales.Controls.OfType<TextBox>())
             {

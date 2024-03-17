@@ -1,12 +1,13 @@
+using Atlantik_app_admin.barre_menu;
 using Atlantik_app_admin.barre_menu.afficher;
 using Atlantik_app_admin.barre_menu.ajouter;
 using Atlantik_app_admin.barre_menu.modifier;
 
 namespace Atlantik_app_admin
 {
-    public partial class MainApp : Form
+    public partial class FormMainApp : Form
     {
-        public MainApp()
+        public FormMainApp()
         {
             InitializeComponent();
         }
@@ -59,6 +60,11 @@ namespace Atlantik_app_admin
         private void lesParamètresDuSiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new FormModifParametreSite().ShowDialog();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            new FormAPropos().ShowDialog();
         }
     }
 }

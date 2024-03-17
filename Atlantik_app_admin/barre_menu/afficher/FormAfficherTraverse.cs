@@ -188,6 +188,11 @@ namespace Atlantik_app_admin.barre_menu.afficher
                     }
                     lv_traverse.Items.Add(new ListViewItem(tabItem));
                 }
+
+                if(lv_traverse.Items.Count == 0)
+                {
+                    MessageBox.Show("Aucun résultat.", "", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (MySqlException err)
             {
