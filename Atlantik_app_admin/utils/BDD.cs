@@ -26,7 +26,7 @@ namespace Atlantik_app_admin.utils
                 pluriel = "s";
             }
 
-            MessageBox.Show($"Requête effectué avec succès. {nbLigneAffecte} ligne{pluriel} affecté.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show($"Requête effectué avec succès. {nbLigneAffecte} ligne{pluriel} affectée{pluriel}.", "Requête effectué", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         public static void REQUEST_FAILURE(string ERROR_STRING)
