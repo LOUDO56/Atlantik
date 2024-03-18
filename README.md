@@ -15,18 +15,6 @@ L’activité de la compagnie se décompose en deux pôles :
 -  le transport de voyageurs,
 -  le fret, qui correspond au transport de marchandises.
 
-# Comment tester l'application
+# Comment tester le site web (Coming soon)
 
-1. Ayez un serveur MySql disponible sur votre poste.
-2. Importer le script sql `atlantik2023etDonnees.sql`.
-3. Modifier les valeurs de connexion à la base de données dans `utils -> BDD.cs` (si nécessaire).
-4. Compiler l'application en utilisant Visual Studio 2022.
-5. Tester !
-
-
-# Vidéo illustrant l'utilisation de l'application
-
-
-
-https://github.com/LOUDO56/Atlantik/assets/117168736/d9735e12-6625-4695-baa3-c9b5db23e611
 
