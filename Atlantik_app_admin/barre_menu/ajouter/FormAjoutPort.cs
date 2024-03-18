@@ -34,7 +34,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 return; 
             }
 
-            if (!Regex.IsMatch(tbx_port.Text, @"^[A-Za-z]+$"))
+            if (!Regex.IsMatch(tbx_port.Text, @"^[A-Za-z ]+$"))
             {
                 RegexMatchWarning.ONLY_ALPHABETS("pour le nom du port");
                 return;

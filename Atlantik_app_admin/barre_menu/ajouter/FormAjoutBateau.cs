@@ -93,7 +93,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                 return;
             }
 
-            if (!Regex.IsMatch(tbx_bateau.Text, @"^[a-zA-Z]+$"))
+            if (!Regex.IsMatch(tbx_bateau.Text, @"^[a-zA-Z ]+$"))
             {
                 RegexMatchWarning.ONLY_ALPHABETS("pour le nom du bateau");
                 return;
