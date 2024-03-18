@@ -10,6 +10,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -61,7 +62,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
                     TextBox tbx_tarif = new TextBox();
                     tbx_tarif.Location = new Point(tarif_x, tarif_y);
                     tbx_tarif.Font = new Font("Segoe UI", 9);
-                    tbx_tarif.Tag = categories["LETTRECATEGORIE"].ToString() + ";" + categories["NOTYPE"].ToString();
+                    tbx_tarif.Tag = categories["LETTRECATEGORIE"].ToString() + ";" + categories["NOTYPE"].ToString() + ";" + categories["LIBELLE"].ToString();
 
                     tarif_y += 40;
                     gbx_tarif.Controls.Add(tbx_tarif);
@@ -161,9 +162,11 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
             foreach(TextBox tarif_value in gbx_tarif.Controls.OfType<TextBox>())
             {
-                if (tarif_value.Text != "" && tarif_value.Text.Any(x => char.IsLetter(x)))
+
+                if (tarif_value.Text != "" && !Regex.IsMatch(tarif_value.Text, @"^[0-9]+$"))
                 {
-                    MessageBox.Show("Le tarif dans la case \"" + tarif_value.Tag + "\" n'est pas valide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    string quelCase = tarif_value.Tag.ToString().Split(';')[2];
+                    MessageBox.Show("Le tarif dans la case \"" + quelCase + "\" n'est pas valide", "Controle saisie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }

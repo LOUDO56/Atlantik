@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Atlantik_app_admin.utils;
@@ -30,6 +31,12 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             if (tbx_secteur.Text == "")
             {
                 InformationManquante.SHOW("le secteur");
+                return;
+            }
+
+            if(!Regex.IsMatch(tbx_secteur.Text, @"^[A-Za-z]+$"))
+            {
+                RegexMatchWarning.ONLY_ALPHABETS("pour le nom du secteur");
                 return;
             }
 

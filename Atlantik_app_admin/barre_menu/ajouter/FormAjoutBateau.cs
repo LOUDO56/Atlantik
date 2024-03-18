@@ -1,5 +1,6 @@
 ﻿using Atlantik_app_admin.classes;
 using Atlantik_app_admin.utils;
+using Google.Protobuf.WellKnownTypes;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
@@ -85,20 +86,26 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         {
 
             if(ConfirmerAjout.confirmer() == false) return;
+
             if(tbx_bateau.Text == "")
             {
                 InformationManquante.SHOW("le nom du bateau");
                 return;
             }
 
-            
+            if (!Regex.IsMatch(tbx_bateau.Text, @"^[a-zA-Z]+$"))
+            {
+                RegexMatchWarning.ONLY_ALPHABETS("pour le nom du bateau");
+                return;
+            }
+
 
             // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
             foreach (TextBox values in gbx_capacitesMaximales.Controls.OfType<TextBox>())
             {
-                if (values.Text != "" && values.Text.Any(x => char.IsLetter(x)))
+                if (values.Text != "" && !Regex.IsMatch(values.Text, @"^[0-9]+$"))
                 {
-                    MessageBox.Show("La valeur capacité maximum dans la case \"" + values.Tag + "\" n'est pas valide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("La valeur capacité maximum dans la case \"" + values.Tag + "\" n'est pas valide", "Controle saisie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }

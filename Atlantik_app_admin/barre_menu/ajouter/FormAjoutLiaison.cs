@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using MySqlX.XDevAPI;
 using Google.Protobuf.WellKnownTypes;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace Atlantik_app_admin.barre_menu.ajouter
 {
@@ -113,6 +114,7 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         private void btn_ajouter_Click(object sender, EventArgs e)
         {
             if (ConfirmerAjout.confirmer() == false) { return; }
+
             if (lbx_secteur.SelectedItem == null) 
             {
                 InformationManquante.SHOW("le secteur");
@@ -137,6 +139,12 @@ namespace Atlantik_app_admin.barre_menu.ajouter
             if(tbx_distance_value.Text == "")
             {
                 InformationManquante.SHOW("la distance");
+                return;
+            }
+
+            if (!Regex.IsMatch(tbx_distance_value.Text, @"^[0-9]+$"))
+            {
+                RegexMatchWarning.ONLY_NUMBERS("pour la distance");
                 return;
             }
 

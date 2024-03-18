@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -63,7 +64,13 @@ namespace Atlantik_app_admin.barre_menu.modifier
 
             if(ConfirmerAjout.confirmer() == false) return;
 
-            try
+            if (!Regex.IsMatch(tbx_melSite.Text, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"))
+            {
+                MessageBox.Show("L'email est invalide.", "Controle de saisie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+                try
             {
                 conn.Open();
                 string req = "";

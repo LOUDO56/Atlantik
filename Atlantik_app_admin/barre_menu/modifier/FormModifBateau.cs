@@ -11,6 +11,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -157,9 +158,9 @@ namespace Atlantik_app_admin.barre_menu.modifier
             // Vérifier si toutes les valeurs sont valide et ne contienne pas de lettres.
             foreach (TextBox values in gbx_capacitesMaximales.Controls.OfType<TextBox>())
             {
-                if (values.Text != "" && values.Text.Any(x => char.IsLetter(x)))
+                if (values.Text != "" && !Regex.IsMatch(values.Text, @"^[0-9]+$"))
                 {
-                    MessageBox.Show("La valeur capacité maximum dans la case \"" + values.Tag + "\" n'est pas valide", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("La valeur capacité maximum dans la case \"" + values.Tag + "\" n'est pas valide", "Controle saisie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }

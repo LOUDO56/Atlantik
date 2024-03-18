@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -26,10 +27,17 @@ namespace Atlantik_app_admin.barre_menu.ajouter
         private void btn_confirm_Click(object sender, EventArgs e)
         {
             if(ConfirmerAjout.confirmer() == false) { return; }
+
             if (tbx_port.Text == "") 
             {
                 InformationManquante.SHOW("le port");
                 return; 
+            }
+
+            if (!Regex.IsMatch(tbx_port.Text, @"^[A-Za-z]+$"))
+            {
+                RegexMatchWarning.ONLY_ALPHABETS("pour le nom du port");
+                return;
             }
 
             try
