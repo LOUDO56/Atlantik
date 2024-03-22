@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class SignupModel extends Model
+class ClientModel extends Model
 {
     protected $table = 'client';
     protected $allowedFields = [
