@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ClientModel extends Model
+class SignupModel extends Model
 {
     protected $table = 'client';
     protected $allowedFields = [
@@ -18,6 +18,12 @@ class ClientModel extends Model
         'MEL',
         'MOTDEPASSE'
     ];
+
+
+    public function alreadyExists($email)
+    {
+        return $this->where(['MEL' => $email])->first() !== null;
+    }
 
 }
 

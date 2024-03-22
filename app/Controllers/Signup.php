@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\ClientModel;
+use App\Models\SignupModel;
 
 class Signup extends BaseController
 {
@@ -58,7 +58,11 @@ class Signup extends BaseController
 
         $post = $this->validator->getValidated();
 
-        $model = model(ClientModel::class);
+        $model = model(SignupModel::class);
+
+        if($model->alreadyExists($post['email'])){
+            return $this->index(['email' => 'Cet email est déjà utilisé']);
+        }
 
         $model->save([
             'NOM' => $post['nom'],
