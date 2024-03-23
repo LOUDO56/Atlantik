@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\SignupModel;
 
-class Signup extends BaseController
+class SignupController extends BaseController
 {
     public function index($error = [])
     {
@@ -73,7 +73,7 @@ class Signup extends BaseController
             'TELEPHONEFIXE' => !empty($post['telFixe']) ? $post['telFixe'] : null,
             'TELEPHONEMOBILE' => $post['telPortable'],
             'MEL' => $post['email'],
-            'MOTDEPASSE' => md5($post['password']),
+            'MOTDEPASSE' => password_hash($post['password'], PASSWORD_DEFAULT),
         ]);
 
         return view('templates/header') .

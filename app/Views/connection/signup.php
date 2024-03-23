@@ -16,9 +16,11 @@
             <div class="col mb-2">
                 <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                 <input type="text" class="form-control <?php if(isset($error['email'])) echo "is-invalid"?>" id="email" name="email" autocomplete="off" value="<?= set_value('email') ?>" required>
-                <div class="invalid-feedback">
-                    <?php if(isset($error['email'])) echo $error['email']?>
-                </div>
+                <?php if(isset($error['email'])): ?>
+                    <div class="invalid-feedback">
+                        <?php echo $error['email']?>
+                    </div>
+                <?php endif;?>
 
             </div>
 
@@ -46,17 +48,21 @@
         <div class="mb-2">
             <label for="telPortable" class="form-label">Téléphone Portable <span class="text-danger">*</span></label>
             <input type="text" class="form-control <?php if(isset($error['telPortable'])) echo "is-invalid"?>" id="telPortable" name="telPortable" autocomplete="off" value="<?= set_value('telPortable') ?>" required>
-            <div class="invalid-feedback">
-                <?php if(isset($error['telPortable'])) echo $error['telPortable']?>
-            </div>
+            <?php if(isset($error['telPortable'])): ?>
+                <div class="invalid-feedback">
+                    <?php echo $error['telPortable']?>
+                </div>
+            <?php endif;?>
         </div>
 
         <div class="mb-3">
             <label for="telFixe" class="form-label">Téléphone Fixe</label>
             <input type="text" class="form-control <?php if(isset($error['telFixe'])) echo "is-invalid"?>" id="telFixe" name="telFixe" autocomplete="off" value="<?= set_value('telFixe') ?>">
-            <div class="invalid-feedback">
-                <?php if(isset($error['telFixe'])) echo $error['telFixe']?>
-            </div>
+            <?php if(isset($error['telFixe'])): ?>
+                <div class="invalid-feedback">
+                    <?php echo $error['telFixe']?>
+                </div>
+            <?php endif;?>
         </div>
 
         <div class="text-center">

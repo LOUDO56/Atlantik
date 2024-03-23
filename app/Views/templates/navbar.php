@@ -19,10 +19,18 @@
                 <a class="nav-link" href="#">Réserver</a>
             </li>
         </ul>
-            <div class="d-flex gap-2">
-                <a class="btn btn-light" href="login" >Se connecter</a>
-                <a class="btn btn-primary" href="signup">S'inscrire</a>
-            </div>
+            <?php $session = session();?>
+            <?php if($session->has('is_logged')): ?>
+                <div>
+                    <p>Bonjour <?= $session->get('nom')?>, <?= $session->get('prenom')?></p>
+                </div>
+            <?php else:?>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-light" href="login" >Se connecter</a>
+                    <a class="btn btn-primary" href="signup">S'inscrire</a>
+                </div>
+            <?php endif?>
+            <?php $session->close();?>
         </div>
     </div>
 </nav>
