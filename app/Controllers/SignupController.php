@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\SignupModel;
+use App\Models\UserModel;
 
 class SignupController extends BaseController
 {
@@ -24,13 +24,13 @@ class SignupController extends BaseController
 
         $data = $this->request->getPost();
 
-        $model = model(SignupModel::class);
+        $model = model(UserModel::class);
 
         if($model->alreadyExists($data['email'])){
             return $this->index(['email' => 'Cet email est déjà utilisé']);
         }
 
-        if (!$this->validateData($data, [
+        $rules = [
             'nom' => 'required',
             'prenom'  => 'required',
             'email' => [
@@ -50,14 +50,19 @@ class SignupController extends BaseController
                     'max_length' => 'Ce numéro de téléphone n\'est pas valide.',
                 ]
             ],
-            'telFixe' => [
-                'rules' => 'required_with[min_length[10]|max_length[10]]',
+        ];
+
+        if(!empty($data['telFixe'])){
+            $rules['telFixe'] = [
+                'rules' => 'min_length[10]|max_length[10]',
                 'errors' => [
                     'min_length' => 'Ce numéro de téléphone n\'est pas valide.',
                     'max_length' => 'Ce numéro de téléphone n\'est pas valide.',
                 ]
-            ],
-        ])) {
+            ];
+        }
+
+        if (!$this->validateData($data, $rules)) {
             
             return $this->index($this->validator->getErrors());
         }

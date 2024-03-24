@@ -7,6 +7,17 @@ use CodeIgniter\Model;
 class UserModel extends Model
 {
     protected $table = 'client';
+    protected $allowedFields = [
+        'NOM',
+        'PRENOM',
+        'ADRESSE',
+        'CODEPOSTAL',
+        'VILLE',
+        'TELEPHONEFIXE',
+        'TELEPHONEMOBILE',
+        'MEL',
+        'MOTDEPASSE'
+    ];
 
 
     public function validateUser($email, $password)
@@ -19,9 +30,14 @@ class UserModel extends Model
 
     }
 
-    public function getUserData($email)
+    public function getClientId($email)
     {
-        return $this->where(['MEL' => $email])->first();
+        return $this->where(['MEL' => $email])->first()['NOCLIENT'];
+    }
+
+    public function alreadyExists($email)
+    {
+        return $this->where(['MEL' => $email])->first() !== null;
     }
 
 }

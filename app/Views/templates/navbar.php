@@ -28,7 +28,8 @@
                     <ul class="dropdown-menu dropdown-menu-end ">
                         <li class="fw-bold text-center"><?= $session->get('nom')?> <?= $session->get('prenom')?></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a href="#" class="dropdown-item">Modifier</a></li>
+                        <li><a href="/editprofile" class="dropdown-item">Modifier</a></li>
+                        <li><a href="/logout" class="dropdown-item">Se déconnecter</a></li>
                     </ul>
                 </div>
             <?php else:?>
