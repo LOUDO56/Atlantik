@@ -21,8 +21,15 @@
         </ul>
             <?php $session = session();?>
             <?php if($session->has('is_logged')): ?>
-                <div>
-                    <p>Bonjour <?= $session->get('nom')?>, <?= $session->get('prenom')?></p>
+                <div class="d-flex dropdown">
+                    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="<?= base_url('assets/default-pfp.png');?>" alt="default pfp" width="40">
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end ">
+                        <li class="fw-bold text-center"><?= $session->get('nom')?> <?= $session->get('prenom')?></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a href="#" class="dropdown-item">Modifier</a></li>
+                    </ul>
                 </div>
             <?php else:?>
                 <div class="d-flex gap-2">

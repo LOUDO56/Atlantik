@@ -24,6 +24,12 @@ class SignupController extends BaseController
 
         $data = $this->request->getPost();
 
+        $model = model(SignupModel::class);
+
+        if($model->alreadyExists($data['email'])){
+            return $this->index(['email' => 'Cet email est déjà utilisé']);
+        }
+
         if (!$this->validateData($data, [
             'nom' => 'required',
             'prenom'  => 'required',
@@ -57,12 +63,6 @@ class SignupController extends BaseController
         }
 
         $post = $this->validator->getValidated();
-
-        $model = model(SignupModel::class);
-
-        if($model->alreadyExists($post['email'])){
-            return $this->index(['email' => 'Cet email est déjà utilisé']);
-        }
 
         $model->save([
             'NOM' => $post['nom'],

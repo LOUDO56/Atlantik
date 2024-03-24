@@ -23,20 +23,24 @@ class LoginController extends BaseController
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
 
+        $model = model(UserModel::class);
+
+        if(!$model->where(["MEL" => $email])->first()){
+            return $this->index(['email' => "Aucun compte est associé à ce mail."]);
+        }
+
         $rules = [
             'email' => 'required|valid_email',
             'password' => 'required|min_length[4]'
         ];
 
         $errors = [
-            'password' => 'L\'email ou le mot de passe est incorrect'
+            'password' => 'Oups ! Le mot de passe est incorrect.'
         ];
 
         if(!$this->validate($rules, $errors)){
             return $this->index($errors);
         }
-
-        $model = model(UserModel::class);
 
         if($model->validateUser($email, $password)){
             $session = session();
