@@ -31,7 +31,6 @@ class ClientController extends BaseController
         $post['error'] = $error;
 
         return view('templates/header') .
-            view('templates/navbar') .
             view('profile/editprofile', $post);
     }
 

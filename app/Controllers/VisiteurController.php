@@ -15,7 +15,6 @@ class VisiteurController extends BaseController
         $data['error'] = $error;
 
         return view('templates/header') . 
-            view('templates/navbar') .
             view('connection/signup', $data);
     
     }
@@ -76,7 +75,6 @@ class VisiteurController extends BaseController
         helper('form');
         $data['error'] = $error;
         return view('templates/header') .
-            view('templates/navbar') .
             view('connection/login', $data);
     }
 
