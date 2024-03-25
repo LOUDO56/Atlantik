@@ -7,18 +7,20 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
-use App\Controllers\SignupController;
-use App\Controllers\LoginController;
-use App\Controllers\LogoutController;
-use App\Controllers\EditProfileController;
+// use App\Controllers\SignupController;
+// use App\Controllers\LoginController;
+// use App\Controllers\LogoutController;
+// use App\Controllers\EditProfileController;
+use App\Controllers\VisiteurController;
+use App\Controllers\ClientController;
 
-$routes->get('signup', [SignupController::class, 'index']);
-$routes->post('signup', [SignupController::class, 'register']);
+$routes->get('signup', [VisiteurController::class, 'registerForm']);
+$routes->post('signup', [VisiteurController::class, 'register']);
 
-$routes->get('login', [LoginController::class, 'index']);
-$routes->post('login', [LoginController::class, 'loginUser']);
+$routes->get('login', [VisiteurController::class, 'loginForm']);
+$routes->post('login', [VisiteurController::class, 'loginUser']);
 
-$routes->get('logout', [LogoutController::class, 'index']);
+$routes->get('logout', [ClientController::class, 'logout']);
 
-$routes->get('editprofile', [EditProfileController::class, 'index']);
-$routes->post('editprofile', [EditProfileController::class, 'editUserInformation']);
+$routes->get('editprofile', [ClientController::class, 'editUserInformationForm']);
+$routes->post('editprofile', [ClientController::class, 'editUserInformation']);
