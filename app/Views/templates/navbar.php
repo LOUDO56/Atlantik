@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
+<nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top mb-6">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Atlantik</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
             </li>
         </ul>
             <?php $session = session();?>
-            <?php if($session->has('is_logged')): ?>
+            <?php if($session->get('is_logged')): ?>
                 <div class="d-flex dropdown">
                     <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="<?= base_url('assets/default-pfp.png');?>" alt="default pfp" width="40">

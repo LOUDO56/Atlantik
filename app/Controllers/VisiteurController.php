@@ -15,6 +15,7 @@ class VisiteurController extends BaseController
         $data['error'] = $error;
 
         return view('templates/header') . 
+            view('templates/navbar') .
             view('connection/signup', $data);
     
     }
@@ -52,7 +53,7 @@ class VisiteurController extends BaseController
             return $this->registerForm($this->validator->getErrors());
         }
 
-        $model->save([
+        $userdata = [
             'NOM' => $post['nom'],
             'PRENOM' => $post['prenom'],
             'ADRESSE' => $post['adresse'],
@@ -62,10 +63,11 @@ class VisiteurController extends BaseController
             'TELEPHONEMOBILE' => $post['telPortable'],
             'MEL' => $post['email'],
             'MOTDEPASSE' => password_hash($post['password'], PASSWORD_DEFAULT),
-        ]);
+        ];
 
-        return view('templates/header') .
-            view('connection/success');
+        $model->save($userdata);
+        $this->setLoginSession($userdata);
+        return redirect()->to('/');
 
     }
 
@@ -74,6 +76,7 @@ class VisiteurController extends BaseController
         helper('form');
         $data['error'] = $error;
         return view('templates/header') .
+            view('templates/navbar') .
             view('connection/login', $data);
     }
 
@@ -87,17 +90,17 @@ class VisiteurController extends BaseController
 
         $model = model(UserModel::class);
 
-        if(!$model->where(["MEL" => $email])->first()){
+        if(!$model->userExists($email)) {
             return $this->loginForm(['email' => "Aucun compte est associé à ce mail."]);
         }
 
         $rules = [
             'email' => 'required|valid_email',
-            'password' => 'required|min_length[4]'
+            'password' => 'required|min_length[4]|validateUser[email, password]'
         ];
 
         $errors = [
-            'password' => 'Oups ! Le mot de passe est incorrect.'
+            'password' => 'Oups ! Le mot de passe est incorrect.',
         ];
 
         if(!$this->validate($rules, $errors)){
@@ -105,28 +108,31 @@ class VisiteurController extends BaseController
         }
 
         if($model->validateUser($email, $password)){
-            $session = session();
-            $userdata = $model->where(['MEL' => $email])->first();
-            $session->set([
-                'nom' => $userdata['NOM'],
-                'prenom' => $userdata['PRENOM'],
-                'adresse' => $userdata['ADRESSE'],
-                'codePostal' => $userdata['CODEPOSTAL'],
-                'ville' => $userdata['VILLE'],
-                'telFixe' => $userdata['TELEPHONEFIXE'],
-                'telPortable' => $userdata['TELEPHONEMOBILE'],
-                'email' => $userdata['MEL'],
-                'is_logged' => true
-            ]);
-            $session->close();
+            $this->setLoginSession($model->where(['MEL' => $email])->first()); 
             return redirect()->to('/');
-            
         } else {
             return $this->loginForm($errors);
         }
 
         
 
+    }
+
+    public function setLoginSession($userdata)
+    {
+        $session = session();
+        $session->set([
+            'nom' => $userdata['NOM'],
+            'prenom' => $userdata['PRENOM'],
+            'adresse' => $userdata['ADRESSE'],
+            'codePostal' => $userdata['CODEPOSTAL'],
+            'ville' => $userdata['VILLE'],
+            'telFixe' => $userdata['TELEPHONEFIXE'],
+            'telPortable' => $userdata['TELEPHONEMOBILE'],
+            'email' => $userdata['MEL'],
+            'is_logged' => true
+        ]);
+        $session->close();
     }
 
 }

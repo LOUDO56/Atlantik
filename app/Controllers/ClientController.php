@@ -31,6 +31,7 @@ class ClientController extends BaseController
         $post['error'] = $error;
 
         return view('templates/header') .
+            view('templates/navbar') .
             view('profile/editprofile', $post);
     }
 
@@ -110,8 +111,9 @@ class ClientController extends BaseController
         ]);
         $session->close();
 
-        return view('templates/header') .
-            view('connection/success');
+        session()->setFlashdata('success', true);
+
+        return $this->editUserInformationForm();
 
     }
 

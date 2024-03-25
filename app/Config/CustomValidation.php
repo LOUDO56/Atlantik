@@ -10,7 +10,7 @@ class CustomValidation
     {
         $model = model(UserModel::class);
 
-        if(!$model->alreadyExists($str)){
+        if(!$model->userExists($str)){
             return true;
         }
 
@@ -18,6 +18,30 @@ class CustomValidation
         $error = 'Cet email est déjà utilisé.';
 
         return false;
+    }
+
+    public function accountExists(string $str, ?string &$error = null): bool
+    {
+        $model = model(UserModel::class);
+
+        if($model->userExists($str)){
+            return true;
+        }
+
+
+        $error = 'Cet email est associé a aucun compte.';
+
+        return false;
+    }
+
+    public function validateUser(string $str, string $field, array $data)
+    {
+        $model = model(UserModel::class);
+        $user = $model->where(['MEL' => $data['email']])->first();
+        if(!$user){
+            return false;
+        }
+        return password_verify($data['password'], $user['MOTDEPASSE']);
     }
 
     public function frenchNumber(string $str, ?string &$error = null): bool

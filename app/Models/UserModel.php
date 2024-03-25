@@ -35,7 +35,7 @@ class UserModel extends Model
         return $this->where(['MEL' => $email])->first()['NOCLIENT'];
     }
 
-    public function alreadyExists($email)
+    public function userExists($email)
     {
         return $this->where(['MEL' => $email])->first() !== null;
     }

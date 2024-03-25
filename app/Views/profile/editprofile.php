@@ -67,6 +67,11 @@
             <?php endif;?>
         </div>
 
+        <?php if($session->has('success')):?>
+            <div class="alert alert-success">
+                Les informations ont été mis à jour!
+            </div>
+        <?php endif;?>
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Modifier</button>
         </div>
