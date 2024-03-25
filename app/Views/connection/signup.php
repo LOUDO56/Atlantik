@@ -56,7 +56,7 @@
             <?php endif;?>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="telFixe" class="form-label">Téléphone Fixe</label>
             <input type="text" class="form-control <?php if(isset($error['telFixe'])) echo "is-invalid"?>" id="telFixe" name="telFixe" autocomplete="off" value="<?= set_value('telFixe') ?>">
             <?php if(isset($error['telFixe'])): ?>
@@ -66,8 +66,12 @@
             <?php endif;?>
         </div>
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">S'inscrire</button>
+        <div class="text-center mb-3">
+            <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <a href="/signup" class="link-secondary text-decoration-none">Déjà membre? Se connecter</a>
         </div>
     </form>
 </div>

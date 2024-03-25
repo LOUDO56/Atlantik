@@ -27,12 +27,14 @@
 
 
         <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-4">Se connecter</button>
+        <button type="submit" class="btn btn-primary btn-block mb-4 w-100">Se connecter</button>
             
         <!-- Register buttons -->
-        <div class="text-center">
-            <p>Vous n'avez pas de compte? <a href="/signup">Register</a></p>
+        <div class="d-flex justify-content-end">
+            <a href="/signup" class="link-secondary text-decoration-none">Créer un compte</a>
         </div>
     </form>
+
+    
 
 </div>
