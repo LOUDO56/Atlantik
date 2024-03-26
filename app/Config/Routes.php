@@ -7,10 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
-// use App\Controllers\SignupController;
-// use App\Controllers\LoginController;
-// use App\Controllers\LogoutController;
-// use App\Controllers\EditProfileController;
 use App\Controllers\VisiteurController;
 use App\Controllers\ClientController;
 
@@ -20,7 +16,8 @@ $routes->post('signup', [VisiteurController::class, 'register']);
 $routes->get('login', [VisiteurController::class, 'loginForm']);
 $routes->post('login', [VisiteurController::class, 'loginUser']);
 
-$routes->get('/liaison', [VisiteurController::class, 'afficherLiaisonSecteur']);
+$routes->get('liaison', [VisiteurController::class, 'afficherLiaisonSecteur']);
+$routes->get('liaison/(:segment)', [VisiteurController::class, 'afficherTarifLiaison']);
 
 $routes->get('logout', [ClientController::class, 'logout']);
 

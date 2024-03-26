@@ -3,7 +3,9 @@
 namespace App\Controllers;
 
 use App\Models\LiaisonSecteurModel;
+use App\Models\TarifLiaisonModel;
 use App\Models\UserModel;
+use CodeIgniter\Exceptions\PageNotFoundException;
 
 class VisiteurController extends BaseController
 {
@@ -143,6 +145,20 @@ class VisiteurController extends BaseController
         return view('templates/header') .
             view('templates/navbar') .
             view('visiteur/liaison_par_secteur', ['liaisons' => $model->getLiaisonParSecteur()]);
+    }
+
+    public function afficherTarifLiaison($noliaison = null)
+    {
+        
+        $model = model(TarifLiaisonModel::class);
+
+        if(!$model->tarifLiaisonExists($noliaison)){
+            throw new PageNotFoundException("Oups ! La liaison ne doit pas exister.");
+        }
+
+        return view('templates/header') .
+            view('templates/navbar') .
+            view('visiteur/tarif_pour_une_liaison', ['datas' => $model->getTarifParUneLiaison($noliaison)]);
     }
 
 }

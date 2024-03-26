@@ -14,7 +14,7 @@
                 <?php foreach($liaison as $infoLiaison):?>
                     <tr>
                         <th><?php if($i === 0) echo $infoLiaison->NomSecteur?></th>
-                        <td><a href="liaison/<?= $infoLiaison->NOLIAISON?>"><?= $infoLiaison->NOLIAISON?></a></td>
+                        <td><a href="<?= site_url('liaison/'.$infoLiaison->NOLIAISON)?>"><?= $infoLiaison->NOLIAISON?></a></td>
                         <td><?= $infoLiaison->DISTANCE?></td>
                         <td><?= $infoLiaison->NomPortDepart?></td>
                         <td><?= $infoLiaison->NomPortArrivee?></td>

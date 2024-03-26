@@ -10,9 +10,6 @@
                 <a class="nav-link" href="/liaison">Liaisons par secteur</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Tarif pour une liaison</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="#">Horaire de traversées</a>
             </li>
             <li class="nav-item">
