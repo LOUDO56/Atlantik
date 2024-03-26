@@ -20,6 +20,8 @@ $routes->post('signup', [VisiteurController::class, 'register']);
 $routes->get('login', [VisiteurController::class, 'loginForm']);
 $routes->post('login', [VisiteurController::class, 'loginUser']);
 
+$routes->get('/liaison', [VisiteurController::class, 'afficherLiaisonSecteur']);
+
 $routes->get('logout', [ClientController::class, 'logout']);
 
 $routes->get('editprofile', [ClientController::class, 'editUserInformationForm']);

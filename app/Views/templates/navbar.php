@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light fixed-top mb-6">
+<nav class="navbar bg-dark navbar-expand-sm fixed-top mb-6" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Atlantik</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="nav-link" href="#">Liaisons par secteur</a>
+                <a class="nav-link" href="/liaison">Liaisons par secteur</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Tarif pour une liaison</a>

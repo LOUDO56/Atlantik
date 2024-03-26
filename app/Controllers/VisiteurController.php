@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\LiaisonSecteurModel;
 use App\Models\UserModel;
 
 class VisiteurController extends BaseController
@@ -131,6 +132,17 @@ class VisiteurController extends BaseController
             'is_logged' => true
         ]);
         $session->close();
+    }
+
+
+    public function afficherLiaisonSecteur()
+    {
+        $model = model(LiaisonSecteurModel::class);
+
+
+        return view('templates/header') .
+            view('templates/navbar') .
+            view('visiteur/liaison_par_secteur', ['liaisons' => $model->getLiaisonParSecteur()]);
     }
 
 }
